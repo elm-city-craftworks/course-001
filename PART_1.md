@@ -16,11 +16,6 @@ exercises, you'll repeat a similar process to build a minimal clone of
 the `ls` command. By doing so, you'll explore many of Ruby's capabilities
 for working with files.
 
-Follow the step-by-step instructions below, and refer back to the article
-and the implementation of the rcat utility whenever you get stuck. Not all of
-the Ruby features you'll need were covered in those materials, but they
-should give you a great foundation to start from.
-
 1) Run the following bash commands in the `data` folder and copy the 
 output into a text file for future reference.
 
