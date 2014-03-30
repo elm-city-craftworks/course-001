@@ -1,5 +1,0 @@
-## APPLE
-
-* Banana
-* Pear
-* Potato

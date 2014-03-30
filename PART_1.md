@@ -8,27 +8,39 @@
 
 ## Exercises
 
-1) Run the following bash commands in the `samples/ls_reference_dir` folder
-and copy what appears in your console into a text file for future reference.
+1) Run the following bash commands in the `samples/part1/data` folder
+and copy the transcript from your console into a text file for future 
+reference.
 
 ```bash
 $ ls
+$ ls foo/*.txt
 $ ls -l
 $ ls -a
 $ ls -a -l
-$ ls foo/*.txt
 $ ls -l foo/*.txt
 $ ls missingdir
+$ ls -Z
 ```
 
-2) Create a set of acceptance tests that cover how ls behaves on your system, 
-based on your observations from the previous example.
+2) Get the test harness in `samples/ls_tests.rb` to pass its first test.
+The script in `samples/part1/bin/ruby-ls` is a wrapper around the system `ls`
+utility, so you should only need to add it to your shell's path in order
+to get your first test passing. On a successful run, you should expect to
+see the following output:
 
-3) Implement a clone of ls that passes as many of your acceptance tests as you can, 
-starting with the easiest cases and moving on top the more complicated ones.
+```
+Test 1: OK
+Next step: add a test for ruby-ls foo/*.txt
+```
 
-4) Add an acceptance test that checks the exit codes for a successful command 
-and an unsuccessful command.
+3) Now replace the `ruby-ls` script with a Ruby-based implementation 
+that passes the first test.
 
-5) Update your ls clone to terminate with matching exit codes to the 
-real ls command.
+4) Work your way through implementing some or all of the other use cases
+listed in step 1. Start by adding an acceptance test, then implement
+the correct behavior in the `ruby-ls` script.
+
+5) If you didn't already check for exit codes for successful and unsuccessful
+uses of the `ruby-ls` command, add a test for them now and then implement
+command termination behavior that matches how `ls` works on your system.
