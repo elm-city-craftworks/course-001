@@ -4,7 +4,22 @@
 
 ## Questions
 
-(fill me in)
+* What steps are involved in making a Ruby scripts runnable as a 
+command line utility? (i.e. directly runnable like `rake` or `gem`
+rather than having to type `ruby my_script.rb`)
+
+* What is `ARGF` stream used for in Ruby?
+
+* What is `$?` used for in Bash/Ruby?
+
+* What does an exit status of zero indicate when a command line script 
+terminates? How about a non-zero exit status?
+
+* What is the difference between the `STDOUT` and `STDERR` output streams?
+
+* When executing shell commands from within a Ruby script, how can you capture
+its output to `STDOUT`? How do you go about capturing both `STDOUT` and
+`STDERR` streams?
 
 ## Exercises
 
