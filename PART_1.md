@@ -1,6 +1,4 @@
-# Part 1: Standard I/O streams and the file system
-
-## Reading Materials
+## Part 1: Standard I/O streams and the file system
 
 The Practicing Ruby article we'll work through in this part of the 
 course is [Building Unix-style command line
