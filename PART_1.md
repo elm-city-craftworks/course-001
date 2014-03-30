@@ -8,9 +8,10 @@
 
 ## Exercises
 
-1) Run the following bash commands in the `samples/part1/data` folder
-and copy the transcript from your console into a text file for future 
-reference.
+NOTE: The supporting materials for these exercises are in `samples/part1` 
+
+1) Run the following bash commands in the `data` folder and copy the 
+transcript from your console into a text file for future  reference.
 
 ```bash
 $ ls
@@ -23,8 +24,8 @@ $ ls missingdir
 $ ls -Z
 ```
 
-2) Get the test harness in `samples/ls_tests.rb` to pass its first test.
-The script in `samples/part1/bin/ruby-ls` is a wrapper around the system `ls`
+2) Get the test harness in `ls_tests.rb` to pass its first test.
+The script in `bin/ruby-ls` is a wrapper around the system `ls`
 utility, so you should only need to add it to your shell's path in order
 to get your first test passing. On a successful run, you should expect to
 see the following output:
