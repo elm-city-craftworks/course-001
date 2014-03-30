@@ -11,6 +11,7 @@
 1. Run the following bash commands in the samples/ls_reference_dir folder
 and copy what appears in your console into a text file for future reference.
 
+```bash
 $ ls
 $ ls -l
 $ ls -a
@@ -18,6 +19,7 @@ $ ls -a -l
 $ ls foo/*.txt
 $ ls -l foo/*.txt
 $ ls missingdir
+```
 
 2. Create a set of acceptance tests that cover how ls behaves on your system, 
 based on your observations from the previous example.
