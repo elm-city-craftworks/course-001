@@ -86,6 +86,6 @@ the correct behavior in the `ruby-ls` script.
 uses of the `ruby-ls` command, add a test for them now and then implement
 command termination behavior that matches how `ls` works on your system.
 
-If you get stuck and have questions about this exercise, file a ticket in our
+*If you get stuck and have questions about this exercise, file a ticket in our
 Github tracker. If you'd like a code review, please submit a pull request with
-your solution. Feel free to submit stuff that is still a work-in-progress!
+your solution. Feel free to submit stuff that is still a work-in-progress!*
