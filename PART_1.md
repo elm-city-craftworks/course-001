@@ -4,6 +4,10 @@
 
 ## Questions
 
+> NOTE: Most of these questions can directly be answered by reading 
+> the article, but a few might require you to search the web for
+> answers. External research is not only OK, it's encouraged!
+
 * What steps are involved in making a Ruby scripts runnable as a 
 command line utility? (i.e. directly runnable like `rake` or `gem`
 rather than having to type `ruby my_script.rb`)
@@ -20,6 +24,21 @@ terminates? How about a non-zero exit status?
 * When executing shell commands from within a Ruby script, how can you capture
 what it writes to `STDOUT`? How do you go about capturing both `STDOUT` and
 `STDERR` streams?
+
+* How can you efficiently scan an input file to skip over empty lines of
+text without loading the entire file into memory first?
+
+* How would you go about parsing command line arguments that contain a mixture
+of flags and file arguments? (i.e. something like `ls -a -l foo/*.txt`)
+
+* What features are provided by Ruby's `String` class to help with fixed width
+text layouts? (i.e. right aligning a column of numbers, or left aligning a
+column of text with some whitespace after it to keep the total 
+column width uniform)
+
+* Suppose your script encounters an error and has to terminate itself. What is
+the idiomatic Unix-style way of reporting that the command did not run
+successfully?
 
 ## Exercises
 
