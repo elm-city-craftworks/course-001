@@ -12,7 +12,7 @@
 
 In the "Building Unix-style command-line applications" article, we walked
 through implementing a Ruby clone of the Unix `cat` utility. In this set of
-exercises, you'll repeat a similar process to build something similar to
+exercises, you'll repeat a similar process to build a minimal clone of
 the `ls` command. By doing so, you'll explore many of Ruby's capabilities
 for working with files.
 
