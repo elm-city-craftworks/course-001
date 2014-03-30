@@ -18,7 +18,7 @@ terminates? How about a non-zero exit status?
 * What is the difference between the `STDOUT` and `STDERR` output streams?
 
 * When executing shell commands from within a Ruby script, how can you capture
-its output to `STDOUT`? How do you go about capturing both `STDOUT` and
+what it writes to `STDOUT`? How do you go about capturing both `STDOUT` and
 `STDERR` streams?
 
 ## Exercises
