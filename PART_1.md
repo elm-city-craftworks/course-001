@@ -25,8 +25,8 @@ terminates? How about a non-zero exit status?
 what it writes to `STDOUT`? How do you go about capturing both `STDOUT` and
 `STDERR` streams?
 
-* How can you efficiently scan an input file to skip over empty lines of
-text without loading the entire file into memory first?
+* How can you efficiently scan an input file to skip over empty lines 
+without loading the entire file into memory first?
 
 * How would you go about parsing command line arguments that contain a mixture
 of flags and file arguments? (i.e. something like `ls -a -l foo/*.txt`)
