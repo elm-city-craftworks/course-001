@@ -11,7 +11,7 @@
 NOTE: The supporting materials for these exercises are in `samples/part1` 
 
 1) Run the following bash commands in the `data` folder and copy the 
-transcript from your console into a text file for future  reference.
+output into a text file for future reference.
 
 ```bash
 $ ls
