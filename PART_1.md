@@ -22,7 +22,7 @@ terminates? How about a non-zero exit status?
 * What is the difference between the `STDOUT` and `STDERR` output streams?
 
 * When executing shell commands from within a Ruby script, how can you capture
-what it writes to `STDOUT`? How do you go about capturing both `STDOUT` and
+what gets written to `STDOUT`? How do you go about capturing both `STDOUT` and
 `STDERR` streams?
 
 * How can you efficiently write the contents of an input file 
