@@ -1,4 +1,4 @@
-# Part 1: Working with standard I/O streams and the file system
+# Part 1: Standard I/O streams and the file system
 
 ## Reading Materials
 
