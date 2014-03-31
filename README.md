@@ -18,7 +18,7 @@ gradually to encourage better focus.
 
 * Standard I/O streams and the filesystem ([PART_1.md][])
 
-**Not released yet (except reading exercises):**
+**Not released yet (except reading assignments):**
 
 * Encoding and decoding binary files ([PART_2.md][])
 * Parsing text-based file formats ([[PART_3.md][])
