@@ -1,6 +1,6 @@
 ## Study Guide #1: Files, Streams, and Sockets
 
-Please clone this repository to work on the course. It contains some code
+Please fork this repository to work on the course. It contains some code
 samples and source materials in the `samples` folder that are needed to 
 complete the exercises. 
 
