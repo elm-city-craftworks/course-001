@@ -67,6 +67,9 @@ avoid spoilers unless they are very clearly marked.
 * Once released, reference solutions will be made available on the 
 "solved" branch of this repository.
 
+* You can also use the Practicing Ruby chatroom to discuss this course.
+To access it, log into practicingruby.com and click "chat" in the navbar.
+
 
 [PART_1.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_1.md
 [PART_2.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_2.md
