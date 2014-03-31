@@ -1,5 +1,5 @@
-Study Guide: Files, Streams, and Network I/O
-============================================
+Study Guide #1: Files, Streams, and Network I/O
+--------------------------------------------
 
 
 * For a review or to share your solution, open a pull request. We will not merge it, but it will be used for commentary, and also marked with tags to indicate its status.
