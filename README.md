@@ -10,6 +10,10 @@ or get feedback on them.
 
 ### Topics and course format
 
+* Standard I/O streams and the filesystem ([PART_1.md][])
+* Encoding and decoding binary files ([PART_2.md][])
+* Parsing text-based file formats ([[PART_3.md][])
+* Socket programming and Network I/O ([PART_4.md][])
 
 ### Schedule
 
@@ -42,3 +46,9 @@ avoid spoilers unless they are very clearly marked.
 
 * Once released, reference solutions will be made available on the 
 "solved" branch of this repository.
+
+
+[PART_1.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_1.md
+[PART_2.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_2.md
+[PART_3.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_3.md
+[PART_4.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_4.md
