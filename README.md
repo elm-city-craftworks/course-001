@@ -6,7 +6,8 @@
 
 ### Schedule
 
-**2014-04-03:** Topic #1 questions/exercises
+**2014-04-03:** Topic #1 questions/exercises,
+                All reading assignments
 
 **2014-04-17:** Topic #2 questions/exercises, 
                 Topic #1 solutions
