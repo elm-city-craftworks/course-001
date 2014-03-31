@@ -60,8 +60,8 @@ adding your answers inline, and then adding that file to your repository.
 comment on a ticket that is already open. See closed tickets marked 
 "solved" to see if your problem has already been discussed.
 
-* Pull requests should be assumed to include "spoilers", issues should 
-avoid spoilers unless they are very clearly marked.
+* Pull requests are assumed to include "spoilers", issues should 
+avoid spoilers unless they are clearly marked.
 
 * Once released, reference solutions will be made available on the 
 "solved" branch of this repository.
