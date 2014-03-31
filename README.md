@@ -18,11 +18,11 @@ All of the reading assignments have been made available from the first day of
 the course, but the questions, exercises, and solutions will be released
 gradually to encourage better focus in discussions around the course.
 
-** Questions/Exercises already released:**
+**Questions/Exercises already released:**
 
 * Standard I/O streams and the filesystem ([PART_1.md][])
 
-** Not released yet (except reading exercises):**
+**Not released yet (except reading exercises):**
 
 * Encoding and decoding binary files ([PART_2.md][])
 * Parsing text-based file formats ([[PART_3.md][])
