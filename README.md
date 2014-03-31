@@ -30,6 +30,9 @@ gradually to encourage better focus in discussions around the course.
 
 ### Schedule
 
+Currently the goal is to ship some new course materials every two
+weeks, roughly adhering to the following schedule:
+
 **2014-04-03:** Topic #1 questions/exercises,
                 All reading assignments
 
@@ -43,6 +46,10 @@ gradually to encourage better focus in discussions around the course.
                 Topic #3 solutions
 
 **2014-05-29:** Topic #4 solutions
+
+This schedule is approximate, so the dates listed above are subject to change.
+Watch the course repository on github for updates, and stay tuned for emails
+whenever new content is released.
 
 ### Getting Help
 
