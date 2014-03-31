@@ -2,7 +2,9 @@
 
 Please clone this repository to work on the course. It contains some code
 samples and source materials in the `samples` folder that are needed to 
-complete the exercises. We also recommend answering the questions in 
+complete the exercises. 
+
+We also recommend answering the questions in 
 text files as you work through them, so that you can share your answers
 or get feedback on them.
 
