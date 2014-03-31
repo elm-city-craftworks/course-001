@@ -16,7 +16,7 @@ to put the concepts into practice.
 
 All of the reading assignments have been made available from the first day of
 the course, but the questions, exercises, and solutions will be released
-gradually to encourage better focus in discussions around the course.
+gradually to encourage better focus.
 
 **Questions/Exercises already released:**
 
