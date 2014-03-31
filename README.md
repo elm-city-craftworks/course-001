@@ -1,6 +1,24 @@
 ## Study Guide #1: Files, Streams, and Sockets
 
 
+### Topics and course format
+
+
+### Schedule
+
+**2014-04-03:** Topic #1 questions/exercises
+
+**2014-04-17:** Topic #2 questions/exercises, 
+                Topic #1 solutions
+
+**2014-05-01:** Topic #3 questions/exercises,
+                Topic #2 solutions
+
+**2014-05-15:** Topic #4 questions/exercie,
+                Topic #3 solutions
+
+**2014-05-29:** Topic #4 solutions
+
 ### Getting Help
 
 * For a review or to share your solution, open a pull request. We will not merge
