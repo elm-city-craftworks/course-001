@@ -1,13 +1,8 @@
 ## Questions
 
-> NOTE: Most of these questions can directly be answered by reading 
-> the article, but a few might require you to search the web for
-> answers. External research is not only OK, it's encouraged!
-
 * What steps are involved in making a Ruby scripts runnable as a 
 command line utility? (i.e. directly runnable like `rake` or `gem`
 rather than having to type `ruby my_script.rb`)
-
 
 1. Adding a shebang line at the top: `#!/usr/bin/env ruby`
 1. Setting execute permission on the file: `chmod +x bin/myrake`
