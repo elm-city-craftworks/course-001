@@ -1,6 +1,3 @@
-➜  /Users/jtj/projects/course-001/samples/part1  ls
-bin         data        ls_tests.rb
-➜  /Users/jtj/projects/course-001/samples/part1  cd data
 ➜  /Users/jtj/projects/course-001/samples/part1/data  ls
 foo       hello.sh  hello.txt
 ➜  /Users/jtj/projects/course-001/samples/part1/data  ls foo/*.txt
