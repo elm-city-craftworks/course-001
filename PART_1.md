@@ -31,12 +31,12 @@ what gets written to `STDOUT`? How do you go about capturing both `STDOUT` and
 
 * How can you efficiently write the contents of an input file 
 to `STDOUT` with empty lines omitted? Being efficient in this context
-means avoiding storing the contents of the input file in memory 
+means avoiding storing the full contents of the input file in memory 
 and processing the stream in a single pass.
 
 * How would you go about parsing command line arguments that contain a mixture
 of flags and file arguments? (i.e. something like `ls -a -l foo/*.txt`)
-
+c
 * What features are provided by Ruby's `String` class to help with fixed width
 text layouts? (i.e. right aligning a column of numbers, or left aligning a
 column of text with some whitespace after it to keep the total 
