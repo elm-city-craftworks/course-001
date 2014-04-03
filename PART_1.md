@@ -36,7 +36,7 @@ and processing the stream in a single pass.
 
 * How would you go about parsing command line arguments that contain a mixture
 of flags and file arguments? (i.e. something like `ls -a -l foo/*.txt`)
-c
+
 * What features are provided by Ruby's `String` class to help with fixed width
 text layouts? (i.e. right aligning a column of numbers, or left aligning a
 column of text with some whitespace after it to keep the total 
