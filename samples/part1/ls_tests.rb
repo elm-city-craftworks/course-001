@@ -8,8 +8,8 @@ Dir.chdir("#{dir}/data")
 
 ############################################################################
 
-ls_output      = `ruby-ls`
-ruby_ls_output = `ls`
+ls_output      = `ls`
+ruby_ls_output = `ruby-ls`
 
 abort "Failed 'ls == ruby-ls'" unless ls_output == ruby_ls_output
 
