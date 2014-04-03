@@ -43,7 +43,7 @@ weeks, roughly adhering to the following schedule:
 
 **2014-05-29:** Topic #4 solutions
 
-This schedule is approximate, so the dates listed above are subject to change.
+This schedule is approximate, so the dates listed above may change.
 Watch the course repository on github for updates, and stay tuned for emails
 whenever new content is released.
 
@@ -60,7 +60,7 @@ adding your answers inline, and then adding that file to your repository.
 comment on a ticket that is already open. See closed tickets marked 
 "solved" to see if your problem has already been discussed.
 
-* Pull requests are assumed to include "spoilers", issues should 
+* Pull requests are assumed to include spoilers, issues should 
 avoid spoilers unless they are clearly marked.
 
 * Once released, reference solutions will be made available on the 
