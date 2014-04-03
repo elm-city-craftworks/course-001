@@ -1,0 +1,31 @@
+➜  /Users/jtj/projects/course-001/samples/part1  ls
+bin         data        ls_tests.rb
+➜  /Users/jtj/projects/course-001/samples/part1  cd data
+➜  /Users/jtj/projects/course-001/samples/part1/data  ls
+foo       hello.sh  hello.txt
+➜  /Users/jtj/projects/course-001/samples/part1/data  ls foo/*.txt
+foo/bar.txt  foo/baz.txt  foo/quux.txt
+➜  /Users/jtj/projects/course-001/samples/part1/data  ls -l
+total 16
+drwxr-xr-x  7 jtj  staff  238 Apr  3 21:17 foo
+-rwxr-xr-x  1 jtj  staff   39 Apr  3 21:17 hello.sh
+-rw-r--r--  1 jtj  staff   13 Apr  3 21:17 hello.txt
+➜  /Users/jtj/projects/course-001/samples/part1/data  ls -a
+.         ..        .secret   foo       hello.sh  hello.txt
+➜  /Users/jtj/projects/course-001/samples/part1/data  ls -a -l
+total 24
+drwxr-xr-x  6 jtj  staff  204 Apr  3 21:17 .
+drwxr-xr-x  5 jtj  staff  170 Apr  3 21:17 ..
+-rw-r--r--  1 jtj  staff    9 Apr  3 21:17 .secret
+drwxr-xr-x  7 jtj  staff  238 Apr  3 21:17 foo
+-rwxr-xr-x  1 jtj  staff   39 Apr  3 21:17 hello.sh
+-rw-r--r--  1 jtj  staff   13 Apr  3 21:17 hello.txt
+➜  /Users/jtj/projects/course-001/samples/part1/data  ls -l foo/*.txt
+-rw-r--r--  1 jtj  staff   8 Apr  3 21:17 foo/bar.txt
+-rw-r--r--  1 jtj  staff   8 Apr  3 21:17 foo/baz.txt
+-rw-r--r--  1 jtj  staff  10 Apr  3 21:17 foo/quux.txt
+➜  /Users/jtj/projects/course-001/samples/part1/data  ls missingdir
+ls: missingdir: No such file or directory
+➜  /Users/jtj/projects/course-001/samples/part1/data  ls -Z
+/bin/ls: illegal option -- Z
+usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]
