@@ -86,7 +86,8 @@ that passes the first test.
 
 **STEP 4:** Work your way through implementing some or all of the other use cases
 listed in step 1. Start by adding an acceptance test, then implement
-the correct behavior in the `ruby-ls` script.
+the correct behavior in the `ruby-ls` script. For ideas on how to write your tests, see
+the [RCat acceptance tests](https://gist.github.com/sandal/1293709) from the assigned article.
 
 **STEP 5:** If you didn't already check for exit codes for successful and unsuccessful
 uses of the `ruby-ls` command, add a test for them now and then implement
