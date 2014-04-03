@@ -64,7 +64,7 @@ comment on a ticket that is already open. See closed tickets marked
 avoid spoilers unless they are clearly marked.
 
 * Once released, reference solutions will be made available on the 
-"solved" branch of this repository.
+**solved** branch of this repository.
 
 * You can also use the Practicing Ruby chatroom to discuss this course.
 To access it, log into practicingruby.com and click "chat" in the navbar.
