@@ -31,7 +31,7 @@ what gets written to `STDOUT`? How do you go about capturing both `STDOUT` and
 
 * How can you efficiently write the contents of an input file 
 to `STDOUT` with empty lines omitted? Being efficient in this context
-means avoiding storing the contents of the input file in memory 
+means avoiding storing the full contents of the input file in memory 
 and processing the stream in a single pass.
 
 * How would you go about parsing command line arguments that contain a mixture
@@ -86,12 +86,13 @@ that passes the first test.
 
 **STEP 4:** Work your way through implementing some or all of the other use cases
 listed in step 1. Start by adding an acceptance test, then implement
-the correct behavior in the `ruby-ls` script.
+the correct behavior in the `ruby-ls` script. For ideas on how to write your tests, see
+the [RCat acceptance tests](https://gist.github.com/sandal/1293709) from the assigned article.
 
 **STEP 5:** If you didn't already check for exit codes for successful and unsuccessful
 uses of the `ruby-ls` command, add a test for them now and then implement
 command termination behavior that matches how `ls` works on your system.
 
-*If you get stuck and have questions about this exercise, file a ticket in our
+*If you get stuck or have questions about this exercise, file a ticket in our
 Github tracker. If you'd like a code review, please submit a pull request with
 your solution. Feel free to submit stuff that is still a work-in-progress!*

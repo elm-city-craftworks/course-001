@@ -1,12 +1,8 @@
 ## Study Guide #1: Files, Streams, and Sockets
 
-Please clone this repository to work on the course. It contains some code
+Please fork this repository to work on the course. It contains some code
 samples and source materials in the `samples` folder that are needed to 
 complete the exercises. 
-
-We also recommend answering the questions in 
-text files as you work through them, so that you can share your answers
-or get feedback on them.
 
 ### Topics and course format
 
@@ -22,7 +18,7 @@ gradually to encourage better focus.
 
 * Standard I/O streams and the filesystem ([PART_1.md][])
 
-**Not released yet (except reading exercises):**
+**Not released yet (except reading assignments):**
 
 * Encoding and decoding binary files ([PART_2.md][])
 * Parsing text-based file formats ([[PART_3.md][])
@@ -47,7 +43,7 @@ weeks, roughly adhering to the following schedule:
 
 **2014-05-29:** Topic #4 solutions
 
-This schedule is approximate, so the dates listed above are subject to change.
+This schedule is approximate, so the dates listed above may change.
 Watch the course repository on github for updates, and stay tuned for emails
 whenever new content is released.
 
@@ -57,15 +53,21 @@ whenever new content is released.
 it, but it will be used for commentary, and also marked with tags to indicate
 its status.
 
+* You can submit pull requests for the reading questions by copying the questions into a text file, 
+adding your answers inline, and then adding that file to your repository.
+
 * For questions or general guidance with the assignments, open a ticket or 
 comment on a ticket that is already open. See closed tickets marked 
 "solved" to see if your problem has already been discussed.
 
-* Pull requests should be assumed to include "spoilers", issues should 
-avoid spoilers unless they are very clearly marked.
+* Pull requests are assumed to include spoilers, issues should 
+avoid spoilers unless they are clearly marked.
 
 * Once released, reference solutions will be made available on the 
-"solved" branch of this repository.
+**solved** branch of this repository.
+
+* You can also use the Practicing Ruby chatroom to discuss this course.
+To access it, log into practicingruby.com and click "chat" in the navbar.
 
 
 [PART_1.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_1.md
