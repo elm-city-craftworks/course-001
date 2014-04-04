@@ -6,54 +6,63 @@ require "open3"
 dir = File.dirname(__FILE__)
 Dir.chdir("#{dir}/data")
 
+def check(args)
+  ls, rls = `ls #{args} 2>&1`, `ruby-ls #{args} 2>&1`
+  unless ls == rls
+    puts "ls #{args}"
+    puts
+    puts "LS>>", ls, "<<"
+    puts
+    puts "RLS>>", rls, "<<"
+    abort "Failed #{args}"
+  end
+end
+
 ############################################################################
 
-ls_output      = `ls`
-ruby_ls_output = `ruby-ls`
-
-abort "Failed 'ls == ruby-ls'" unless ls_output == ruby_ls_output
+check ""
 
 puts "Test 1: OK"
 
 ############################################################################
 
-abort "Next step: add a test for ruby-ls foo/*.txt"
+check "foo/*.txt"
 
 puts "Test 2: OK"
 
 ############################################################################
 
-abort "Next step: add a test for ruby-ls -l"
+check "-l"
 
 puts "Test 3: OK"
 
 ############################################################################
 
-abort "Next step: add a test for ruby-ls -a"
+check "-a"
 
 puts "Test 4: OK"
 
 ############################################################################
 
-abort "Next step: add a test for ruby-ls -a -l"
+check "-a -l"
 
 puts "Test 5: OK"
 
 ############################################################################
 
-abort "Next step: add a test for ruby-ls -l foo/*.txt"
+check "-l foo/*.txt"
 
 puts "Test 6: OK"
 
 ############################################################################
 
-abort "Next step: add a test for ruby-ls missingdir (an invalid dir)"
+check "missingdir"
 
 puts "Test 7: OK"
 
 ############################################################################
 
-abort "Next step: add a test for ruby-ls -Z (an invalid switch)"
+check "-Z"
 
 puts "Test 8: OK"
 
