@@ -1,31 +1,31 @@
-# Task: Implement the ruby-ls utility and get these tests to pass on a system 
-# which has the UNIX ls command present.
-
 require "open3"
 
 dir = File.dirname(__FILE__)
 Dir.chdir("#{dir}/data")
 
-############################################################################
+def compare(args, test_name)
+  ls_output = `ls #{args}`
+  ruby_ls_output = `ruby-ls #{args}`
 
-ls_output      = `ls`
-ruby_ls_output = `ruby-ls`
+  unless ls_output == ruby_ls_output
+    [
+      "Args: #{args}",
+      "Output from ls:\n#{ls_output}",
+      "Output from ruby-ls:\n#{ruby_ls_output}",
+      "#{test_name} failed: Outputs do not match"
+    ].each do |line|
+      puts "#{line}\n\n"
+    end
 
-abort "Failed 'ls == ruby-ls'" unless ls_output == ruby_ls_output
+    abort
+  end
 
-puts "Test 1: OK"
+  puts "#{test_name} OK."
+end
 
-############################################################################
-
-abort "Next step: add a test for ruby-ls foo/*.txt"
-
-puts "Test 2: OK"
-
-############################################################################
-
-abort "Next step: add a test for ruby-ls -l"
-
-puts "Test 3: OK"
+compare(""          ,  "Test 1")
+compare("foo/*.txt" ,  "Test 2")
+compare("-l"        ,  "Test 3")
 
 ############################################################################
 
