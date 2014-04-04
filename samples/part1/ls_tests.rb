@@ -6,8 +6,14 @@ require "open3"
 dir = File.dirname(__FILE__)
 Dir.chdir("#{dir}/data")
 
+def command_output_and_exit_status(cmd, args)
+  `#{cmd} #{args} 2>&1; echo $?`
+end
+
 def check(args)
-  ls, rls = `ls #{args} 2>&1`, `ruby-ls #{args} 2>&1`
+  ls, rls = %w[ls ruby-ls].map { |cmd|
+    command_output_and_exit_status(cmd, args)
+  }
   unless ls == rls
     puts "ls #{args}"
     puts
