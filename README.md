@@ -38,7 +38,7 @@ weeks, roughly adhering to the following schedule:
 **2014-05-01:** Topic #3 questions/exercises,
                 Topic #2 solutions
 
-**2014-05-15:** Topic #4 questions/exercie,
+**2014-05-15:** Topic #4 questions/exercises,
                 Topic #3 solutions
 
 **2014-05-29:** Topic #4 solutions
