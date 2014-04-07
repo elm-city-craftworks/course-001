@@ -27,13 +27,13 @@ module RubyLs
     def run
       lines = []
 
-      max_filesize = @files.map { |fn| File.stat(fn).size }.max
+      max_filesize = @files.map { |fn| stat_file(fn).size }.max
       size_width = [int_width(max_filesize) + 1, 4].max
 
       @files.each do |filename|
         next if !@all && filename.start_with?('.')
 
-        stat = File.stat(filename)
+        stat = stat_file(filename)
 
         if @long
           perms         = permission_string(stat.mode)
@@ -113,6 +113,12 @@ module RubyLs
 
     def int_width(x)
       Math.log10(x).ceil + 1
+    end
+
+    def stat_file(filename)
+      File.stat(filename)
+    rescue Errno::ENOENT
+      abort "ls: #{filename}: No such file or directory"
     end
   end
 end
