@@ -61,6 +61,9 @@ module RubyLs
     end
 
     def permission_string(mode)
+      # The explicit way:
+      # =================
+
       # See chmod(2) and stat(2)
       masks_to_symbols = {
         040000 => "d",
@@ -75,9 +78,15 @@ module RubyLs
             01 => "x"
       }
 
-      masks_to_symbols.to_a.map { |mask, symbol|
-        mode & mask > 0 ? symbol : "-"
-      }.join
+      masks_to_symbols.to_a.map { |mask, symbol| mode & mask > 0 ? symbol : "-" }.join
+
+      # Or the esoteric way:
+      # ====================
+
+      # file_type = (mode & 040000 > 0) ? "d" : "-"
+      # symbols = "rwx" * 3
+      # permissions = 8.downto(0).map { |i| mode[i] == 1 ? symbols[8-i] : "-" }.join
+      # file_type + permissions
     end
 
     def username(uid)
