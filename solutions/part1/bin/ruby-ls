@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
 
 ## FIXME: Replace this code with a pure Ruby clone of the ls utility
-system("ls", *ARGV)
+#system("ls", *ARGV)
+
+

@@ -1,4 +1,4 @@
-> What steps are involved in making a Ruby scripts runnable as a 
+
 command line utility? (i.e. directly runnable like `rake` or `gem`
 rather than having to type `ruby my_script.rb`)
 
