@@ -10,8 +10,8 @@ def compare(args, test_name)
   unless ls_output == ruby_ls_output
     [
       "Args: #{args}",
-      "Output from ls:\n#{ls_output}",
-      "Output from ruby-ls:\n#{ruby_ls_output}",
+      "Output from ls (size #{ls_output.size}):\n#{ls_output}",
+      "Output from ruby-ls (size #{ruby_ls_output.size}):\n#{ruby_ls_output}",
       "#{test_name} failed: Outputs do not match"
     ].each do |line|
       puts "#{line}\n\n"
