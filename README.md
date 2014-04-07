@@ -24,6 +24,12 @@ gradually to encourage better focus.
 * Parsing text-based file formats ([[PART_3.md][])
 * Socket programming and Network I/O ([PART_4.md][])
 
+### News and Updates
+
+Practicing Ruby subscribers will be emailed whenever new content is released.
+For day-to-day updates to the course materials, including revisions, see the
+[CHANGELOG.md][] file.
+
 ### Schedule
 
 Currently the goal is to ship some new course materials every two
@@ -74,3 +80,5 @@ To access it, log into practicingruby.com and click "chat" in the navbar.
 [PART_2.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_2.md
 [PART_3.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_3.md
 [PART_4.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_4.md
+[CHANGELOG.md]: https://github.com/elm-city-craftworks/course-001/blob/master/CHANGELOG.md
+
