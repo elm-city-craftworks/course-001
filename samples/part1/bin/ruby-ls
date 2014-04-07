@@ -19,11 +19,8 @@ if $l
   puts "total #{blocks}" unless files_given
   files.zip(stats) { |file,stat|
     entry_type = { "file" => "-", "directory" => "d" }[stat.ftype]
-    perms = (stat.mode & 0777).to_s(8).chars.map { |perm|
-      perm = Integer(perm)
-      [4, 2, 1].zip("rwx".chars).map { |val, name|
-        perm & val == 0 ? "-" : name
-      }.join
+    perms = (%w[r w x] * 3).map.with_index { |p,i|
+      stat.mode[8-i] == 1 ? p : '-'
     }.join
     owner = Etc.getpwuid stat.uid
     group = Etc.getgrgid stat.gid
