@@ -15,7 +15,10 @@ module RubyLs
       end
 
       @files = parser.parse(argv)
-      @files = Dir.entries(".") if @files.empty?
+      if @files.empty?
+        @dir = true
+        @files = Dir.entries(".")
+      end
 
       @blocks = 0
       @lines = []
@@ -23,10 +26,12 @@ module RubyLs
 
     def run
       lines = []
+
+      max_filesize = @files.map { |fn| File.stat(fn).size }.max
+      size_width = [int_width(max_filesize) + 1, 4].max
+
       @files.each do |filename|
-        unless @all
-          next if filename.start_with?('.')
-        end
+        next if !@all && filename.start_with?('.')
 
         stat = File.stat(filename)
 
@@ -35,7 +40,7 @@ module RubyLs
           num_links     = stat.nlink
           user          = username(stat.uid)
           group         = groupname(stat.gid)
-          size          = stat.size.to_s.rjust(5) # XXX: Will fail when file size grows
+          size          = stat.size.to_s.rjust(size_width)
           last_modified = stat.mtime.strftime("%b %e %H:%M")
 
           line = "#{perms}  #{num_links} #{user}  #{group}#{size} #{last_modified} #{filename}"
@@ -48,7 +53,8 @@ module RubyLs
         count_blocks(stat.blocks)
       end
 
-      print_total if @long
+      print_total if @long && @dir
+
       print_entries
     end
 
@@ -103,6 +109,10 @@ module RubyLs
 
     def groupname(gid)
       Etc.getgrgid(gid).name
+    end
+
+    def int_width(x)
+      Math.log10(x).ceil + 1
     end
   end
 end
