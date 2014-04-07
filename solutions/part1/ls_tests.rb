@@ -6,56 +6,33 @@ require "open3"
 dir = File.dirname(__FILE__)
 Dir.chdir("#{dir}/data")
 
-############################################################################
+UNIX_LS = "ls"
+RUBY_LS = "ruby-ls"
 
-ls_output      = `ls`
-ruby_ls_output = `ruby-ls`
+def check(label, args)
+ if `#{UNIX_LS} #{args}` == `#{RUBY_LS} #{args}`
+   puts "[OK] #{label}"
+ else
+   abort "[FAILED] #{label}\n\n" +
+         "`#{(RUBY_LS + " " + args).strip}` does not match `#{UNIX_LS}`."
+ end
+end
 
-abort "Failed 'ls == ruby-ls'" unless ls_output == ruby_ls_output
+check("No arguments", "")
 
-puts "Test 1: OK"
+check("File glob", "foo/*.txt")
 
-############################################################################
+check("Detailed output", "-l")
 
-abort "Next step: add a test for ruby-ls foo/*.txt"
+check("Hidden files", "-a")
 
-puts "Test 2: OK"
+check("Hidden files with detailed output", "-a -l")
 
-############################################################################
+check("File glob with detailed output", "-l foo/*.txt")
 
-abort "Next step: add a test for ruby-ls -l"
+check("Invalid directory", "missingdir")
 
-puts "Test 3: OK"
-
-############################################################################
-
-abort "Next step: add a test for ruby-ls -a"
-
-puts "Test 4: OK"
-
-############################################################################
-
-abort "Next step: add a test for ruby-ls -a -l"
-
-puts "Test 5: OK"
-
-############################################################################
-
-abort "Next step: add a test for ruby-ls -l foo/*.txt"
-
-puts "Test 6: OK"
-
-############################################################################
-
-abort "Next step: add a test for ruby-ls missingdir (an invalid dir)"
-
-puts "Test 7: OK"
-
-############################################################################
-
-abort "Next step: add a test for ruby-ls -Z (an invalid switch)"
-
-puts "Test 8: OK"
+check("Invalid flag", "-Z")
 
 ############################################################################
 

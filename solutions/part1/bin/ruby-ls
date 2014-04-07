@@ -3,4 +3,4 @@
 ## FIXME: Replace this code with a pure Ruby clone of the ls utility
 #system("ls", *ARGV)
 
-
+puts Dir.glob(ARGV.empty? ? "*" : ARGV).join("\n")
