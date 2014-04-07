@@ -26,12 +26,7 @@ end
 compare(""          ,  "Test 1")
 compare("foo/*.txt" ,  "Test 2")
 compare("-l"        ,  "Test 3")
-
-############################################################################
-
-abort "Next step: add a test for ruby-ls -a"
-
-puts "Test 4: OK"
+compare("-a"        ,  "Test 4")
 
 ############################################################################
 

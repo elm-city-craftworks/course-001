@@ -8,10 +8,14 @@ module RubyLs
         opts.on("-l") do |l|
           @long = l
         end
+
+        opts.on("-a") do |a|
+          @all = a
+        end
       end
 
-      @pattern = parser.parse(argv)
-      @pattern = "*" if @pattern.empty?
+      @files = parser.parse(argv)
+      @files = Dir.entries(".") if @files.empty?
 
       @blocks = 0
       @lines = []
@@ -19,7 +23,11 @@ module RubyLs
 
     def run
       lines = []
-      Dir.glob(@pattern).reject { |name| name.start_with?('.') }.each do |filename|
+      @files.each do |filename|
+        unless @all
+          next if filename.start_with?('.')
+        end
+
         stat = File.stat(filename)
 
         if @long
