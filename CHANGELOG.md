@@ -1,6 +1,6 @@
 ### 2014.04.07
 
-* Added a clarification about how `ls` works differently depending on whether it
+* Added a clarification in PART_1.md about how `ls` works differently depending on whether it
 is outputting directly to the console or being run in a 
 subshell / command pipeline. For the purpose of the exercise, we'll focus on the
 latter because our acceptance tests run `ls` in a subshell, and because the
