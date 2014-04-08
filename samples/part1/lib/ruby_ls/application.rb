@@ -4,39 +4,16 @@ require 'optparse'
 module RubyLs
   class Application
     def initialize(argv)
-      parser = OptionParser.new do |opts|
-        opts.on("-l") do |l|
-          @long = l
-        end
-
-        opts.on("-a") do |a|
-          @all = a
-        end
-      end
-
-      @files = parser.parse(argv)
-      if @files.empty?
-        @dir = true
-        @files = Dir.entries(".")
-      end
-
+      parse_options(argv)
       @blocks = 0
       @lines = []
-    rescue OptionParser::InvalidOption => e
-      abort [
-        "ls: ",
-        e.message.gsub(/invalid option: -/, "illegal option -- "),
-        "\n",
-        "usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]",
-        "\n"
-      ].join
     end
 
     def run
       lines = []
 
       max_filesize = @files.map { |fn| stat_file(fn).size }.max
-      size_width = [int_width(max_filesize) + 1, 4].max
+      size_width = [num_digits(max_filesize) + 2, 4].max
 
       @files.each do |filename|
         next if !@all && filename.start_with?('.')
@@ -119,14 +96,40 @@ module RubyLs
       Etc.getgrgid(gid).name
     end
 
-    def int_width(x)
-      Math.log10(x).ceil + 1
+    def num_digits(x)
+      x.to_s.size
     end
 
     def stat_file(filename)
       File.stat(filename)
     rescue Errno::ENOENT
       abort "ls: #{filename}: No such file or directory"
+    end
+
+    def parse_options(argv)
+      parser = OptionParser.new do |opts|
+        opts.on("-l") do |l|
+          @long = l
+        end
+
+        opts.on("-a") do |a|
+          @all = a
+        end
+      end
+
+      @files = parser.parse(argv)
+      if @files.empty?
+        @dir = true
+        @files = Dir.entries(".")
+      end
+    rescue OptionParser::InvalidOption => e
+      abort [
+        "ls: ",
+        e.message.gsub(/invalid option: -/, "illegal option -- "),
+        "\n",
+        "usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]",
+        "\n"
+      ].join
     end
   end
 end
