@@ -4,7 +4,6 @@ require 'ostruct'
 
 module RubyLs
   class Application
-    attr_reader :filenames
     def initialize(argv)
       parse_options(argv)
     end
@@ -34,9 +33,9 @@ module RubyLs
       if @long
         lines = []
         blocks = 0
-        max_filesize = filenames.map { |fn| stat_file(fn).size }.max
+        max_filesize = @filenames.map { |fn| stat_file(fn).size }.max
         size_column_width = [num_digits(max_filesize) + 2, 4].max
-        filenames.each do |filename|
+        @filenames.each do |filename|
           stat = stat_file(filename)
           lines << long_file_line(filename, stat, size_column_width)
           blocks += stat.blocks
@@ -45,7 +44,7 @@ module RubyLs
         puts lines.join("\n")
 
       else
-        puts filenames.join("\n")
+        puts @filenames.join("\n")
       end
     end
 
