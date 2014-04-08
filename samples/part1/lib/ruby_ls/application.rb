@@ -1,8 +1,10 @@
 require 'etc'
 require 'optparse'
+require 'ostruct'
 
 module RubyLs
   class Application
+    attr_reader :filenames
     def initialize(argv)
       parse_options(argv)
     end
@@ -17,6 +19,8 @@ module RubyLs
         @filenames = @args
       end
 
+      @file_stats = @filenames.map { |n| stat_file(n) }
+
       unless @all
         @filenames.reject! { |fn| fn.start_with?('.') }
       end
@@ -27,28 +31,22 @@ module RubyLs
     def print_files(options = {})
       include_total = options.fetch(:include_total) { false }
 
-      lines = []
-      blocks = 0
-
-      max_filesize = @filenames.map { |fn| stat_file(fn).size }.max
-      size_column_width = [num_digits(max_filesize) + 2, 4].max
-
-      @filenames.each do |filename|
-
-        if @long
+      if @long
+        lines = []
+        blocks = 0
+        max_filesize = filenames.map { |fn| stat_file(fn).size }.max
+        size_column_width = [num_digits(max_filesize) + 2, 4].max
+        filenames.each do |filename|
           stat = stat_file(filename)
           lines << long_file_line(filename, stat, size_column_width)
           blocks += stat.blocks
-        else
-          lines << filename
         end
-      end
+        lines.unshift("total #{blocks}") if include_total
+        puts lines.join("\n")
 
-      if @long && include_total
-        lines.unshift("total #{blocks}")
+      else
+        puts filenames.join("\n")
       end
-
-      puts lines.join("\n")
     end
 
     def long_file_line(filename, stat, size_column_width)
