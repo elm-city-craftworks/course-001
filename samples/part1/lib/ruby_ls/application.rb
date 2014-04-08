@@ -9,43 +9,47 @@ module RubyLs
     end
 
     def run
-      print_options = {}
-
+      print_total = false
       if @args.empty?
         @filenames = Dir.entries(".")
-        print_options[:include_total] = true
+        print_total = true
       else
         @filenames = @args
       end
-
-      @file_stats = @filenames.map { |n| stat_file(n) }
 
       unless @all
         @filenames.reject! { |fn| fn.start_with?('.') }
       end
 
-      print_files(print_options)
+      @file_stats = @filenames.map { |n| stat_file(n) }
+
+      lines = []
+      if @long
+        lines << "total #{total_blocks}" if print_total
+        lines += long_file_lines
+      else
+        lines = @filenames
+      end
+
+      puts lines.join("\n")
     end
 
-    def print_files(options = {})
-      include_total = options.fetch(:include_total) { false }
+    def long_file_lines
+      @filenames.zip(@file_stats).map { |filename, stat|
+        long_file_line(filename, stat, size_column_width)
+      }
+    end
 
-      if @long
-        lines = []
-        blocks = 0
-        max_filesize = @filenames.map { |fn| stat_file(fn).size }.max
-        size_column_width = [num_digits(max_filesize) + 2, 4].max
-        @filenames.each do |filename|
-          stat = stat_file(filename)
-          lines << long_file_line(filename, stat, size_column_width)
-          blocks += stat.blocks
-        end
-        lines.unshift("total #{blocks}") if include_total
-        puts lines.join("\n")
+    def size_column_width
+      @_size_column_width ||= ->{
+        max_filesize = @file_stats.map(&:size).max
+        min_col_width = 4
+        [num_digits(max_filesize) + 2, min_col_width].max
+      }.call
+    end
 
-      else
-        puts @filenames.join("\n")
-      end
+    def total_blocks
+      @file_stats.map(&:blocks).inject(&:+)
     end
 
     def long_file_line(filename, stat, size_column_width)
