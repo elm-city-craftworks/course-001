@@ -7,15 +7,26 @@ module RubyLs
       parse_options(argv)
       @blocks = 0
       @lines = []
+
     end
 
     def run
+      if @args.empty?
+        print_files(Dir.entries("."), include_total: true)
+      else
+        print_files(@args)
+      end
+    end
+
+    def print_files(files, options = {})
+      include_total = options.fetch(:include_total) { false }
+
       lines = []
 
-      max_filesize = @files.map { |fn| stat_file(fn).size }.max
+      max_filesize = files.map { |fn| stat_file(fn).size }.max
       size_width = [num_digits(max_filesize) + 2, 4].max
 
-      @files.each do |filename|
+      files.each do |filename|
         next if !@all && filename.start_with?('.')
 
         stat = stat_file(filename)
@@ -38,16 +49,10 @@ module RubyLs
         count_blocks(stat.blocks)
       end
 
-      print_total if @long && @dir
+      if @long && include_total
+        puts "total #{@blocks}"
+      end
 
-      print_entries
-    end
-
-    def print_total
-      puts "total #{@blocks}"
-    end
-
-    def print_entries
       puts @lines.join("\n")
     end
 
@@ -117,11 +122,8 @@ module RubyLs
         end
       end
 
-      @files = parser.parse(argv)
-      if @files.empty?
-        @dir = true
-        @files = Dir.entries(".")
-      end
+      @args = parser.parse(argv)
+
     rescue OptionParser::InvalidOption => e
       abort [
         "ls: ",
