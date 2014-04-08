@@ -9,14 +9,17 @@ global_variables.grep(/\A\$(?=[a-zA-Z])([^#{switches}])\z/) do
 end
 
 files = ARGV
-files_given = !files.empty?
-files = $a ? Dir.entries(".") : Dir["*"] if files.empty?
+files = ["."] if files.empty?
+if dir_given = (files.size == 1 and dir = files[0] and File.directory?(dir))
+  Dir.chdir(dir)
+  files = $a ? Dir.entries(".") : Dir["*"]
+end
 
 if $l
   stats = files.map { |file| File.stat(file) }
   blocks = stats.select(&:file?).map(&:blocks).reduce(0, :+)
   max_size_length = stats.map(&:size).max.to_s.length
-  puts "total #{blocks}" unless files_given
+  puts "total #{blocks}" if dir_given
   files.zip(stats) { |file,stat|
     entry_type = { "file" => "-", "directory" => "d" }[stat.ftype]
     perms = (%w[r w x] * 3).map.with_index { |p,i|
