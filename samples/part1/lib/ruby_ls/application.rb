@@ -1,6 +1,6 @@
 require 'etc'
 require 'optparse'
-require 'ostruct'
+require 'fileutils'
 
 module RubyLs
   class Application
@@ -13,6 +13,9 @@ module RubyLs
       if @args.empty?
         @filenames = Dir.entries(".")
         print_total = true
+      elsif @args.size == 1 && File.directory?(@args.first)
+        FileUtils.cd(@args.first)
+        @filenames = Dir.entries(".")
       else
         @filenames = @args
       end

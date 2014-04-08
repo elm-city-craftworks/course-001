@@ -39,6 +39,7 @@ compare("-a -l"        , "Test 5")
 compare("-l foo/*.txt" , "Test 6")
 compare("missingdir"   , "Test 7")
 compare("-Z"           , "Test 8")
+compare("foo"          , "Test 9")
 
 puts "You passed the tests, yay!"
 
