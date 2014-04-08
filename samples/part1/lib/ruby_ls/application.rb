@@ -16,6 +16,7 @@ module RubyLs
       elsif @args.size == 1 && File.directory?(@args.first)
         FileUtils.cd(@args.first)
         @filenames = Dir.entries(".")
+        print_total = true
       else
         @filenames = @args
       end
