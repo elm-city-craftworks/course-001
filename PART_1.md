@@ -61,6 +61,7 @@ output into a text file for future reference.
 
 ```bash
 $ ls
+$ ls foo
 $ ls foo/*.txt
 $ ls -l
 $ ls -a

@@ -1,3 +1,9 @@
+### 2014.04.08
+
+* Added an extra `ls` use case in PART_1.md, covering basic `ls somedir` usage.
+This complicates implementation somewhat, but is an important feature even
+for a minimal clone.
+
 ### 2014.04.07
 
 * Added a clarification in PART_1.md about how `ls` works differently depending on whether it
