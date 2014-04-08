@@ -5,63 +5,61 @@ module RubyLs
   class Application
     def initialize(argv)
       parse_options(argv)
-      @blocks = 0
-      @lines = []
-
     end
 
     def run
+      print_options = {}
+
       if @args.empty?
-        print_files(Dir.entries("."), include_total: true)
+        @filenames = Dir.entries(".")
+        print_options[:include_total] = true
       else
-        print_files(@args)
+        @filenames = @args
       end
+
+      unless @all
+        @filenames.reject! { |fn| fn.start_with?('.') }
+      end
+
+      print_files(print_options)
     end
 
-    def print_files(files, options = {})
+    def print_files(options = {})
       include_total = options.fetch(:include_total) { false }
 
       lines = []
+      blocks = 0
 
-      max_filesize = files.map { |fn| stat_file(fn).size }.max
-      size_width = [num_digits(max_filesize) + 2, 4].max
+      max_filesize = @filenames.map { |fn| stat_file(fn).size }.max
+      size_column_width = [num_digits(max_filesize) + 2, 4].max
 
-      files.each do |filename|
-        next if !@all && filename.start_with?('.')
-
-        stat = stat_file(filename)
+      @filenames.each do |filename|
 
         if @long
-          perms         = permission_string(stat.mode)
-          num_links     = stat.nlink
-          user          = username(stat.uid)
-          group         = groupname(stat.gid)
-          size          = stat.size.to_s.rjust(size_width)
-          last_modified = stat.mtime.strftime("%b %e %H:%M")
-
-          line = "#{perms}  #{num_links} #{user}  #{group}#{size} #{last_modified} #{filename}"
+          stat = stat_file(filename)
+          lines << long_file_line(filename, stat, size_column_width)
+          blocks += stat.blocks
         else
-          line = filename
+          lines << filename
         end
-
-        add_line(line)
-
-        count_blocks(stat.blocks)
       end
 
       if @long && include_total
-        puts "total #{@blocks}"
+        lines.unshift("total #{blocks}")
       end
 
-      puts @lines.join("\n")
+      puts lines.join("\n")
     end
 
-    def add_line(line)
-      @lines << line
-    end
+    def long_file_line(filename, stat, size_column_width)
+      perms         = permission_string(stat.mode)
+      num_links     = stat.nlink
+      user          = username(stat.uid)
+      group         = groupname(stat.gid)
+      size          = stat.size.to_s.rjust(size_column_width)
+      last_modified = stat.mtime.strftime("%b %e %H:%M")
 
-    def count_blocks(blocks)
-      @blocks += blocks
+      "#{perms}  #{num_links} #{user}  #{group}#{size} #{last_modified} #{filename}"
     end
 
     def permission_string(mode)
