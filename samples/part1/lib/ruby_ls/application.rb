@@ -22,6 +22,14 @@ module RubyLs
 
       @blocks = 0
       @lines = []
+    rescue OptionParser::InvalidOption => e
+      abort [
+        "ls: ",
+        e.message.gsub(/invalid option: -/, "illegal option -- "),
+        "\n",
+        "usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]",
+        "\n"
+      ].join
     end
 
     def run

@@ -16,8 +16,8 @@ def compare(args, test_name)
       "Args: #{args}",
       "stdout from ls (size #{ls_stdout.size}):\n#{ls_stdout}",
       "stdout from ruby-ls (size #{rb_stdout.size}):\n#{rb_stdout}",
-      "stderr from ls:\n#{ls_stderr}",
-      "stderr from ruby-ls:\n#{rb_stderr}",
+      "stderr from ls (size #{ls_stderr.size}):\n#{ls_stderr}",
+      "stderr from ruby-ls (size #{rb_stderr.size}):\n#{rb_stderr}",
       "status from ls:\n#{ls_status.exitstatus}",
       "status from ruby-ls:\n#{rb_status.exitstatus}"
 
@@ -31,21 +31,14 @@ def compare(args, test_name)
   puts "#{test_name} OK."
 end
 
-compare(""          ,  "Test 1")
-compare("foo/*.txt" ,  "Test 2")
-compare("-l"        ,  "Test 3")
-compare("-a"        ,  "Test 4")
-compare("-a -l"     ,  "Test 5")
-compare("-l foo/*.txt",  "Test 6")
-compare("missingdir",  "Test 7")
-
-############################################################################
-
-abort "Next step: add a test for ruby-ls -Z (an invalid switch)"
-
-puts "Test 8: OK"
-
-############################################################################
+compare(""             , "Test 1")
+compare("foo/*.txt"    , "Test 2")
+compare("-l"           , "Test 3")
+compare("-a"           , "Test 4")
+compare("-a -l"        , "Test 5")
+compare("-l foo/*.txt" , "Test 6")
+compare("missingdir"   , "Test 7")
+compare("-Z"           , "Test 8")
 
 puts "You passed the tests, yay!"
 
