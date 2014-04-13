@@ -1,6 +1,61 @@
 #!/usr/bin/env ruby
 
-## FIXME: Replace this code with a pure Ruby clone of the ls utility
-#system("ls", *ARGV)
+require "optparse"
 
-puts Dir.glob(ARGV.empty? ? "*" : ARGV).join("\n")
+require_relative "../lib/file_details"
+
+parser = OptionParser.new
+params = {}
+
+parser.on("-a") { params[:all_files]    = true }
+parser.on("-l") { params[:show_details] = true }
+
+
+begin
+  params[:files] = parser.parse(ARGV)
+rescue OptionParser::InvalidOption => e
+  bad_flag = e.message[/invalid option: -(.*)/, 1]
+  abort "ls: illegal option -- #{bad_flag}\n"+
+        "usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]"
+end
+
+if params[:files].empty?
+  globbed = false
+ 
+  if params[:all_files]
+    files = Dir.glob("*", File::FNM_DOTMATCH)
+  else
+    files = Dir.glob("*")
+  end
+elsif params[:files].length == 1 && File.directory?(params[:files][0])
+  globbed = false
+
+  Dir.chdir(params[:files][0])
+  files = Dir.glob("*")
+else
+  globbed = true
+
+  files = params[:files]
+end
+
+if params[:show_details] && !globbed
+  blocks = files.reduce(0) { |s,e| File.exist?(e) ? s + File.stat(e).blocks : s }
+  puts "total #{blocks}"
+end
+
+files.each do |f|
+  if File.exist?(f)
+    if params[:show_details]
+      details = FileDetails.new(f)
+
+      puts details.permissions + details.links.to_s.rjust(3, " ") + " " +
+        details.owner + "  " + details.group + details.size.to_s.rjust(globbed ? 4 : 5  , " ") +
+        " " + details.mtime + " " + details.name
+    else
+      puts f
+    end
+  else
+    abort("ls: #{f}: No such file or directory")
+  end
+end
+
