@@ -1,23 +1,33 @@
 require "etc"
 
+require_relative "file_details/list"
+
 class FileDetails
   MODES = { "0" => "---", "1" => "--x", "2" => "-w-", "3" => "-wx",
             "4" => "r--", "5" => "r-x", "6" => "rw-", "7" => "rwx" }
-   
+
+ 
   def initialize(name)
     stats = File::Stat.new(name)
 
-    @name   = name
-    @size   = File.size(name)
-    @links  = stats.nlink
-    @group  = Etc.getgrgid(stats.gid).name
-    @owner  = Etc.getpwuid(stats.uid).name
-    @mtime  = stats.mtime.strftime("%b %e %H:%M")
-
-    @permissions = permissions_string(stats.mode)
+    @data= { 
+      :name  => name, 
+      :size  => File.size(name),
+      :links => stats.nlink,
+      :group => Etc.getgrgid(stats.gid).name,
+      :owner => Etc.getpwuid(stats.uid).name,
+      :mtime => stats.mtime.strftime("%b %e %H:%M"),
+      :permissions => permissions_string(stats.mode) 
+    }
   end
 
-  attr_reader :name, :size, :links, :group, :owner, :mtime, :permissions
+  def [](key)
+    @data.fetch(key)
+  end
+
+  def keys
+    @data.keys
+  end
 
   private
 
