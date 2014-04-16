@@ -17,7 +17,8 @@ class FileDetails
       :group => Etc.getgrgid(stats.gid).name,
       :owner => Etc.getpwuid(stats.uid).name,
       :mtime => stats.mtime.strftime("%b %e %H:%M"),
-      :permissions => permissions_string(stats.mode) 
+      :permissions => permissions_string(stats.mode),
+      :blocks      => stats.blocks
     }
   end
 
