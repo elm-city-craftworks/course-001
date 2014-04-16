@@ -10,12 +10,12 @@ module RubyLS
       stats = File::Stat.new(name)
 
       @data= { 
-        :name  => name, 
-        :size  => File.size(name),
-        :links => stats.nlink,
-        :group => Etc.getgrgid(stats.gid).name,
-        :owner => Etc.getpwuid(stats.uid).name,
-        :mtime => stats.mtime.strftime("%b %e %H:%M"),
+        :name        => name, 
+        :size        => File.size(name),
+        :links       => stats.nlink,
+        :group       => Etc.getgrgid(stats.gid).name,
+        :owner       => Etc.getpwuid(stats.uid).name,
+        :mtime       => stats.mtime.strftime("%b %e %H:%M"),
         :permissions => permissions_string(stats.mode),
         :blocks      => stats.blocks
       }
