@@ -2,9 +2,9 @@
 
 require "optparse"
 
-require_relative "../lib/file_details"
+require_relative "../lib/ruby_ls"
 
-## Parse command line arguments
+## PARSE OPTIONS
 
 parser = OptionParser.new
 params = {}
@@ -20,43 +20,31 @@ rescue OptionParser::InvalidOption => e
         "usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]"
 end
 
-## Figure out which files to list
+## SETUP CALLBACKS
 
-dir_listing  = params[:files].empty? ||
-               params[:files].first
-               (params[:files].length == 1 && File.directory?(params[:files][0]))
+on_success = ->(listing, is_directory) do
+  if params[:show_details] && is_directory
+    puts "total #{listing.blocks}"
+  end
 
-if dir_listing 
-  Dir.chdir(params[:files][0]) if params[:files].any?
-
-  dotfiles = params[:all_files] ? File::FNM_DOTMATCH : 0
-
-  files = Dir.glob("*", dotfiles) 
-else
-  files = params[:files]
-end
-
-files.each do |f|
-  abort("ls: #{f}: No such file or directory") unless File.exist?(f)
-end
-
-## Produce the output
-
-details_list = FileDetails::List.new(files)
-
-if params[:show_details] && dir_listing
-  puts "total #{details_list.blocks}"
-end
-
-details_list.each do |details|
-  if params[:show_details]
-    puts [details[:permissions],
-          details[:links].to_s.rjust(details_list.column_widths[:links] + 1, " "),          
-          "#{details[:owner]}  #{details[:group]}",
-          details[:size].to_s.rjust(details_list.column_widths[:size] + 1, " "),
-          details[:mtime],
-          details[:name]].join(" ")
-  else
-    puts details[:name]
+  listing.each do |details|
+    if params[:show_details]
+      puts [details[:permissions],
+            details[:links].to_s.rjust(listing.column_widths[:links] + 1, " "),          
+            "#{details[:owner]}  #{details[:group]}",
+            details[:size].to_s.rjust(listing.column_widths[:size] + 1, " "),
+            details[:mtime],
+            details[:name]].join(" ")
+    else
+      puts details[:name]
+    end
   end
 end
+
+on_failure = ->(file) do
+  abort("ls: #{file}: No such file or directory")
+end
+
+## ATTEMPT TO MATCH FILES
+
+RubyLS.match_files(params, on_success, on_failure) 

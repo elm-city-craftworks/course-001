@@ -1,15 +1,13 @@
 require_relative "../helper"
 
-require "etc"
-
 ## DISCUSS TEST BRITTLENESS, MAYBE ALLOW CONFIG FILE OVERRIDES?
 # OR JUST MENTION IT'S A SPECIAL CASE ENVIRONMENT
 
 describe "FileDetails" do
 
-  let(:plain_file) { FileDetails.new("#{DATA_DIR}/hello.txt") }
-  let(:executable) { FileDetails.new("#{DATA_DIR}/hello.sh") }
-  let(:dir)        { FileDetails.new("#{DATA_DIR}/foo") }
+  let(:plain_file) { RubyLS::FileDetails.new("#{DATA_DIR}/hello.txt") }
+  let(:executable) { RubyLS::FileDetails.new("#{DATA_DIR}/hello.sh") }
+  let(:dir)        { RubyLS::FileDetails.new("#{DATA_DIR}/foo") }
 
   it "must provide permission details" do
     plain_file[:permissions].must_equal("-rw-r--r--")

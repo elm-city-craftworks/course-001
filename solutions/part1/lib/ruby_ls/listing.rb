@@ -1,13 +1,11 @@
-class FileDetails
-  class List
-    def initialize(files)
+module RubyLS
+  class Listing
+    def initialize(file_details)
       @details       = []
       @column_widths = Hash.new(0)
       @blocks        = 0
       
-      files.each do |f|
-        fd = FileDetails.new(f)
-
+      file_details.each do |fd|
         fd.keys.each do |k|
           @column_widths[k] = [@column_widths[k], fd[k].to_s.size].max
         end
