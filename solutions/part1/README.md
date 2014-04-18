@@ -1,6 +1,6 @@
 ### TODO: Fill this in with an overview of the solution
 
-**bin/ruby_ls**: 
+**bin/ruby_ls** [source][ruby-ls] 
 
 Command line script that handles the basic I/O chores for the
 `RubyLS` application, including argument parsing and formatted output. No logic
@@ -38,3 +38,4 @@ Some very basic and somewhat brittle tests for
 the `RubyLS::FileDetails` object. Mostly useful as a smoke test, and would need
 to be modified to be more robust.
 
+[ruby-ls]: https://github.com/elm-city-craftworks/course-001/blob/solutions/solutions/part1/bin/ruby-ls
