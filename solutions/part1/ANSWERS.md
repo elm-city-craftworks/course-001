@@ -33,7 +33,7 @@ Ruby API documentation:
 
 http://www.ruby-doc.org/core-2.1.1/Process/Status.html
 
-**What does an exit status of zero indicate when a command line script 
+**Q4: What does an exit status of zero indicate when a command line script 
 terminates? How about a non-zero exit status?**
 
 A zero exit status indicates that the command executed successfully, a non-zero
@@ -50,7 +50,7 @@ general catchall for errors. In most cases this is sufficient, but when finer
 grained control is needed it is possible to call `exit` or `exit!` with a
 specific exit status code.
 
-**Q4: What is the difference between the `STDOUT` and `STDERR` output streams?**
+**Q5: What is the difference between the `STDOUT` and `STDERR` output streams?**
 
 The `STDOUT` stream is meant for the meaningful output from a script, i.e. the
 thing you'd consider the end result of the program, or something that is meant
@@ -60,7 +60,7 @@ The `STDERR`  stream is for debugging and error output, which is useful for prog
 error handling systems but is not meant to be processed as part of the normal
 output of a script.
 
-**Q5: When executing shell commands from within a Ruby script, how can you capture
+**Q6: When executing shell commands from within a Ruby script, how can you capture
 what gets written to `STDOUT`? How do you go about capturing both `STDOUT` and
 `STDERR` streams?**
 
@@ -86,7 +86,7 @@ p [ls_out, ls_err, ls_process.exitstatus]
 For more details on `Open3`, see the Ruby API documentation:
 http://ruby-doc.org/stdlib-2.1.1/libdoc/open3/rdoc/Open3.html
 
-**Q6: How can you efficiently write the contents of an input file 
+**Q7: How can you efficiently write the contents of an input file 
 to `STDOUT` with empty lines omitted? Being efficient in this context
 means avoiding storing the full contents of the input file in memory 
 and processing the stream in a single pass.**
@@ -132,7 +132,7 @@ Both techniques have their merits, so it usually depends on the problem at hand
 which you should use. Iterators are more conceptually simple than enumerators,
 so they may be a good default if you're unsure which approach to take.
 
-**Q7: How would you go about parsing command line arguments that contain a mixture
+**Q8: How would you go about parsing command line arguments that contain a mixture
 of flags and file arguments? (i.e. something like `ls -a -l foo/*.txt`)**
 
 Ruby provides several tools for options parsing. Except for trivial cases it
@@ -197,7 +197,7 @@ benefit specific to your project, but if you don't already have a strong opinion
 on this topic, it's better to just stick with `OptionParser` so that you don't
 spend too much time thinking about what color to paint the bikeshed.
 
-**Q8: What features are provided by Ruby's `String` class to help with fixed width
+**Q9: What features are provided by Ruby's `String` class to help with fixed width
 text layouts? (i.e. right aligning a column of numbers, or left aligning a
 column of text with some whitespace after it to keep the total 
 column width uniform)**
@@ -216,7 +216,7 @@ when deciding how to format numbers.
 See the Ruby API documentation for more details on how these methods are used:
 http://www.ruby-doc.org/core-2.1.0/String.html
 
-**Q9: Suppose your script encounters an error and has to terminate itself. What is
+**Q10: Suppose your script encounters an error and has to terminate itself. What is
 the idiomatic Unix-style way of reporting that the command did not run
 successfully?**
 
