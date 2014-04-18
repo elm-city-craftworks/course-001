@@ -1,10 +1,33 @@
+eval(DATA.read) # load the test helper script
+
 # Task: Implement the ruby-ls utility and get these tests to pass on a system 
 # which has the UNIX ls command present.
 
-require "open3"
+check("No arguments", "")
 
+check("Dir listing", "foo")
+
+check("File glob", "foo/*.txt")
+
+check("Detailed output", "-l")
+
+check("Hidden files", "-a")
+
+check("Hidden files with detailed output", "-a -l")
+
+check("File glob with detailed output", "-l foo/*.txt")
+
+check("Invalid directory", "missingdir")
+
+check("Invalid flag", "-Z")
+
+puts "You passed the tests, yay!"
+
+__END__
 dir = File.dirname(__FILE__)
 Dir.chdir("#{dir}/data")
+
+require "open3"
 
 # This test runner is from Jacob Tjoernholm
 # https://github.com/elm-city-craftworks/course-001/pull/2
@@ -36,26 +59,4 @@ def check(test_name, args)
   puts "#{test_name} OK."
 end
 
-
-check("No arguments", "")
-
-check("Dir listing", "foo")
-
-check("File glob", "foo/*.txt")
-
-check("Detailed output", "-l")
-
-check("Hidden files", "-a")
-
-check("Hidden files with detailed output", "-a -l")
-
-check("File glob with detailed output", "-l foo/*.txt")
-
-check("Invalid directory", "missingdir")
-
-check("Invalid flag", "-Z")
-
-############################################################################
-
-puts "You passed the tests, yay!"
 
