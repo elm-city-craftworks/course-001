@@ -44,4 +44,4 @@ to be modified to be more robust.
 [listing]: https://github.com/elm-city-craftworks/course-001/blob/solutions/solutions/part1/lib/ruby_ls/listing.rb
 [file-details]: https://github.com/elm-city-craftworks/course-001/blob/solutions/solutions/part1/lib/ruby_ls/file_details.rb
 [ls-tests]: https://github.com/elm-city-craftworks/course-001/blob/solutions/solutions/part1/ls_tests.rb
-[file-details-tests]: https://github.com/elm-city-craftworks/course-001/blob/solutions/solutions/part1/test/units/file_details.rb
+[file-details-test]: https://github.com/elm-city-craftworks/course-001/blob/solutions/solutions/part1/test/units/file_details_test.rb
