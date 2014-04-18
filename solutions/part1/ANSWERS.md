@@ -60,7 +60,7 @@ The `STDERR`  stream is for debugging and error output, which is useful for prog
 error handling systems but is not meant to be processed as part of the normal
 output of a script.
 
-**When executing shell commands from within a Ruby script, how can you capture
+**Q5: When executing shell commands from within a Ruby script, how can you capture
 what gets written to `STDOUT`? How do you go about capturing both `STDOUT` and
 `STDERR` streams?**
 
@@ -86,7 +86,7 @@ p [ls_out, ls_err, ls_process.exitstatus]
 For more details on `Open3`, see the Ruby API documentation:
 http://ruby-doc.org/stdlib-2.1.1/libdoc/open3/rdoc/Open3.html
 
-**Q5: How can you efficiently write the contents of an input file 
+**Q6: How can you efficiently write the contents of an input file 
 to `STDOUT` with empty lines omitted? Being efficient in this context
 means avoiding storing the full contents of the input file in memory 
 and processing the stream in a single pass.**
@@ -132,7 +132,7 @@ Both techniques have their merits, so it usually depends on the problem at hand
 which you should use. Iterators are more conceptually simple than enumerators,
 so they may be a good default if you're unsure which approach to take.
 
-**Q6: How would you go about parsing command line arguments that contain a mixture
+**Q7: How would you go about parsing command line arguments that contain a mixture
 of flags and file arguments? (i.e. something like `ls -a -l foo/*.txt`)**
 
 Ruby provides several tools for options parsing. Except for trivial cases it
@@ -197,7 +197,7 @@ benefit specific to your project, but if you don't already have a strong opinion
 on this topic, it's better to just stick with `OptionParser` so that you don't
 spend too much time thinking about what color to paint the bikeshed.
 
-**Q7: What features are provided by Ruby's `String` class to help with fixed width
+**Q8: What features are provided by Ruby's `String` class to help with fixed width
 text layouts? (i.e. right aligning a column of numbers, or left aligning a
 column of text with some whitespace after it to keep the total 
 column width uniform)**
