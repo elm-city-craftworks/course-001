@@ -14,7 +14,6 @@ otherwise runs a failure callback when a file cannot be found.
 
 **lib/ruby_ls/listing.rb** ([view source][listing]) 
 
-
 Defines the `Listing` object, which wraps a collection of `FileDetails` objects
 with some basic aggregations (i.e. length of each cell in a column, 
 sum of the total number of blocks in the listed files, etc.)
