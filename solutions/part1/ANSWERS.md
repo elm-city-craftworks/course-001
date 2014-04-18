@@ -216,9 +216,9 @@ when deciding how to format numbers.
 See the Ruby API documentation for more details on how these methods are used:
 http://www.ruby-doc.org/core-2.1.0/String.html
 
-> Q5: Suppose your script encounters an error and has to terminate itself. What is
+**Q9: Suppose your script encounters an error and has to terminate itself. What is
 the idiomatic Unix-style way of reporting that the command did not run
-successfully?
+successfully?**
 
 Gracefully failing involves two steps:
 
