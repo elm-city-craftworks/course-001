@@ -1,12 +1,10 @@
-
-command line utility? (i.e. directly runnable like `rake` or `gem`
-rather than having to type `ruby my_script.rb`)
+**Q1: What steps are involved in making a Ruby scripts runnable as a command line utility? (i.e. directly runnable like `rake` or `gem` rather than having to type `ruby my_script.rb`)**
 
 1. Add a shebang line to the top of your script, i.e. `#!/usr/bin/env ruby`
 2. Make the script executable: `$ chmod +x my_script_name`
 3. Add the script to your path: `$ export PATH=/path/to/project/folder:$PATH`
 
-> What is `ARGF` stream used for in Ruby?
+**Q2: What is `ARGF` stream used for in Ruby?**
 
 The `ARGF` construct is a stream that processes input data either via files
 passed in as command line arguments, or via `STDIN`. It will also combine 
@@ -18,7 +16,7 @@ stream. You can see more details on this in the Ruby API documentation:
 
 http://ruby-doc.org/core-2.1.1/ARGF.html
 
-> What is `$?` used for in Bash/Ruby?
+**Q3: What is `$?` used for in Bash/Ruby?**
 
 In bash, `$?` holds the exit status of the last executed command as an
 integer.
@@ -35,8 +33,8 @@ Ruby API documentation:
 
 http://www.ruby-doc.org/core-2.1.1/Process/Status.html
 
-> What does an exit status of zero indicate when a command line script 
-terminates? How about a non-zero exit status?
+**Q4: What does an exit status of zero indicate when a command line script 
+terminates? How about a non-zero exit status?**
 
 A zero exit status indicates that the command executed successfully, a non-zero
 status indicates that something went wrong.
@@ -52,7 +50,7 @@ general catchall for errors. In most cases this is sufficient, but when finer
 grained control is needed it is possible to call `exit` or `exit!` with a
 specific exit status code.
 
-> What is the difference between the `STDOUT` and `STDERR` output streams?
+**Q5: What is the difference between the `STDOUT` and `STDERR` output streams?**
 
 The `STDOUT` stream is meant for the meaningful output from a script, i.e. the
 thing you'd consider the end result of the program, or something that is meant
@@ -62,9 +60,9 @@ The `STDERR`  stream is for debugging and error output, which is useful for prog
 error handling systems but is not meant to be processed as part of the normal
 output of a script.
 
-> When executing shell commands from within a Ruby script, how can you capture
+**Q6: When executing shell commands from within a Ruby script, how can you capture
 what gets written to `STDOUT`? How do you go about capturing both `STDOUT` and
-`STDERR` streams?
+`STDERR` streams?**
 
 To capture what gets written to `STDOUT`, you can use the backticks operator:
 
@@ -88,10 +86,10 @@ p [ls_out, ls_err, ls_process.exitstatus]
 For more details on `Open3`, see the Ruby API documentation:
 http://ruby-doc.org/stdlib-2.1.1/libdoc/open3/rdoc/Open3.html
 
-> How can you efficiently write the contents of an input file 
+**Q7: How can you efficiently write the contents of an input file 
 to `STDOUT` with empty lines omitted? Being efficient in this context
 means avoiding storing the full contents of the input file in memory 
-and processing the stream in a single pass.
+and processing the stream in a single pass.**
 
 The key thing to remember is to avoid calling methods like `File#read`, which will
 read all of the content into a single Ruby string.
@@ -134,8 +132,8 @@ Both techniques have their merits, so it usually depends on the problem at hand
 which you should use. Iterators are more conceptually simple than enumerators,
 so they may be a good default if you're unsure which approach to take.
 
-> How would you go about parsing command line arguments that contain a mixture
-of flags and file arguments? (i.e. something like `ls -a -l foo/*.txt`)
+**Q8: How would you go about parsing command line arguments that contain a mixture
+of flags and file arguments? (i.e. something like `ls -a -l foo/*.txt`)**
 
 Ruby provides several tools for options parsing. Except for trivial cases it
 does not make sense to process the `ARGV` array directly, because processing
@@ -199,10 +197,10 @@ benefit specific to your project, but if you don't already have a strong opinion
 on this topic, it's better to just stick with `OptionParser` so that you don't
 spend too much time thinking about what color to paint the bikeshed.
 
-> What features are provided by Ruby's `String` class to help with fixed width
+**Q9: What features are provided by Ruby's `String` class to help with fixed width
 text layouts? (i.e. right aligning a column of numbers, or left aligning a
 column of text with some whitespace after it to keep the total 
-column width uniform)
+column width uniform)**
 
 The following `String` methods are useful when formatting plain text reports 
 in Ruby:
@@ -218,9 +216,9 @@ when deciding how to format numbers.
 See the Ruby API documentation for more details on how these methods are used:
 http://www.ruby-doc.org/core-2.1.0/String.html
 
-> Suppose your script encounters an error and has to terminate itself. What is
+**Q10: Suppose your script encounters an error and has to terminate itself. What is
 the idiomatic Unix-style way of reporting that the command did not run
-successfully?
+successfully?**
 
 Gracefully failing involves two steps:
 
