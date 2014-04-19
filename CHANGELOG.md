@@ -1,3 +1,7 @@
+### 2014.04.19
+
+* Course materials for Part 2 released!
+
 ### 2014.04.08
 
 * Added an extra `ls` use case in PART_1.md, covering basic `ls somedir` usage.
