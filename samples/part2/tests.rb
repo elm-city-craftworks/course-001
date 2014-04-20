@@ -30,6 +30,10 @@ def test_and_compare(input)
   test(input)
 end
 
+test_and_compare({ "a" => 1, "b" => true, "c" => false, "d" => nil, "egg" => 1.35 })
+
+test({ :foo => 2, :bar => 4 })
+
 test([1, "a", 3.14])
 
 bignum = 1 << 65
