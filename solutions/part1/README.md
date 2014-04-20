@@ -1,3 +1,5 @@
+> NOTE: See ANSWERS.md for answers to reading questions.
+
 ## Solution to exercise from Practicing Ruby Course 1, Part 1
 
 **bin/ruby_ls** ([view source][bin-ruby-ls]) 
