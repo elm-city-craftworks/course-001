@@ -11,8 +11,12 @@ module Packer
     when TrueClass then [0xc3]
     when FalseClass then [0xc2]
     when Fixnum
-      raise unless obj >= 0 and obj < 0x80
-      [obj]
+      case obj
+      when 0...128
+        [obj]
+      when -31..-1
+        [256 + obj]
+      end or raise
     when Bignum
       dump_ext_as_string(obj)
     when Float
