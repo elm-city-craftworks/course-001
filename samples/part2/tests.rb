@@ -60,3 +60,6 @@ coord = Coord.new(21, -4)
 test(coord)
 
 test(Complex(-2,3))
+
+test(/abc/)
+test(/abc/i)
