@@ -17,7 +17,6 @@ end
 def test_and_compare(input)
   require 'msgpack' # gem
   packed = Packer.pack(input)
-  output = Unpacker.unpack(packed.each)
 
   msgpack = input.to_msgpack.bytes
   unless msgpack == packed
