@@ -1,0 +1,49 @@
+$ ls
+foo       hello.sh  hello.txt
+
+--------------------------------------------------------------------
+
+$ ls foo/*.txt
+foo/bar.txt  foo/baz.txt  foo/quux.txt
+
+--------------------------------------------------------------------
+
+$ ls -l
+total 16
+drwxr-xr-x  7 seacreature  staff  238 Apr  7 11:37 foo
+-rwxr-xr-x  1 seacreature  staff   39 Apr  7 11:37 hello.sh
+-rw-r--r--  1 seacreature  staff   13 Apr  7 11:37 hello.txt
+
+--------------------------------------------------------------------
+
+$ ls -a
+.         ..        .secret   foo       hello.sh  hello.txt
+
+--------------------------------------------------------------------
+
+$ ls -a -l
+total 24
+drwxr-xr-x  6 seacreature  staff  204 Apr  7 11:37 .
+drwxr-xr-x  6 seacreature  staff  204 Apr  7 11:37 ..
+-rw-r--r--  1 seacreature  staff    9 Apr  7 11:37 .secret
+drwxr-xr-x  7 seacreature  staff  238 Apr  7 11:37 foo
+-rwxr-xr-x  1 seacreature  staff   39 Apr  7 11:37 hello.sh
+-rw-r--r--  1 seacreature  staff   13 Apr  7 11:37 hello.txt
+
+--------------------------------------------------------------------
+
+$ ls -l foo/*.txt
+-rw-r--r--  1 seacreature  staff   8 Apr  7 11:37 foo/bar.txt
+-rw-r--r--  1 seacreature  staff   8 Apr  7 11:37 foo/baz.txt
+-rw-r--r--  1 seacreature  staff  10 Apr  7 11:37 foo/quux.txt
+
+--------------------------------------------------------------------
+
+$ ls missingdir
+ls: missingdir: No such file or directory
+
+--------------------------------------------------------------------
+
+$ ls -Z
+ls: illegal option -- Z
+usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]

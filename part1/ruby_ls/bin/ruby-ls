@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+
+require_relative "../lib/ruby_ls"
+
+## PARSE OPTIONS
+
+parser = OptionParser.new
+params = {}
+
+parser.on("-a") { params[:all_files]    = true }
+parser.on("-l") { params[:show_details] = true }
+
+begin
+  params[:files] = parser.parse(ARGV)
+rescue OptionParser::InvalidOption => e
+  bad_flag = e.message[/invalid option: -(.*)/, 1]
+  abort "ls: illegal option -- #{bad_flag}\n"+
+        "usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]"
+end
+
+## SETUP CALLBACKS
+
+on_success = ->(listing, is_directory) do
+  if params[:show_details] && is_directory
+    puts "total #{listing.blocks}"
+  end
+
+  listing.each do |details|
+    if params[:show_details]
+      puts [details[:permissions],
+            details[:links].to_s.rjust(listing.column_widths[:links] + 1, " "),          
+            "#{details[:owner]}  #{details[:group]}",
+            details[:size].to_s.rjust(listing.column_widths[:size] + 1, " "),
+            details[:mtime],
+            details[:name]].join(" ")
+    else
+      puts details[:name]
+    end
+  end
+end
+
+on_failure = ->(file) do
+  abort("ls: #{file}: No such file or directory")
+end
+
+## ATTEMPT TO MATCH FILES
+
+RubyLS.match_files(params, on_success, on_failure) 
