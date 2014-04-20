@@ -74,7 +74,7 @@ The very first byte in the file will tell you how many elements the
 encoded `fixmap` has, and then you'll repeat a similar process to 
 uncover the details about its keys and values.
 
-**STEP 2:** Implement the `Unpacker.unpack` method, which takes an array of bytes
+**STEP 2:** Implement the `Unpacker.unpack` method, which takes an enumerator of bytes
 encoded in MessagePack format and converts it to an equivalent primitive 
 Ruby object. The `unpacker.rb` file contains a stubbed out method for you to
 implement, as well as a simple test. You are only expected to implement enough
