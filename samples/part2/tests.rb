@@ -14,9 +14,25 @@ def test(input)
   end
 end
 
+def test_and_compare(input)
+  require 'msgpack' # gem
+  packed = Packer.pack(input)
+  output = Unpacker.unpack(packed.each)
+
+  msgpack = input.to_msgpack.bytes
+  unless msgpack == packed
+    abort "bad msgpack format, expected:\n" +
+          msgpack.inspect + "\n" +
+          "and not:\n" +
+          packed.inspect
+  end
+
+  test(input)
+end
+
 test([1, "a", 3.14])
 
 bignum = 1 << 65
 test(bignum)
 
-test(-6)
+test_and_compare(-6)
