@@ -14,6 +14,8 @@ module Packer
       case obj
       when 0...128
         [obj]
+      when 128...256
+        [0xcc, obj]
       when -31..-1
         [256 + obj]
       end or raise

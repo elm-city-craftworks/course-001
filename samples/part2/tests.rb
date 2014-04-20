@@ -40,3 +40,5 @@ bignum = 1 << 65
 test(bignum)
 
 test_and_compare(-6)
+
+test_and_compare(164)

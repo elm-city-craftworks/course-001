@@ -16,6 +16,8 @@ module Unpacker
     when 0xc3 then true
     when 0xcb
       unpack_str(8, bytes).unpack('G')[0]
+    when 0xcc
+      bytes.next
     when 0xc7 then
       size = bytes.next
       type = bytes.next
