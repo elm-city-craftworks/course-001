@@ -1,3 +1,8 @@
+### 2014.04.20
+
+* Reorganize `solutions` branch, clean up README.md a little bit 
+in `master` branch.
+
 ### 2014.04.19
 
 * Course materials for Part 2 released!
