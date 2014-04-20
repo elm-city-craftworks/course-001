@@ -1,3 +1,5 @@
+require 'date'
+
 module MsgPack
   EXTENDED_TYPES_STR = { # class => unpack from string (by #to_s)
     Symbol => -> str { str.to_sym },
@@ -24,6 +26,14 @@ module MsgPack
     Time => {
       pack: -> t { t.to_i + t.subsec },
       unpack: -> r { Time.at(r) }
+    },
+    Date => {
+      pack: -> d { [d.jd, d.start] },
+      unpack: -> ary { Date.jd(*ary) }
+    },
+    DateTime => {
+      pack: -> d { [d.jd, d.hour, d.min, d.sec + d.sec_fraction, d.offset, d.start] },
+      unpack: -> ary { DateTime.jd(*ary) }
     },
     Struct => {
       pack: -> s { s.to_h.merge({ __class__: s.class }) },

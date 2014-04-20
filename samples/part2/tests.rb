@@ -1,11 +1,16 @@
 require_relative "packer"
 require_relative "unpacker"
 
+EQ = Hash.new { |h,k| -> a, b { a == b} }
+
+EQ[Date] = -> a, b { a == b and a.start == b.start }
+EQ[DateTime] = -> a, b { EQ[Date][a,b] and a.offset == b.offset }
+
 def test(input)
   output = Unpacker.unpack(Packer.pack(input).each)
 
   print input.inspect
-  if input == output
+  if EQ[input.class].call(input, output)
     puts " Round-trip OK"
   else
     abort "\n\nFailed Round-trip\n\n" +
@@ -69,3 +74,10 @@ test(/abc/i)
 
 test(Time.now)
 test(Time.now.utc)
+
+test(Date.new)
+test(Date.today)
+test(Date.today.new_start(Date::ENGLAND))
+
+test(DateTime.now)
+test(DateTime.now(Date::ENGLAND))
