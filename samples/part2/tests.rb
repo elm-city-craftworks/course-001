@@ -44,6 +44,10 @@ test_and_compare(164)
 
 test_and_compare(-42)
 
+test(-1..3)
+test(-1...4)
+test("Hello".."TheEnd")
+
 test(Rational(-2,3))
 
 some_class = Fixnum

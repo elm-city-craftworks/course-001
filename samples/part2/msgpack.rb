@@ -5,6 +5,10 @@ module MsgPack
     Module  => -> str { str.split('::').inject(Object, :const_get) },
   }
   EXTENDED_TYPES_NESTED = {
+    Range => {
+      pack: -> r { [r.begin, r.end, r.exclude_end?] },
+      unpack: -> ary { Range.new(*ary) }
+    },
     Rational => {
       pack: -> r { [r.numerator, r.denominator] },
       unpack: -> ary { Rational(*ary) }
