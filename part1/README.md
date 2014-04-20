@@ -1,5 +1,7 @@
-> NOTE: For the reference implementation of the RubyLS exercise,
-> see the `rubyls` folder and its `README.md` file.
+**NOTE: For the reference implementation of the RubyLS exercise,
+see the `rubyls` folder and its `README.md` file.**
+
+---
 
 ## Answers to reading questions for Part 1
 
