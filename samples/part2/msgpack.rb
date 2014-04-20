@@ -1,7 +1,7 @@
 module MsgPack
   EXTENDED_TYPES_STR = { # class => unpack from string (by #to_s)
-    Symbol => -> data { data.to_sym },
-    Bignum => -> data { Integer(data) },
+    Symbol => -> str { str.to_sym },
+    Bignum => -> str { Integer(str) },
   }
   EXTENDED_TYPES_NESTED = {
     Rational => {
