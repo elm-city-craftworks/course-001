@@ -74,16 +74,16 @@ The very first byte in the file will tell you how many elements the
 encoded `fixmap` has, and then you'll repeat a similar process to 
 uncover the details about its keys and values.
 
-**STEP 2:** Implement the `Packer.unpack` method, which takes an array of bytes
+**STEP 2:** Implement the `Unpacker.unpack` method, which takes an array of bytes
 encoded in MessagePack format and converts it to an equivalent primitive 
-Ruby object. The `packer.rb` file contains a stubbed out method for you to
+Ruby object. The `unpacker.rb` file contains a stubbed out method for you to
 implement, as well as a simple test. You are only expected to implement enough
 of MessagePack's functionality to process the `example.msg`, 
 small subset of the types available in MessagePack.
 
-**STEP 3:** Implement the `Unpacker.pack` method, which takes a primitive Ruby
+**STEP 3:** Implement the `Packer.pack` method, which takes a primitive Ruby
 object and converts it into a byte array in MessagePack format. You'll find
-a stub method and test for this in `unpacker.rb`. As in STEP 2, you're only
+a stub method and test for this in `packer.rb`. As in STEP 2, you're only
 expected to convert the limited set of types used in the `example.msg` file, you
 do not need to write a converter for all Ruby formats.
 
