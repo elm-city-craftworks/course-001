@@ -48,3 +48,8 @@ test(Rational(-2,3))
 
 some_class = Fixnum
 test(some_class)
+
+Coord = Struct.new(:x, :y)
+coord = Coord.new(21, -4)
+
+test(coord)
