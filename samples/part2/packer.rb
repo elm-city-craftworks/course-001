@@ -21,12 +21,8 @@ module Packer
       when -127..-32
         [0xd0, 256 + obj]
       end or raise
-    when Bignum
-      dump_ext_as_string(obj)
     when Float
       [0xcb] + [obj].pack('G').bytes
-    when Symbol
-      dump_ext_as_string(obj)
     when String
       raise if obj.bytesize > 31
       [0xa0 + obj.bytesize] + obj.bytes
@@ -40,6 +36,8 @@ module Packer
       obj.each_pair.inject([0x80 + obj.size]) { |bytes, (key, val)|
         bytes + pack(key) + pack(val)
       }
+    when *MsgPack::EXTENDED_TYPES.keys # Nice, isn't it?
+      dump_ext_as_string(obj)
     else
       raise "Unknown type: #{obj.class}"
     end

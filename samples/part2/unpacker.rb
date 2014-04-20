@@ -24,13 +24,7 @@ module Unpacker
       klass = MsgPack::TYPE2EXT[type] or
         raise "Unknown extended type #{type.to_s(16)}"
       str = unpack_str(size, bytes)
-      if klass == Symbol
-        str.to_sym
-      elsif klass == Bignum
-        str.to_i
-      else
-        raise "Do not know how to unpack a #{klass}"
-      end
+      MsgPack::EXTENDED_TYPES[klass].call(str)
     when 0xd0
       bytes.next - 256
     when 0x80..0x8f
