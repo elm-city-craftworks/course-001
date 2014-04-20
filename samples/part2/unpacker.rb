@@ -1,3 +1,5 @@
+require_relative 'msgpack'
+
 module Unpacker
   class << self
     # This method takes an array of bytes in message pack format and convert 
@@ -13,6 +15,14 @@ module Unpacker
       when 0xc3 then true
       when 0xcb
         unpack_str(8, bytes).unpack('G')[0]
+      when 0xc7 then
+        size = bytes.next
+        type = bytes.next
+        if MsgPack::TYPE2EXT[type] == Symbol
+          unpack_str(size, bytes).to_sym
+        else
+          raise "Unknown extended type #{type.to_s(16)}"
+        end
       when 0x80..0x8f
         (type - 0x80).times.with_object({}) { |_,map|
           map[unpack(bytes)] = unpack(bytes)
@@ -38,7 +48,7 @@ if __FILE__ == $PROGRAM_NAME
   data     = File.binread(File.dirname(__FILE__) + "/example.msg").each_byte
   expected = {"a"=>1, "b"=>true, "c"=>false, "d"=>nil, "egg"=>1.35}
 
-  actual = Unpacker.unpack(data) 
+  actual = Unpacker.unpack(data)
 
   if actual == expected
     puts "You unpacked the message correctly!"
