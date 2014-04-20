@@ -2,6 +2,7 @@ require_relative 'msgpack'
 
 module Unpacker
   extend self
+  include MsgPack
 
   # This method takes an array of bytes in message pack format and convert
   # it into an equivalent Ruby object
@@ -21,12 +22,12 @@ module Unpacker
     when 0xc7 then
       size = bytes.next
       type = bytes.next
-      klass = MsgPack::TYPE2EXT[type] or
+      klass = TYPE2EXT[type] or
         raise "Unknown extended type #{type.to_s(16)}"
-      if convert = MsgPack::EXTENDED_TYPES_STR[klass]
+      if convert = EXTENDED_TYPES_STR[klass]
         convert.(unpack_str(size, bytes))
       else
-        MsgPack::EXTENDED_TYPES_NESTED[klass][:unpack].(unpack(bytes))
+        EXTENDED_TYPES_NESTED[klass][:unpack].(unpack(bytes))
       end
     when 0xd0
       bytes.next - 256

@@ -2,6 +2,7 @@ require_relative 'msgpack'
 
 module Packer
   extend self
+  include MsgPack
 
   # This method takes primitive Ruby objects and converts them into
   # the equivalent byte array in MessagePack format.
@@ -36,13 +37,11 @@ module Packer
       obj.each_pair.inject([0x80 + obj.size]) { |bytes, (key, val)|
         bytes + pack(key) + pack(val)
       }
-    when *MsgPack::EXTENDED_TYPES_STR.keys # Nice, isn't it?
+    when *EXTENDED_TYPES_STR.keys # Nice, isn't it?
       dump_ext(obj, obj.to_s.bytes)
-    when *MsgPack::EXTENDED_TYPES_NESTED.keys
-      klass = obj.class.ancestors.find { |klass|
-        MsgPack::EXTENDED_TYPES_NESTED[klass]
-      }
-      value = MsgPack::EXTENDED_TYPES_NESTED[klass][:pack].(obj)
+    when *EXTENDED_TYPES_NESTED.keys
+      klass = obj.class.ancestors.find { |klass| EXTENDED_TYPES_NESTED[klass] }
+      value = EXTENDED_TYPES_NESTED[klass][:pack].(obj)
       dump_ext(obj, pack(value), klass)
     else
       raise "Unknown type: #{obj.class}"
@@ -53,7 +52,7 @@ private
   def dump_ext(obj, data, klass = obj.class)
     size = data.size
     raise "Do not know how to dump #{obj.class} of length #{size}" if size > 0xFF
-    [0xc7, size, MsgPack::EXT2TYPE[klass]] + data
+    [0xc7, size, EXT2TYPE[klass]] + data
   end
 end
 
