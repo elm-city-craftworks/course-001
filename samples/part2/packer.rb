@@ -13,6 +13,8 @@ module Packer
     when Fixnum
       raise unless obj >= 0 and obj < 0x80
       [obj]
+    when Bignum
+      dump_ext_as_string(obj)
     when Float
       [0xcb] + [obj].pack('G').bytes
     when Symbol

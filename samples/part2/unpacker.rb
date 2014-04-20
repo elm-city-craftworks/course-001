@@ -24,6 +24,8 @@ module Unpacker
       str = unpack_str(size, bytes)
       if klass == Symbol
         str.to_sym
+      elsif klass == Bignum
+        str.to_i
       else
         raise "Do not know how to unpack a #{klass}"
       end

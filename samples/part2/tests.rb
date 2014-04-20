@@ -15,3 +15,6 @@ def test(input)
 end
 
 test([1, "a", 3.14])
+
+bignum = 1 << 65
+test(bignum)
