@@ -1,7 +1,7 @@
 require_relative "packer"
 require_relative "unpacker"
 
-## FIXME: Edit packer.rb and unpacker.rb as needed to pass this test. 
+## FIXME: Edit packer.rb and unpacker.rb as needed to pass this test.
 # You will need to add an extension type to support symbols.
 #
 input = { :foo => 2, :bar => 4 }
