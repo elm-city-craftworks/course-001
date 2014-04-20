@@ -36,7 +36,7 @@ module Packer
       obj.each_pair.inject([0x80 + obj.size]) { |bytes, (key, val)|
         bytes + pack(key) + pack(val)
       }
-    when *MsgPack::EXTENDED_TYPES.keys # Nice, isn't it?
+    when *MsgPack::EXTENDED_TYPES_STR.keys # Nice, isn't it?
       dump_ext_as_string(obj)
     else
       raise "Unknown type: #{obj.class}"
