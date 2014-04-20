@@ -23,8 +23,11 @@ module Unpacker
       type = bytes.next
       klass = MsgPack::TYPE2EXT[type] or
         raise "Unknown extended type #{type.to_s(16)}"
-      str = unpack_str(size, bytes)
-      MsgPack::EXTENDED_TYPES_STR[klass].call(str)
+      if convert = MsgPack::EXTENDED_TYPES_STR[klass]
+        convert.(unpack_str(size, bytes))
+      else
+        MsgPack::EXTENDED_TYPES_NESTED[klass][:unpack].(unpack(bytes))
+      end
     when 0xd0
       bytes.next - 256
     when 0x80..0x8f

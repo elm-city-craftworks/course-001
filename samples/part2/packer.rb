@@ -37,18 +37,20 @@ module Packer
         bytes + pack(key) + pack(val)
       }
     when *MsgPack::EXTENDED_TYPES_STR.keys # Nice, isn't it?
-      dump_ext_as_string(obj)
+      dump_ext(obj, obj.to_s.bytes)
+    when *MsgPack::EXTENDED_TYPES_NESTED.keys
+      value = MsgPack::EXTENDED_TYPES_NESTED[obj.class][:pack]
+      dump_ext(obj, pack(value.(obj)))
     else
       raise "Unknown type: #{obj.class}"
     end
   end
 
 private
-  def dump_ext_as_string(obj)
-    str = obj.to_s
-    size = str.bytesize
+  def dump_ext(obj, data)
+    size = data.size
     raise "Do not know how to dump #{obj.class} of length #{size}" if size > 0xFF
-    [0xc7, size, MsgPack::EXT2TYPE[obj.class]] + str.bytes
+    [0xc7, size, MsgPack::EXT2TYPE[obj.class]] + data
   end
 end
 
