@@ -17,11 +17,17 @@ module Packer
         [obj]
       when 128...256
         [0xcc, obj]
+      when 256...(1 << 16)
+        [0xcd] + [obj].pack('S>').bytes
+      when (1 << 16)...(1 << 32)
+        [0xce] + [obj].pack('L>').bytes
+      when (1 << 32)...(1 << 64)
+        [0xcf] + [obj].pack('Q>').bytes
       when -31..-1
         [256 + obj]
       when -127..-32
         [0xd0, 256 + obj]
-      end or raise
+      end or raise obj.to_s
     when Float
       [0xcb] + [obj].pack('G').bytes
     when String

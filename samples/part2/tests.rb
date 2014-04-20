@@ -8,7 +8,7 @@ def test(input)
   if input == output
     puts " Round-trip OK"
   else
-    abort "Failed Round-trip\n\n" +
+    abort "\n\nFailed Round-trip\n\n" +
           "After packing and unpacking, got this:\n\n" +
           output.inspect
   end
@@ -44,6 +44,9 @@ test_and_compare(164)
 
 test_and_compare(-42)
 
+test_and_compare(1 << 18)
+test_and_compare(1 << 36)
+
 test(-1..3)
 test(-1...4)
 test("Hello".."TheEnd")
@@ -63,3 +66,6 @@ test(Complex(-2,3))
 
 test(/abc/)
 test(/abc/i)
+
+test(Time.now)
+test(Time.now.utc)

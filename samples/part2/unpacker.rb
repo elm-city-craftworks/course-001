@@ -19,6 +19,12 @@ module Unpacker
       unpack_str(8, bytes).unpack('G')[0]
     when 0xcc
       bytes.next
+    when 0xcd
+      unpack_str(2, bytes).unpack('S>')[0]
+    when 0xce
+      unpack_str(4, bytes).unpack('L>')[0]
+    when 0xcf
+      unpack_str(8, bytes).unpack('Q>')[0]
     when 0xc7 then
       size = bytes.next
       type = bytes.next

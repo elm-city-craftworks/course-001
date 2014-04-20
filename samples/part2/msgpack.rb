@@ -21,6 +21,10 @@ module MsgPack
       pack: -> r { [r.source, r.options] },
       unpack: -> ary { Regexp.new(*ary) }
     },
+    Time => {
+      pack: -> t { t.to_i + t.subsec },
+      unpack: -> r { Time.at(r) }
+    },
     Struct => {
       pack: -> s { s.to_h.merge({ __class__: s.class }) },
       unpack: -> h { h.delete(:__class__).new.tap { |s| h.each_pair { |k,v| s[k] = v } } }
