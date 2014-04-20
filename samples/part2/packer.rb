@@ -30,8 +30,8 @@ module Packer
       [0xa0 + obj.bytesize] + obj.bytes
     when Array
       raise if obj.size > 15
-      obj.inject([0x90 + obj.size]) { |bytes, obj|
-        bytes + pack(obj)
+      obj.inject([0x90 + obj.size]) { |bytes, e|
+        bytes + pack(e)
       }
     when Hash
       raise if obj.size > 15
