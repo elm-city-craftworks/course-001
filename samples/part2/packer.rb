@@ -2,7 +2,26 @@ module Packer
   # This method takes primitive Ruby objects and converts them into
   # the equivalent byte array in MessagePack format.
   def self.pack(obj)
-    [] # FIXME: Your code goes here.
+    case obj
+    when NilClass then [0xc0]
+    when TrueClass then [0xc3]
+    when FalseClass then [0xc2]
+    when Fixnum
+      raise unless obj >= 0 and obj < 0x80
+      [obj]
+    when Float
+      [0xcb] + [obj].pack('G').bytes
+    when String
+      raise if obj.bytesize > 31
+      [0xa0 + obj.bytesize] + obj.bytes
+    when Hash
+      raise if obj.size > 15
+      obj.each_pair.inject([0x80 + obj.size]) { |bytes, (key, val)|
+        bytes + pack(key) + pack(val)
+      }
+    else
+      raise "Unknown type: #{obj.class}"
+    end
   end
 end
 
