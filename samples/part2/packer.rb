@@ -38,7 +38,8 @@ module Packer
         bytes + pack(key) + pack(val)
       }
     when *EXTENDED_TYPES_STR.keys # Nice, isn't it?
-      dump_ext(obj, obj.to_s.bytes)
+      klass = obj.class.ancestors.find { |klass| EXTENDED_TYPES_STR[klass] }
+      dump_ext(obj, obj.to_s.bytes, klass)
     when *EXTENDED_TYPES_NESTED.keys
       klass = obj.class.ancestors.find { |klass| EXTENDED_TYPES_NESTED[klass] }
       value = EXTENDED_TYPES_NESTED[klass][:pack].(obj)
@@ -49,7 +50,7 @@ module Packer
   end
 
 private
-  def dump_ext(obj, data, klass = obj.class)
+  def dump_ext(obj, data, klass)
     size = data.size
     raise "Do not know how to dump #{obj.class} of length #{size}" if size > 0xFF
     [0xc7, size, EXT2TYPE[klass]] + data
