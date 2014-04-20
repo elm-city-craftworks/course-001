@@ -43,3 +43,5 @@ test_and_compare(-6)
 test_and_compare(164)
 
 test_and_compare(-42)
+
+test(Rational(-2,3))
