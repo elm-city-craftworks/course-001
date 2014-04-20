@@ -20,12 +20,12 @@ gradually to encourage better focus.
 
 **Questions/Exercises already released:**
 
-* Encoding and decoding binary files ([PART_2.md][])
+* Encoding and decoding binary files ([Instructions][PART_2.md])
 
 **Not released yet (except reading assignments):**
 
-* Parsing text-based file formats ([[PART_3.md][])
-* Socket programming and Network I/O ([PART_4.md][])
+* Parsing text-based file formats ([Instructions][PART_3.md])
+* Socket programming and Network I/O ([Instructions][PART_4.md])
 
 ### News and Updates
 
