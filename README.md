@@ -17,10 +17,10 @@ gradually to encourage better focus.
 **Questions/Exercises already released:**
 
 * Standard I/O streams and the filesystem ([PART_1.md][])
+* Encoding and decoding binary files ([PART_2.md][])
 
 **Not released yet (except reading assignments):**
 
-* Encoding and decoding binary files ([PART_2.md][])
 * Parsing text-based file formats ([[PART_3.md][])
 * Socket programming and Network I/O ([PART_4.md][])
 
