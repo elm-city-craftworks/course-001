@@ -18,6 +18,8 @@ module Packer
         [0xcc, obj]
       when -31..-1
         [256 + obj]
+      when -127..-32
+        [0xd0, 256 + obj]
       end or raise
     when Bignum
       dump_ext_as_string(obj)

@@ -31,6 +31,8 @@ module Unpacker
       else
         raise "Do not know how to unpack a #{klass}"
       end
+    when 0xd0
+      bytes.next - 256
     when 0x80..0x8f
       (type - 0x80).times.with_object({}) { |_,map|
         map[unpack(bytes)] = unpack(bytes)

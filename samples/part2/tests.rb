@@ -41,3 +41,5 @@ test(bignum)
 test_and_compare(-6)
 
 test_and_compare(164)
+
+test_and_compare(-42)
