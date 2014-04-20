@@ -1,8 +1,3 @@
-> NOTE: For the reference implementation of the RubyLS exercise,
-> see the `rubyls` folder and its `README.md` file.
-
-## Answers to reading questions for Part 1
-
 **Q1: What steps are involved in making a Ruby scripts runnable as a command line utility? (i.e. directly runnable like `rake` or `gem` rather than having to type `ruby my_script.rb`)**
 
 1. Add a shebang line to the top of your script, i.e. `#!/usr/bin/env ruby`
@@ -263,3 +258,4 @@ For more details on all of the above answers, see the "Building Unix-style
 command line applications" article in Practicing Ruby:
 
 https://practicingruby.com/articles/building-unix-style-command-line-applications
+
