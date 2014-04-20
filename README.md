@@ -17,10 +17,10 @@ gradually to encourage better focus.
 **Questions/Exercises already released:**
 
 * Standard I/O streams and the filesystem ([PART_1.md][])
+* Encoding and decoding binary files ([PART_2.md][])
 
 **Not released yet (except reading assignments):**
 
-* Encoding and decoding binary files ([PART_2.md][])
 * Parsing text-based file formats ([[PART_3.md][])
 * Socket programming and Network I/O ([PART_4.md][])
 
@@ -70,7 +70,7 @@ comment on a ticket that is already open. See closed tickets marked
 avoid spoilers unless they are clearly marked.
 
 * Once released, reference solutions will be made available on the 
-**solved** branch of this repository.
+[solutions](https://github.com/elm-city-craftworks/course-001/tree/solutions) branch of this repository.
 
 * You can also use the Practicing Ruby chatroom to discuss this course.
 To access it, log into practicingruby.com and click "chat" in the navbar.
