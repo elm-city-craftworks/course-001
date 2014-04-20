@@ -45,3 +45,6 @@ test_and_compare(164)
 test_and_compare(-42)
 
 test(Rational(-2,3))
+
+some_class = Fixnum
+test(some_class)
