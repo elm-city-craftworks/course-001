@@ -27,6 +27,10 @@ module Unpacker
         (type - 0x80).times.with_object({}) { |_,map|
           map[unpack(bytes)] = unpack(bytes)
         }
+      when 0x90..0x9f
+        (type - 0x90).times.with_object([]) { |_,ary|
+          ary << unpack(bytes)
+        }
       else
         raise "Unknown msgpack type: #{type.to_s(16)}"
       end

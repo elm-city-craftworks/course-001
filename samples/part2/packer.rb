@@ -20,6 +20,11 @@ module Packer
     when String
       raise if obj.bytesize > 31
       [0xa0 + obj.bytesize] + obj.bytes
+    when Array
+      raise if obj.size > 15
+      obj.inject([0x90 + obj.size]) { |bytes, obj|
+        bytes + pack(obj)
+      }
     when Hash
       raise if obj.size > 15
       obj.each_pair.inject([0x80 + obj.size]) { |bytes, (key, val)|
