@@ -16,9 +16,7 @@ module Packer
     when Float
       [0xcb] + [obj].pack('G').bytes
     when Symbol
-      size = obj.to_s.bytesize
-      raise "Do not know how to dump Symbol of length #{size}" if size > 0xFF
-      [0xc7, size, MsgPack::EXT2TYPE[Symbol]] + obj.to_s.bytes
+      dump_ext_as_string(obj)
     when String
       raise if obj.bytesize > 31
       [0xa0 + obj.bytesize] + obj.bytes
@@ -35,6 +33,14 @@ module Packer
     else
       raise "Unknown type: #{obj.class}"
     end
+  end
+
+private
+  def dump_ext_as_string(obj)
+    str = obj.to_s
+    size = str.bytesize
+    raise "Do not know how to dump #{obj.class} of length #{size}" if size > 0xFF
+    [0xc7, size, MsgPack::EXT2TYPE[obj.class]] + str.bytes
   end
 end
 

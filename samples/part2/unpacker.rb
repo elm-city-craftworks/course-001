@@ -19,10 +19,13 @@ module Unpacker
     when 0xc7 then
       size = bytes.next
       type = bytes.next
-      if MsgPack::TYPE2EXT[type] == Symbol
-        unpack_str(size, bytes).to_sym
-      else
+      klass = MsgPack::TYPE2EXT[type] or
         raise "Unknown extended type #{type.to_s(16)}"
+      str = unpack_str(size, bytes)
+      if klass == Symbol
+        str.to_sym
+      else
+        raise "Do not know how to unpack a #{klass}"
       end
     when 0x80..0x8f
       (type - 0x80).times.with_object({}) { |_,map|
