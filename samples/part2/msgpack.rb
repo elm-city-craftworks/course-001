@@ -1,12 +1,19 @@
 require 'date'
 
 module MsgPack
-  EXTENDED_TYPES_STR = { # class => load from string (by #to_s)
-    Symbol => -> str { str.to_sym },
-    Bignum => -> str { Integer(str) },
-    Module  => -> str { str.split('::').inject(Object, :const_get) },
-  }
-  EXTENDED_TYPES_ARY = {
+  EXTENDED_TYPES = {
+    Symbol => {
+      dump: %i[to_s],
+      load: -> s { s.to_sym }
+    },
+    Bignum => {
+      dump: %i[to_s],
+      load: -> s { Integer(s) }
+    },
+    Module => {
+      dump: %i[to_s],
+      load: -> s { s.split('::').inject(Object, :const_get) }
+    },
     Range => {
       dump: %i[begin end exclude_end?],
       load: -> b,e,x { Range.new(b,e,x) }
@@ -48,6 +55,6 @@ module MsgPack
       load: -> o,n { o.instance_method(n) }
     },
   }
-  TYPE2EXT = EXTENDED_TYPES_STR.keys + EXTENDED_TYPES_ARY.keys
+  TYPE2EXT = EXTENDED_TYPES.keys
   EXT2TYPE = Hash[TYPE2EXT.each_with_index.to_a]
 end

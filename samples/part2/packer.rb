@@ -43,12 +43,9 @@ module Packer
       obj.each_pair.inject([0x80 + obj.size]) { |bytes, (key, val)|
         bytes + pack(key) + pack(val)
       }
-    when *EXTENDED_TYPES_STR.keys # Nice, isn't it?
-      klass = obj.class.ancestors.find { |klass| EXTENDED_TYPES_STR[klass] }
-      dump_ext(obj, obj.to_s.bytes, klass)
-    when *EXTENDED_TYPES_ARY.keys
-      klass = obj.class.ancestors.find { |klass| EXTENDED_TYPES_ARY[klass] }
-      ary = EXTENDED_TYPES_ARY[klass][:dump].map { |e| obj.send(e) }
+    when *EXTENDED_TYPES.keys # Nice, isn't it?
+      klass = obj.class.ancestors.find { |klass| EXTENDED_TYPES[klass] }
+      ary = EXTENDED_TYPES[klass][:dump].map { |e| obj.send(e) }
       dump_ext(obj, ary.reduce([]) { |bytes,e| bytes + pack(e) }, klass)
     else
       raise "Unknown type: #{obj.class}"
