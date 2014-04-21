@@ -46,10 +46,10 @@ module Packer
     when *EXTENDED_TYPES_STR.keys # Nice, isn't it?
       klass = obj.class.ancestors.find { |klass| EXTENDED_TYPES_STR[klass] }
       dump_ext(obj, obj.to_s.bytes, klass)
-    when *EXTENDED_TYPES_NESTED.keys
-      klass = obj.class.ancestors.find { |klass| EXTENDED_TYPES_NESTED[klass] }
-      value = EXTENDED_TYPES_NESTED[klass][:pack].(obj)
-      dump_ext(obj, pack(value), klass)
+    when *EXTENDED_TYPES_ARY.keys
+      klass = obj.class.ancestors.find { |klass| EXTENDED_TYPES_ARY[klass] }
+      value = EXTENDED_TYPES_ARY[klass][:pack].(obj)
+      dump_ext(obj, value.reduce([]) { |bytes,e| bytes + pack(e) }, klass)
     else
       raise "Unknown type: #{obj.class}"
     end
