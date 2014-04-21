@@ -24,8 +24,8 @@ module MsgPack
       unpack: -> ary { Regexp.new(*ary) }
     },
     Time => {
-      pack: -> t { t.to_i + t.subsec },
-      unpack: -> r { Time.at(r) }
+      pack: -> t { [t.to_i + t.subsec, t.utc_offset] },
+      unpack: -> ((t,o)) { Time.at(t).getlocal(o) }
     },
     Date => {
       pack: -> d { [d.jd, d.start] },

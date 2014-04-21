@@ -1,8 +1,9 @@
 require_relative "packer"
 require_relative "unpacker"
 
-EQ = Hash.new { |h,k| -> a, b { a == b} }
+EQ = Hash.new { |h,k| -> a, b { a == b } }
 
+EQ[Time] = -> a, b { a == b and a.utc_offset == b.utc_offset }
 EQ[Date] = -> a, b { a == b and a.start == b.start }
 EQ[DateTime] = -> a, b { EQ[Date][a,b] and a.offset == b.offset }
 
