@@ -39,6 +39,14 @@ module MsgPack
       pack: -> s { s.to_h.merge({ __class__: s.class }) },
       unpack: -> h { h.delete(:__class__).new.tap { |s| h.each_pair { |k,v| s[k] = v } } }
     },
+    Method => {
+      pack: -> m { [m.receiver, m.name] },
+      unpack: -> ((r,n)) { r.method(n) }
+    },
+    UnboundMethod => {
+      pack: -> m { [m.owner, m.name] },
+      unpack: -> ((o,n)) { o.instance_method(n) }
+    },
   }
   TYPE2EXT = EXTENDED_TYPES_STR.keys + EXTENDED_TYPES_NESTED.keys
   EXT2TYPE = Hash[TYPE2EXT.each_with_index.to_a]

@@ -82,3 +82,7 @@ test(Date.today.new_start(Date::ENGLAND))
 
 test(DateTime.now)
 test(DateTime.now(Date::ENGLAND))
+
+test(3.method(:+))
+
+test(String.instance_method(:chomp))
