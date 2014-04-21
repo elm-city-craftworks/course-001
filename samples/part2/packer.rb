@@ -31,8 +31,14 @@ module Packer
     when Float
       [0xcb] + [obj].pack('G').bytes
     when String
-      raise if obj.bytesize > 31
-      [0xa0 + obj.bytesize] + obj.bytes
+      case obj.encoding
+      when Encoding::BINARY
+        raise if obj.bytesize > 256
+        [0xc4, obj.bytesize] + obj.bytes
+      else
+        raise if obj.bytesize > 31
+        [0xa0 + obj.bytesize] + obj.bytes
+      end
     when Array
       raise if obj.size > 15
       obj.inject([0x90 + obj.size]) { |bytes, e|

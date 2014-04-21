@@ -19,6 +19,8 @@ module Unpacker
       unpack_str(8, bytes).unpack('G')[0]
     when 0xcc
       bytes.next
+    when 0xc4
+      unpack_str(bytes.next, bytes)
     when 0xcd
       unpack_str(2, bytes).unpack('S>')[0]
     when 0xce

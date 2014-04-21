@@ -3,6 +3,7 @@ require_relative "unpacker"
 
 EQ = Hash.new { |h,k| -> a, b { a == b } }
 
+EQ[String] = -> a, b { a == b and a.encoding == b.encoding }
 EQ[Time] = -> a, b { a == b and a.utc_offset == b.utc_offset }
 EQ[Date] = -> a, b { a == b and a.start == b.start }
 EQ[DateTime] = -> a, b { EQ[Date][a,b] and a.offset == b.offset }
@@ -40,6 +41,8 @@ test_and_compare({ "a" => 1, "b" => true, "c" => false, "d" => nil, "egg" => 1.3
 test({ :foo => 2, :bar => 4 })
 
 test([1, "a", 3.14])
+
+test("hello".b)
 
 bignum = 1 << 65
 test(bignum)
