@@ -33,7 +33,7 @@ module Unpacker
       if convert = EXTENDED_TYPES_STR[klass]
         convert.(unpack_str(size, bytes))
       else
-        load = EXTENDED_TYPES_ARY[klass][:unpack]
+        load = EXTENDED_TYPES_ARY[klass][:load]
         load.(*load.arity.times.map { unpack(bytes) })
       end
     when 0xd0
