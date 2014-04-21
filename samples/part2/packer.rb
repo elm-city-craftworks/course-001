@@ -32,7 +32,7 @@ module Packer
       when -(1 << 63)...-(1 << 31)
         [0xd3] + [obj].pack('q>').bytes
       else # Bignum
-        dump_ext(obj, obj.to_s.bytes, obj.class)
+        dump_ext(Bignum, obj.to_s.bytes)
       end
     when Float
       [0xcb] + [obj].pack('G').bytes
@@ -45,7 +45,7 @@ module Packer
         raise if obj.bytesize > 31
         [0xa0 + obj.bytesize] + obj.bytes
       else
-        dump_ext(obj, pack(obj.encoding) + pack(obj.b), String)
+        dump_ext(String, pack(obj.encoding) + pack(obj.b))
       end
     when Array
       raise if obj.size > 15
@@ -61,16 +61,16 @@ module Packer
       klass = obj.class.ancestors.find { |klass| EXTENDED_TYPES[klass] }
       ary = (dump = EXTENDED_TYPES[klass][:dump]).map { |e| obj.send(e) }
       bytes = (dump == [:to_s]) ? ary[0].bytes : ary.map { |e| pack(e) }.reduce([], :+)
-      dump_ext(obj, bytes, klass)
+      dump_ext(klass, bytes)
     else
       raise "Unknown type: #{obj.class}"
     end
   end
 
 private
-  def dump_ext(obj, data, klass)
+  def dump_ext(klass, data)
     size = data.size
-    raise "Do not know how to dump #{obj.class} of length #{size}" if size > 0xFF
+    raise "Do not know how to dump #{klass} of length #{size}" if size > 0xFF
     if i = [1, 2, 4, 8, 16].index(size)
       [0xd4+i, EXT2TYPE[klass]] + data
     else
