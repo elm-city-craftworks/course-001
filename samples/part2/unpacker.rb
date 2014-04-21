@@ -31,7 +31,11 @@ module Unpacker
       klass = TYPE2EXT[type] or
         raise "Unknown extended type #{type.to_s(16)}"
       load = EXTENDED_TYPES[klass][:load]
-      load.(*load.arity.times.map { unpack(bytes) })
+      if EXTENDED_TYPES[klass][:dump] == [:to_s]
+        load.(unpack_str(size, bytes))
+      else
+        load.(*load.arity.times.map { unpack(bytes) })
+      end
     when 0xd0
       bytes.next - 256
     when 0x80..0x8f

@@ -45,8 +45,9 @@ module Packer
       }
     when *EXTENDED_TYPES.keys # Nice, isn't it?
       klass = obj.class.ancestors.find { |klass| EXTENDED_TYPES[klass] }
-      ary = EXTENDED_TYPES[klass][:dump].map { |e| obj.send(e) }
-      dump_ext(obj, ary.reduce([]) { |bytes,e| bytes + pack(e) }, klass)
+      ary = (dump = EXTENDED_TYPES[klass][:dump]).map { |e| obj.send(e) }
+      bytes = (dump == [:to_s]) ? ary[0].bytes : ary.map { |e| pack(e) }.reduce([], :+)
+      dump_ext(obj, bytes, klass)
     else
       raise "Unknown type: #{obj.class}"
     end
