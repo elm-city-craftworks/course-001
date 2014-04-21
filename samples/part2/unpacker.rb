@@ -11,7 +11,7 @@ module Unpacker
     case type
     when 0x00..0x7f then type
     when 0xa0..0xbf
-      unpack_str(type - 0xa0, bytes).force_encoding('UTF-8')
+      unpack_str(type - 0xa0, bytes).force_encoding(Encoding::UTF_8)
     when 0xc0 then nil
     when 0xc2 then false
     when 0xc3 then true

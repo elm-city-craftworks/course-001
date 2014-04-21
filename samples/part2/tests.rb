@@ -42,7 +42,10 @@ test({ :foo => 2, :bar => 4 })
 
 test([1, "a", 3.14])
 
+test("hello")
 test("hello".b)
+test("hello".encode(Encoding::UTF_8))
+test("hello".encode(Encoding::ISO_8859_1))
 
 bignum = 1 << 65
 test(bignum)

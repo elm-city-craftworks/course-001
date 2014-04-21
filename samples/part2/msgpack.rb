@@ -18,6 +18,10 @@ module MsgPack
       dump: %i[to_s],
       load: -> s { Encoding.find(s) }
     },
+    String => {
+      dump: %i[encoding b],
+      load: -> e,s { s.force_encoding(e) }
+    },
     Range => {
       dump: %i[begin end exclude_end?],
       load: -> b,e,x { Range.new(b,e,x) }

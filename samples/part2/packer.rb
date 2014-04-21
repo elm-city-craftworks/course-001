@@ -35,9 +35,11 @@ module Packer
       when Encoding::BINARY
         raise if obj.bytesize > 256
         [0xc4, obj.bytesize] + obj.bytes
-      else
+      when Encoding::US_ASCII, Encoding::UTF_8
         raise if obj.bytesize > 31
         [0xa0 + obj.bytesize] + obj.bytes
+      else
+        dump_ext(obj, pack(obj.encoding) + pack(obj.b), String)
       end
     when Array
       raise if obj.size > 15
