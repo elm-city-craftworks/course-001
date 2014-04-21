@@ -34,8 +34,12 @@ module Packer
         raise if obj.bytesize > 256
         [0xc4, obj.bytesize] + obj.bytes
       when Encoding::US_ASCII, Encoding::UTF_8
-        raise if obj.bytesize > 31
-        [0xa0 + obj.bytesize] + obj.bytes
+        case obj.bytesize
+        when 0...32
+          [0xa0 + obj.bytesize] + obj.bytes
+        when 32...256
+          [0xd9, obj.bytesize] + obj.bytes
+        end or raise obj.bytesize.to_s
       else
         dump_ext(String, pack(obj.encoding) + pack(obj.b))
       end

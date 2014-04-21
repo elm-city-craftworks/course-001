@@ -35,6 +35,8 @@ module Unpacker
       bytes.unpack(INT_PACK_DIRECTIVES[type-0xd0])[0]
     when 0xd4..0xd8
       load_ext(1 << (type - 0xd4), bytes)
+    when 0xd9
+      unpack_str(bytes.next, bytes).force_encoding(Encoding::UTF_8)
     when 0xe0..0xff
       type - 256
     else
