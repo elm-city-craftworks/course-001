@@ -21,10 +21,6 @@ module Unpacker
     when 0xc0 then nil
     when 0xc2 then false
     when 0xc3 then true
-    when 0xcb
-      unpack_str(8, bytes).unpack('G')[0]
-    when 0xcc
-      bytes.next
     when 0xc4
       unpack_str(bytes.next, bytes)
     when 0xc7, 0xd4..0xd8
@@ -38,20 +34,14 @@ module Unpacker
       else
         load.(*load.arity.times.map { unpack(bytes) })
       end
-    when 0xcd
-      unpack_str(2, bytes).unpack('S>')[0]
-    when 0xce
-      unpack_str(4, bytes).unpack('L>')[0]
-    when 0xcf
-      unpack_str(8, bytes).unpack('Q>')[0]
-    when 0xd0
-      bytes.next - 256
-    when 0xd1
-      unpack_str(2, bytes).unpack('s>')[0]
-    when 0xd2
-      unpack_str(4, bytes).unpack('l>')[0]
-    when 0xd3
-      unpack_str(8, bytes).unpack('q>')[0]
+    when 0xcb
+      unpack_str(8, bytes).unpack('G')[0]
+    when 0xcc..0xcf
+      bytes = unpack_str(1 << (type-0xcc), bytes)
+      bytes.unpack(UINT_PACK_DIRECTIVES[type-0xcc])[0]
+    when 0xd0..0xd3
+      bytes = unpack_str(1 << (type-0xd0), bytes)
+      bytes.unpack(INT_PACK_DIRECTIVES[type-0xd0])[0]
     when 0xe0..0xff
       type - 256
     else

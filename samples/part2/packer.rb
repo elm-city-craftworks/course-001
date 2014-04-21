@@ -18,7 +18,7 @@ module Packer
       when 128...(1 << 64)
         n = 0
         n += 1 while obj >= (1 << (8 * (1 << n)))
-        [0xcc+n] + [obj].pack(INT_PACK_DIRECTIVES[n].upcase).bytes
+        [0xcc+n] + [obj].pack(UINT_PACK_DIRECTIVES[n].upcase).bytes
       when -(1 << 63)...-32
         n = 0
         n += 1 while obj < -(1 << (8 * (1 << n) - 1))
