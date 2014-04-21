@@ -8,6 +8,10 @@ EQ[Time] = -> a, b { a == b and a.utc_offset == b.utc_offset }
 EQ[Date] = -> a, b { a == b and a.start == b.start }
 EQ[DateTime] = -> a, b { EQ[Date][a,b] and a.offset == b.offset }
 
+def hexdump(bytes)
+  "[" << bytes.map { |b| "%02x" % b }.join(" ") << "]"
+end
+
 def test(input)
   output = Unpacker.unpack(Packer.pack(input).each)
 
@@ -27,10 +31,10 @@ def test_and_compare(input)
 
   msgpack = input.to_msgpack.bytes
   unless msgpack == packed
-    raise "bad msgpack format, expected:\n" +
-          msgpack.inspect + "\n" +
+    raise "bad msgpack format for #{input.inspect}, expected:\n" +
+          hexdump(msgpack) + "\n" +
           "and not:\n" +
-          packed.inspect
+          hexdump(packed)
   end
 
   test(input)
