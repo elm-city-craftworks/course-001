@@ -15,7 +15,7 @@ def test(input)
   if EQ[input.class].call(input, output)
     puts " Round-trip OK"
   else
-    abort "\n\nFailed Round-trip\n\n" +
+    raise "\n\nFailed Round-trip\n\n" +
           "After packing and unpacking, got this:\n\n" +
           output.inspect
   end
@@ -27,7 +27,7 @@ def test_and_compare(input)
 
   msgpack = input.to_msgpack.bytes
   unless msgpack == packed
-    abort "bad msgpack format, expected:\n" +
+    raise "bad msgpack format, expected:\n" +
           msgpack.inspect + "\n" +
           "and not:\n" +
           packed.inspect
@@ -89,3 +89,5 @@ test(DateTime.now(Date::ENGLAND))
 test(3.method(:+))
 
 test(String.instance_method(:chomp))
+
+test(Encoding::ISO_8859_1)

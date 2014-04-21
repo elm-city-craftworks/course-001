@@ -14,6 +14,10 @@ module MsgPack
       dump: %i[to_s],
       load: -> s { s.split('::').inject(Object, :const_get) }
     },
+    Encoding => {
+      dump: %i[to_s],
+      load: -> s { Encoding.find(s) }
+    },
     Range => {
       dump: %i[begin end exclude_end?],
       load: -> b,e,x { Range.new(b,e,x) }
