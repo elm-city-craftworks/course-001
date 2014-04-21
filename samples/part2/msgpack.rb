@@ -67,4 +67,14 @@ module MsgPack
   EXT2TYPE = Hash[TYPE2EXT.each_with_index.to_a]
   INT_PACK_DIRECTIVES = %w[c s> l> q>]
   UINT_PACK_DIRECTIVES = INT_PACK_DIRECTIVES.map(&:upcase)
+
+  def self.dump(obj)
+    require_relative 'packer'
+    Packer.pack(obj)
+  end
+
+  def self.load(bytes)
+    require_relative 'unpacker'
+    Unpacker.unpack(bytes.each)
+  end
 end
