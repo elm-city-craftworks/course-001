@@ -57,7 +57,11 @@ private
   def dump_ext(obj, data, klass)
     size = data.size
     raise "Do not know how to dump #{obj.class} of length #{size}" if size > 0xFF
-    [0xc7, size, EXT2TYPE[klass]] + data
+    if i = [1, 2, 4, 8, 16].index(size)
+      [0xd4+i, EXT2TYPE[klass]] + data
+    else
+      [0xc7, size, EXT2TYPE[klass]] + data
+    end
   end
 end
 

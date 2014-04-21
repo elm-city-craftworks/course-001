@@ -25,8 +25,8 @@ module Unpacker
       unpack_str(4, bytes).unpack('L>')[0]
     when 0xcf
       unpack_str(8, bytes).unpack('Q>')[0]
-    when 0xc7 then
-      size = bytes.next
+    when 0xd4..0xd8, 0xc7 then
+      size = type == 0xc7 ? bytes.next : (1 << type - 0xd4)
       type = bytes.next
       klass = TYPE2EXT[type] or
         raise "Unknown extended type #{type.to_s(16)}"
