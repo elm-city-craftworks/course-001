@@ -9,7 +9,7 @@ module Packer
     when NilClass then [0xc0]
     when TrueClass then [0xc3]
     when FalseClass then [0xc2]
-    when Fixnum
+    when Fixnum, Bignum
       case obj
       when 0...128
         [obj]
@@ -21,11 +21,19 @@ module Packer
         [0xce] + [obj].pack('L>').bytes
       when (1 << 32)...(1 << 64)
         [0xcf] + [obj].pack('Q>').bytes
-      when -31..-1
+      when -32..-1
         [256 + obj]
-      when -127..-32
+      when -128...-32
         [0xd0, 256 + obj]
-      end or raise obj.to_s
+      when -(1 << 15)...-128
+        [0xd1] + [obj].pack('s>').bytes
+      when -(1 << 31)...-(1 << 15)
+        [0xd2] + [obj].pack('l>').bytes
+      when -(1 << 63)...-(1 << 31)
+        [0xd3] + [obj].pack('q>').bytes
+      else # Bignum
+        dump_ext(obj, obj.to_s.bytes, obj.class)
+      end
     when Float
       [0xcb] + [obj].pack('G').bytes
     when String

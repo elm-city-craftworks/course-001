@@ -46,6 +46,12 @@ module Unpacker
       unpack_str(8, bytes).unpack('Q>')[0]
     when 0xd0
       bytes.next - 256
+    when 0xd1
+      unpack_str(2, bytes).unpack('s>')[0]
+    when 0xd2
+      unpack_str(4, bytes).unpack('l>')[0]
+    when 0xd3
+      unpack_str(8, bytes).unpack('q>')[0]
     when 0xe0..0xff
       type - 256
     else

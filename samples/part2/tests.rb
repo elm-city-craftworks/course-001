@@ -63,6 +63,18 @@ test_and_compare(-42)
 test_and_compare(1 << 18)
 test_and_compare(1 << 36)
 
+(0..65).each { |i|
+  n = (1 << i)
+
+  [-n-1, -n, -n+1, n-1, n, n+1].each do |int|
+    if (-(1 << 63)...(1 << 64)).include? int
+      test_and_compare int
+    else
+      test int
+    end
+  end
+}
+
 test(-1..3)
 test(-1...4)
 test("Hello".."TheEnd")
