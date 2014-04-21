@@ -36,8 +36,8 @@ module MsgPack
       unpack: -> ary { DateTime.jd(*ary) }
     },
     Struct => {
-      pack: -> s { s.to_h.merge({ __class__: s.class }) },
-      unpack: -> h { h.delete(:__class__).new.tap { |s| h.each_pair { |k,v| s[k] = v } } }
+      pack: -> s { [s.class, s.to_h] },
+      unpack: -> ((c,h)) { c.new.tap { |s| h.each_pair { |k,v| s[k] = v } } }
     },
     Method => {
       pack: -> m { [m.receiver, m.name] },
