@@ -23,17 +23,8 @@ module Unpacker
     when 0xc3 then true
     when 0xc4
       unpack_str(bytes.next, bytes)
-    when 0xc7, 0xd4..0xd8
-      size = type == 0xc7 ? bytes.next : (1 << type - 0xd4)
-      type = bytes.next
-      klass = TYPE2EXT[type] or
-        raise "Unknown extended type #{type.to_s(16)}"
-      load = EXTENDED_TYPES[klass][:load]
-      if EXTENDED_TYPES[klass][:dump] == [:to_s]
-        load.(unpack_str(size, bytes))
-      else
-        load.(*load.arity.times.map { unpack(bytes) })
-      end
+    when 0xc7
+      load_ext(bytes.next, bytes)
     when 0xcb
       unpack_str(8, bytes).unpack('G')[0]
     when 0xcc..0xcf
@@ -42,6 +33,8 @@ module Unpacker
     when 0xd0..0xd3
       bytes = unpack_str(1 << (type-0xd0), bytes)
       bytes.unpack(INT_PACK_DIRECTIVES[type-0xd0])[0]
+    when 0xd4..0xd8
+      load_ext(1 << (type - 0xd4), bytes)
     when 0xe0..0xff
       type - 256
     else
@@ -54,5 +47,18 @@ private
     bytesize.times.with_object("".b) { |_,str|
       str << bytes.next
     }
+  end
+
+  def load_ext(size, bytes)
+    type = bytes.next
+    unless klass = TYPE2EXT[type]
+      raise "Unknown extended type #{"%02x" % type}"
+    end
+    load = EXTENDED_TYPES[klass][:load]
+    if EXTENDED_TYPES[klass][:dump] == [:to_s]
+      load.(unpack_str(size, bytes))
+    else
+      load.(*load.arity.times.map { unpack(bytes) })
+    end
   end
 end
