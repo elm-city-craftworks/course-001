@@ -13,24 +13,16 @@ module Packer
       case obj
       when 0...128
         [obj]
-      when 128...256
-        [0xcc, obj]
-      when 256...(1 << 16)
-        [0xcd] + [obj].pack('S>').bytes
-      when (1 << 16)...(1 << 32)
-        [0xce] + [obj].pack('L>').bytes
-      when (1 << 32)...(1 << 64)
-        [0xcf] + [obj].pack('Q>').bytes
       when -32..-1
         [256 + obj]
-      when -128...-32
-        [0xd0, 256 + obj]
-      when -(1 << 15)...-128
-        [0xd1] + [obj].pack('s>').bytes
-      when -(1 << 31)...-(1 << 15)
-        [0xd2] + [obj].pack('l>').bytes
-      when -(1 << 63)...-(1 << 31)
-        [0xd3] + [obj].pack('q>').bytes
+      when 128...(1 << 64)
+        n = 0
+        n += 1 while obj >= (1 << (8 * (1 << n)))
+        [0xcc+n] + [obj].pack(INT_PACK_DIRECTIVES[n].upcase).bytes
+      when -(1 << 63)...-32
+        n = 0
+        n += 1 while obj < -(1 << (8 * (1 << n) - 1))
+        [0xd0+n] + [obj].pack(INT_PACK_DIRECTIVES[n]).bytes
       else # Bignum
         dump_ext(Bignum, obj.to_s.bytes)
       end

@@ -65,4 +65,5 @@ module MsgPack
   }
   TYPE2EXT = EXTENDED_TYPES.keys
   EXT2TYPE = Hash[TYPE2EXT.each_with_index.to_a]
+  INT_PACK_DIRECTIVES = %w[c s> l> q>]
 end
