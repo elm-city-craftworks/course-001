@@ -48,7 +48,7 @@ module Packer
       dump_ext(obj, obj.to_s.bytes, klass)
     when *EXTENDED_TYPES_ARY.keys
       klass = obj.class.ancestors.find { |klass| EXTENDED_TYPES_ARY[klass] }
-      ary = EXTENDED_TYPES_ARY[klass][:dump].(obj)
+      ary = EXTENDED_TYPES_ARY[klass][:dump].map { |e| obj.send(e) }
       dump_ext(obj, ary.reduce([]) { |bytes,e| bytes + pack(e) }, klass)
     else
       raise "Unknown type: #{obj.class}"

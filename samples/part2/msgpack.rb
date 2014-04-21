@@ -8,43 +8,43 @@ module MsgPack
   }
   EXTENDED_TYPES_ARY = {
     Range => {
-      dump: -> r { [r.begin, r.end, r.exclude_end?] },
+      dump: %i[begin end exclude_end?],
       load: -> b,e,x { Range.new(b,e,x) }
     },
     Rational => {
-      dump: -> r { [r.numerator, r.denominator] },
+      dump: %i[numerator denominator],
       load: -> n,d { Rational(n,d) }
     },
     Complex => {
-      dump: -> c{ [c.real, c.imag] },
+      dump: %i[real imag],
       load: -> r,i { Complex(r,i) }
     },
     Regexp => {
-      dump: -> r { [r.source, r.options] },
+      dump: %i[source options],
       load: -> s,o { Regexp.new(s,o) }
     },
     Time => {
-      dump: -> t { [t.to_i + t.subsec, t.utc_offset] },
-      load: -> t,o { Time.at(t).getlocal(o) }
+      dump: %i[to_i subsec utc_offset],
+      load: -> t,s,o { Time.at(t+s).getlocal(o) }
     },
     Date => {
-      dump: -> d { [d.jd, d.start] },
+      dump: %i[jd start],
       load: -> j,s { Date.jd(j,s) }
     },
     DateTime => {
-      dump: -> d { [d.jd, d.hour, d.min, d.sec + d.sec_fraction, d.offset, d.start] },
-      load: -> j,h,m,sec,o,s { DateTime.jd(j,h,m,sec,o,s) }
+      dump: %i[jd hour min sec sec_fraction offset start],
+      load: -> j,h,m,sec,f,o,s { DateTime.jd(j,h,m,sec+f,o,s) }
     },
     Struct => {
-      dump: -> s { [s.class, s.to_h] },
+      dump: %i[class to_h],
       load: -> c,h { c.new.tap { |s| h.each_pair { |k,v| s[k] = v } } }
     },
     Method => {
-      dump: -> m { [m.receiver, m.name] },
+      dump: %i[receiver name],
       load: -> r,n { r.method(n) }
     },
     UnboundMethod => {
-      dump: -> m { [m.owner, m.name] },
+      dump: %i[owner name],
       load: -> o,n { o.instance_method(n) }
     },
   }
