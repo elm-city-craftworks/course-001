@@ -61,6 +61,7 @@ output into a text file for future reference.
 
 ```bash
 $ ls
+$ ls foo
 $ ls foo/*.txt
 $ ls -l
 $ ls -a
@@ -84,10 +85,23 @@ Next step: add a test for ruby-ls foo/*.txt
 **STEP 3:** Now replace the `ruby-ls` script with a Ruby-based implementation 
 that passes the first test.
 
+To complete this step, you will probably need to take a closer look at how `ls` behaves
+when it is being used directly vs. how it behaves when it is run in a subshell
+or as part of a command pipeline. The output format is actually simplified in
+the latter case, with each entry being listed on its own line.
+
+To see how this works, run each of commands listed in STEP 1, but pipe the output
+to the cat utility, i.e. instead of typing `ls`, type `ls | cat`. It's
+this behavior you will need to clone to get your `ruby-ls` program 
+working correctly -- the screen output for human consumption is optional.
+
 **STEP 4:** Work your way through implementing some or all of the other use cases
 listed in step 1. Start by adding an acceptance test, then implement
 the correct behavior in the `ruby-ls` script. For ideas on how to write your tests, see
 the [RCat acceptance tests](https://gist.github.com/sandal/1293709) from the assigned article.
+
+Remember that you'll want to emulate the machine readable output of `ls` rather
+than just the console-based output.
 
 **STEP 5:** If you didn't already check for exit codes for successful and unsuccessful
 uses of the `ruby-ls` command, add a test for them now and then implement

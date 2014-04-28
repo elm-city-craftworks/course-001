@@ -14,15 +14,24 @@ All of the reading assignments have been made available from the first day of
 the course, but the questions, exercises, and solutions will be released
 gradually to encourage better focus.
 
+**Solutions already released:**
+
+* Standard I/O streams and the filesystem ([Instructions][PART_1.md], [Solutions][PART_1_SOLUTIONS])
+
 **Questions/Exercises already released:**
 
-* Standard I/O streams and the filesystem ([PART_1.md][])
+* Encoding and decoding binary files ([Instructions][PART_2.md])
 
 **Not released yet (except reading assignments):**
 
-* Encoding and decoding binary files ([PART_2.md][])
-* Parsing text-based file formats ([[PART_3.md][])
-* Socket programming and Network I/O ([PART_4.md][])
+* Parsing text-based file formats ([Instructions][PART_3.md])
+* Socket programming and Network I/O ([Instructions][PART_4.md])
+
+### News and Updates
+
+Practicing Ruby subscribers will be emailed whenever new content is released.
+For day-to-day updates to the course materials, including revisions, see the
+[CHANGELOG.md][] file.
 
 ### Schedule
 
@@ -64,13 +73,16 @@ comment on a ticket that is already open. See closed tickets marked
 avoid spoilers unless they are clearly marked.
 
 * Once released, reference solutions will be made available on the 
-**solved** branch of this repository.
+[solutions](https://github.com/elm-city-craftworks/course-001/tree/solutions) branch of this repository.
 
 * You can also use the Practicing Ruby chatroom to discuss this course.
 To access it, log into practicingruby.com and click "chat" in the navbar.
 
 
 [PART_1.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_1.md
+[PART_1_SOLUTIONS]: https://github.com/elm-city-craftworks/course-001/tree/solutions/part1
 [PART_2.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_2.md
 [PART_3.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_3.md
 [PART_4.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_4.md
+[CHANGELOG.md]: https://github.com/elm-city-craftworks/course-001/blob/master/CHANGELOG.md
+

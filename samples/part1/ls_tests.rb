@@ -41,5 +41,11 @@ compare("missingdir"   , "Test 7")
 compare("-Z"           , "Test 8")
 compare("foo"          , "Test 9")
 
+abort "Next step: add a test for ruby-ls foo"
+
+puts "Test 9: OK"
+
+############################################################################
+
 puts "You passed the tests, yay!"
 
