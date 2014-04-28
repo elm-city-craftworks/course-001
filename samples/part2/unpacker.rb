@@ -5,67 +5,71 @@ module Unpacker
     end
 
     def unpack
-      type_byte = @bytes.peek
       case
-      when (type_byte & 0xcb) == 0xcb then unpack_float64
-      when (type_byte & 0xc3) == 0xc3 then unpack_bool(true)
-      when (type_byte & 0xc2) == 0xc2 then unpack_bool(false)
-      when (type_byte & 0xc0) == 0xc0 then unpack_nil
-      when (type_byte & 0xa0) == 0xa0 then unpack_fixstr
-      when (type_byte & 0x80) == 0x80 then unpack_fixmap
-      when type_byte < 0x80 then unpack_positive_fixint
-      else raise "Unknown type %.2x" % type_byte
+      when is_type?(0xcb) then unpack_float64
+      when is_type?(0xc3) then unpack_simple(true)
+      when is_type?(0xc2) then unpack_simple(false)
+      when is_type?(0xc0) then unpack_simple(nil)
+      when is_type?(0xa0) then unpack_fixstr
+      when is_type?(0x80) then unpack_fixmap
+      else unpack_positive_fixint
       end
     end
 
     private
+    def is_type?(type_byte)
+      (@bytes.peek & type_byte) == type_byte
+    end
+
+    def read_bytes(num, &block)
+      "".tap { |s|
+        num.times do
+          byte = next_byte
+          s << byte
+          block.call(byte) if block
+        end
+      }
+    end
+
+    def next_byte
+      @bytes.next
+    end
 
     def unpack_fixstr
-      length = 0x1f & @bytes.next
-      s = ""
-      length.times do
-        s << @bytes.next
-      end
-      s
+      length = 0x1f & next_byte
+
+      "".tap { |s|
+        read_bytes(length) do |b|
+          s << b
+        end
+      }
     end
 
     def unpack_fixmap
-      num_items = @bytes.next & 0x0F
+      num_items = next_byte & 0x0F
 
-      hash = {}
-      num_items.times do
+      num_items.times.each_with_object({}) do |_, hash|
         key = unpack
         value = unpack
 
         hash[key] = value
       end
-      hash
     end
 
-    def unpack_positive_fixint
-      @bytes.next
-    end
-
-    def unpack_bool(value)
-      @bytes.next
+    def unpack_simple(value)
+      next_byte
       value
     end
 
-    def unpack_nil
-      @bytes.next
-      nil
+    def unpack_positive_fixint
+      next_byte
     end
 
     def unpack_float64
-      bin = ""
-      @bytes.next
-      8.times do
-        bin << @bytes.next
-      end
-      bin.unpack("G").first
+      next_byte
+      read_bytes(8).unpack("G").first
     end
   end
-
 
   class << self
     # This method takes a sequence of bytes in message pack format and convert
