@@ -1,7 +1,29 @@
+require 'delegate'
+
 module Unpacker
-  class Reader
+  class ByteReader < SimpleDelegator
+    # Is there an easier way to do this using library methods?
+    def read(num)
+      "".tap { |s|
+        num.times do
+          s << self.next
+        end
+      }
+    end
+
+    def current
+      peek
+    end
+
+    def skip
+      self.next
+      nil
+    end
+  end
+
+  class Deserializer
     def initialize(bytes)
-      @bytes = bytes
+      @in = ByteReader.new(bytes)
     end
 
     def unpack
@@ -16,58 +38,36 @@ module Unpacker
       end
     end
 
-    private
+    def unpack_float64
+      @in.skip
+      @in.read(8).unpack("G").first
+    end
+
     def is_type?(type_byte)
-      (@bytes.peek & type_byte) == type_byte
-    end
-
-    def read_bytes(num, &block)
-      "".tap { |s|
-        num.times do
-          byte = next_byte
-          s << byte
-          block.call(byte) if block
-        end
-      }
-    end
-
-    def next_byte
-      @bytes.next
+      # Not sure if I'm using bitwise logic correctly here.
+      (@in.current & type_byte) == type_byte
     end
 
     def unpack_fixstr
-      length = 0x1f & next_byte
-
-      "".tap { |s|
-        read_bytes(length) do |b|
-          s << b
-        end
-      }
+      length = @in.next & 0x1f
+      @in.read(length)
     end
 
     def unpack_fixmap
-      num_items = next_byte & 0x0F
-
-      num_items.times.each_with_object({}) do |_, hash|
-        key = unpack
-        value = unpack
-
-        hash[key] = value
+      num_pairs = @in.next & 0x0F
+      num_pairs.times.each_with_object({}) do |_, res|
+        key, value = unpack, unpack
+        res[key] = value
       end
     end
 
     def unpack_simple(value)
-      next_byte
+      @in.skip
       value
     end
 
     def unpack_positive_fixint
-      next_byte
-    end
-
-    def unpack_float64
-      next_byte
-      read_bytes(8).unpack("G").first
+      @in.next
     end
   end
 
@@ -75,7 +75,7 @@ module Unpacker
     # This method takes a sequence of bytes in message pack format and convert
     # it into an equivalent Ruby object
     def unpack(bytes)
-      Reader.new(bytes).unpack
+      Deserializer.new(bytes).unpack
     end
   end
 
