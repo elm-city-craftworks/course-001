@@ -64,10 +64,11 @@ Done.
 
 **STEP 3:** 
 
-In progress.
+Done.
 
 **STEP 4:** 
 
+Done.
 
 [MessagePack]: http://msgpack.org/
 [spec]: https://github.com/msgpack/msgpack/blob/master/spec.md
