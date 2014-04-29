@@ -96,16 +96,13 @@ this behavior you will need to clone to get your `ruby-ls` program
 working correctly -- the screen output for human consumption is optional.
 
 **STEP 4:** Work your way through implementing some or all of the other use cases
-listed in step 1. Start by adding an acceptance test, then implement
-the correct behavior in the `ruby-ls` script. For ideas on how to write your tests, see
-the [RCat acceptance tests](https://gist.github.com/sandal/1293709) from the assigned article.
+listed in step 1. Start by uncommenting an acceptance test in `ls_tests.rb`, then implement
+the correct behavior in the `ruby-ls` script.
 
 Remember that you'll want to emulate the machine readable output of `ls` rather
-than just the console-based output.
-
-**STEP 5:** If you didn't already check for exit codes for successful and unsuccessful
-uses of the `ruby-ls` command, add a test for them now and then implement
-command termination behavior that matches how `ls` works on your system.
+than just the console-based output. Also keep in mind that your exit codes
+will need to match that of `ls` for successful and failed executions in
+order to pass the tests.
 
 *If you get stuck or have questions about this exercise, file a ticket in our
 Github tracker. If you'd like a code review, please submit a pull request with
