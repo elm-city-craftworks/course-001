@@ -18,6 +18,7 @@ module Packer
       when FalseClass then pack_false
       when NilClass then pack_nil
       when Float then pack_float(obj)
+      when Symbol then pack_symbol(obj)
       else raise "Unknown type #{obj.class.name}"
       end
     end
@@ -55,7 +56,18 @@ module Packer
       @bytes << 0xcb
       @bytes += [f].pack("G").bytes.to_a
     end
+
+    def pack_symbol(sym)
+      # This magic number should be shared between packer and unpacker
+      type = 0x01
+
+      @bytes << 0xc7
+      @bytes << sym.size
+      @bytes << type
+      @bytes += sym.to_s.bytes.to_a
+    end
   end
+
   # This method takes primitive Ruby objects and converts them into
   # the equivalent byte array in MessagePack format.
   def self.pack(obj)
@@ -69,10 +81,10 @@ end
 if __FILE__ == $PROGRAM_NAME
   data     = {"a"=>1, "b"=>true, "c"=>false, "d"=>nil, "egg"=>1.35}
   expected = File.binread(File.dirname(__FILE__) + "/example.msg").bytes
-
   actual = Packer.pack(data)
 
-  if expected == actual
+  # I had to add #to_a here to make it work
+  if expected.to_a == actual.to_a
     puts "You packed the message correctly!"
   else
     # NOTE: Will output bytes in hexadecimal format for easier inspection,
