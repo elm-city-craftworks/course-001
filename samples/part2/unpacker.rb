@@ -29,6 +29,7 @@ module Unpacker
     def unpack
       case
       when is_type?(0xcb) then unpack_float64
+      when is_type?(0xc7) then unpack_extension
       when is_type?(0xc3) then unpack_simple(true)
       when is_type?(0xc2) then unpack_simple(false)
       when is_type?(0xc0) then unpack_simple(nil)
@@ -41,6 +42,21 @@ module Unpacker
     def unpack_float64
       @in.skip
       @in.read(8).unpack("G").first
+    end
+
+    def unpack_extension
+      converters = {
+        # These magic numbers should be shared between packer and unpacker
+        0x01 => ->(bytes) { bytes.to_sym }
+      }
+
+      @in.skip
+      size = @in.next
+      type = @in.next
+
+      converter = converters.fetch(type) { raise "Unknown extension type %.2x" % type }
+
+      converter.call(@in.read(size))
     end
 
     def is_type?(type_byte)
