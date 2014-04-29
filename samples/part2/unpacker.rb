@@ -4,11 +4,11 @@ module Unpacker
   class ByteReader < SimpleDelegator
     # Is there an easier way to do this using library methods?
     def read(num)
-      "".tap { |s|
-        num.times do
-          s << self.next
-        end
-      }
+      bytes = []
+      num.times do
+        bytes << self.next
+      end
+      bytes.pack("C*")
     end
 
     def current
