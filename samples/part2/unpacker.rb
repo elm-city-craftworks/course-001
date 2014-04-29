@@ -1,6 +1,6 @@
 module Unpacker
   class << self
-    # This method takes an array of bytes in message pack format and convert 
+    # This method takes a sequence of bytes in message pack format and convert 
     # it into an equivalent Ruby object
     def unpack(bytes)
       {} # FIXME: Your code goes here.
