@@ -1,8 +1,46 @@
+# coding: binary
+
 module Packer
+  SYMBOL_TYPE_ID = 1
+
   # This method takes primitive Ruby objects and converts them into
   # the equivalent byte array in MessagePack format.
   def self.pack(obj)
-    [] # FIXME: Your code goes here.
+    case obj
+    when Hash
+      raise NotImplementedError unless obj.size < 16
+
+      bytes = [0x80 + obj.length] 
+
+      obj.each do |k,v|
+        bytes.concat(pack(k))
+        bytes.concat(pack(v))
+      end
+
+      bytes
+    when Fixnum
+      raise NotImplementedError unless obj <= 0x7f
+
+      [obj]
+    when true
+      [0xc3]
+    when false
+      [0xc2]
+    when nil
+      [0xc0]
+    when String
+      raise NotImplementedError unless obj.bytes.size < 32
+
+      [0xa0 + obj.bytes.size] + obj.bytes
+    when Float
+      [0xcb] + [obj].pack("G").unpack("C*")
+    when Symbol
+      bytes = obj.to_s.bytes
+
+      [0xc7, bytes.size, SYMBOL_TYPE_ID] + bytes
+    else
+      [0xff]
+    end
   end
 end
 
