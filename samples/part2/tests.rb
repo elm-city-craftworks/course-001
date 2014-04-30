@@ -50,6 +50,7 @@ test_and_compare("hello")
 test("hello".b)
 test("hello".encode(Encoding::UTF_8))
 test("hello".encode(Encoding::ISO_8859_1))
+test("aĔc")
 
 test("LongerString "*15) # bug in msgpack-ruby ?
 
