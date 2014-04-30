@@ -19,7 +19,7 @@ module Packer
       [0xc7, size, MsgPack::EXT2TYPE[Symbol]] + obj.to_s.bytes
     when String
       raise if obj.bytesize > 31
-      [0xa0 + obj.bytesize] + obj.bytes
+      [0xa0 + obj.bytesize] + obj.encode(Encoding::UTF_8).bytes
     when Hash
       raise if obj.size > 15
       obj.each_pair.inject([0x80 + obj.size]) { |bytes, (key, val)|
