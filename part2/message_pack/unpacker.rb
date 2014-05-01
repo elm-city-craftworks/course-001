@@ -19,7 +19,8 @@ module Unpacker
     when 0xa0..0xbf
       len = code & 0b000_11111
 
-      len.times.map { bytes.next }.pack("U*")
+      len.times.map { bytes.next }
+               .pack("C*").force_encoding("UTF-8")
     when 0xc0
       nil
     when 0xc2
