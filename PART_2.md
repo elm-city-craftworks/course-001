@@ -92,5 +92,10 @@ do not need to write a converter for all Ruby formats.
 symbols as an application-specific type. See `extended_messages.rb`
 for a test case that covers this scenario.
 
+**STEP 5:** MessagePack specifies that its string type is meant to be encoded
+in UTF-8. See `unicode_messages.rb` for a test that verifies that multibyte
+characters can be packed and unpacked. If your implementation fails the
+test, fix it so that it passes.
+
 [MessagePack]: http://msgpack.org/
 [spec]: https://github.com/msgpack/msgpack/blob/master/spec.md

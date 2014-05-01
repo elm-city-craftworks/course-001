@@ -1,3 +1,9 @@
+### 2014.05.01
+
+* Added a test case for Part 2 that covers multibyte Unicode characters
+in MessagePack data. Run the `unicode_messages.rb` file to test your
+implementation.
+
 ### 2014.04.29
 
 * Add Jacob's test runner and all necessary acceptance tests to `ls_tests.rb`,
