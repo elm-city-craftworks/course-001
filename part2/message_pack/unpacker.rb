@@ -15,7 +15,7 @@ module Unpacker
 
         size.times.with_object({}) { |_,e| e[unpack(bytes)] = unpack(bytes) }
       when 0xa0..0xbf
-        size = code & 0b000_11111
+        size = code & 0x1f
 
         binary_string(size, bytes).force_encoding("UTF-8")
       when 0xc0
