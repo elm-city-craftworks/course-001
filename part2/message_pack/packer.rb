@@ -49,7 +49,7 @@ end
 
 if __FILE__ == $PROGRAM_NAME 
   data     = {"a"=>1, "b"=>true, "c"=>false, "d"=>nil, "egg"=>1.35}
-  expected = File.binread(File.dirname(__FILE__) + "/example.msg").bytes
+  expected = File.read(File.dirname(__FILE__) + "/example.msg").bytes
 
   actual = Packer.pack(data) 
 
