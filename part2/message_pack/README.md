@@ -39,6 +39,8 @@ Each of the values in this `fixmap` has a unique type, and all but the last one 
 Putting all of this together, we have a `fixmap` object that is equivalent to the following Ruby hash:
 `{"a"=>1, "b"=>true, "c"=>false, "d"=>nil, "egg"=>1.35}`. You'll see this hash used throughout the acceptance tests for this set of exercises, and now you should understand where it came from!
 
+---
+
 For the code samples related to the remaining exercises, see the following files:
 
 **unpacker.rb** ([view source][unpacker.rb])
