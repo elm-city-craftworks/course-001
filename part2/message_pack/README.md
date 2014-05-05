@@ -1,7 +1,7 @@
 ## Solution to exercises for Part 2
 
 The first step of the exercise involved manually inspecting
-a MessagePack formatted file with a hex editor to answer
+a [MessagePack](https://github.com/msgpack/msgpack/blob/master/spec.md) formatted file with a hex editor to answer
 some questions about it, including the size of the encoded
 map, the ASCII representation of all of its keys, and the
 types of each of its values.
