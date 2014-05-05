@@ -31,7 +31,7 @@ a1 64       => c0
 a3 65 67 67 => cb 3f f5 99 99 99 99 99 9a
 ```
 
-All of the keys are `fixstr` objects in this `fixmap`, and all of the keys are single character strings except for the last one, which is three characters long. Converting the ascii codes to a character representation, we get `"a"`, `"b"`, `"c"`, `"d`", and "`egg`" for keys.
+All of the keys are `fixstr` objects in this `fixmap`, and all of the keys are single character strings except for the last one, which is three characters long. Converting the ascii codes to a character representation, we get `"a"`, `"b"`, `"c"`, `"d"`, and `"egg"` for keys.
 
 Each of the values in this `fixmap` has a unique type, and all but the last one are represented by a single byte. Referring to the spec, it's easy to see that `0x01` maps to the `fixint` value 1, `0xc3` represents `true`, `0xc2` represents `false`, and `0xc0` represents  `nil`. From the first byte of the final value
 (`0xcb`), we're able to tell that the encoded data is a floating point number. Without getting into detail about how flaots are encoded, the value represented here turns out to be `1.35`.
