@@ -221,7 +221,7 @@ in memory. If a CPU is optimized to handle data in 4 byte chunks, aligning
 data along 4-byte word boundaries will result in a performance optimization
 because fewer computations are needed to access and read the data.
 
-There is a [long wikipedia article on this topic][data-aligment], which may 
+There is a [long wikipedia article on this topic][data-alignment], which may 
 be worth reading if this topic interests you. However, it's safe to say this 
 is an extremely low-level optimization that you won't need to think about
 much unless you're designing binary file formats yourself.
