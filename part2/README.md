@@ -1,6 +1,6 @@
 -----------------------------------------------------------------
 
-**NOTE:** For the reference implementation of the MessagePack exercise,
+**NOTE:** For an implementation of the MessagePack exercise,
 see the `message_pack` folder and its `README.md` file.
 
 -----------------------------------------------------------------
