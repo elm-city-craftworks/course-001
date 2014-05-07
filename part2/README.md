@@ -145,12 +145,35 @@ calculations and experimentation.
 **Q5: How do you construct a `pack/unpack` pattern for a 32bit signed integer
 in little endian order?**
 
-FIXME
+There is no single character pattern for matching this data type, so
+it is necessary to use a compound pattern.
+
+The directive that matches a 32 bit signed integer is `l`, but by default it
+will use "native" endianness, which will depend on your operating system. To
+ensure that the integer is read in little endian order, you need to add the
+`<` modifier, resulting in the two character pattern `l<`.
+
+
+```ruby
+>> [0x0A0B0C0D].pack("l<").bytes.map { |e| "%.2x" % e }
+=> ["0d", "0c", "0b", "0a"]
+```
+
+The `<` can be used to specify little endian order for any native directive.
+To specify big endian order, use `>` instead.
 
 **Q6: What can go wrong if you rely on encoding/decoding binary data in "native order"
 rather than explicitly specifying endianness?**
 
-FIXME
+Reading data in native order will leave it up to the operating system to decide
+the endianness of the encoded values. Most file formats explicitly specify
+endianness for encoded data, so it isn't practical to rely on system defaults
+when processing most binary data. 
+
+Generally speaking you should always be explicit about endianness, but one
+exception might be if you were writing a binary serialization mechanism for 
+use on a single machine, without having to worry about portability. Even
+then, it may pay to be explicit just for the sake of consistency.
 
 **Q7: Suppose you want to know the RGB values for the third pixel
 in a bitmap image. If you know that the pixel array begins 54 bytes
@@ -159,24 +182,123 @@ is the minimum amount of data you would need to read from the
 file to get this information (in bytes)? Briefly explain the 
 reason behind your answer.**
 
-FIXME
+Only 3 bytes would need to be read.
+
+Knowing the pixel array started 54 bytes into the file and that
+the size of a pixel is three bytes, you'd trivially be able to
+compute the starting position of the third pixel:
+
+54 bytes + (2 pixels * 3 bytes) = 60 bytes.
+
+Using this knowledge, you can directly seek 60 bytes into the file using the
+`IO#pos=` method, and then use `IO#read` to grab exactly 3 bytes from the stream.
+
+Putting it all together, you'd end up with code that looked something like this:
+
+
+```ruby
+pixel_size   = 3
+array_offset = 54
+
+index = 2 # zero-based, like a Ruby array.
+
+File.open("image.bmp", "rb") do |io|
+  io.pos = array_offset + (pixel_size * index)
+  p io.read(pixel_size).bytes
+end
+```
+
+This kind of byte math is extremely common in binary files, and is part of what
+makes them an especially efficient storage format: You do not need to read in
+the whole structure to be able to meaningfully traverse the data.
 
 **Q8: Why do some binary file formats (including BMP images) pad binary data to
 align with word boundaries (i.e. 4 byte chunks)? What is the cost of
 organizing things this way?**
 
-FIXME
+This design decisions has to do with how data is arranged and accessed 
+in memory. If a CPU is optimized to handle data in 4 byte chunks, aligning
+data along 4-byte word boundaries will result in a performance optimization
+because fewer computations are needed to access and read the data.
+
+There is a [long wikipedia article on this topic][data-aligment], which may 
+be worth reading if this topic interests you. However, it's safe to say this 
+is an extremely low-level optimization that you won't need to think about
+much unless you're designing binary file formats yourself.
 
 **Q9: Why are basic validations so important when processing binary 
 file formats? What are some examples of simple validations that can help you
 ensure the consistency of a binary file?**
 
-FIXME
+When working with binary streams, if an offset is miscalculated by even
+a single byte, all the data you read from the stream can end up being 
+garbage. Sometimes this will result in exceptions being raised, but
+more often than not you'll simply get bad and confusing data back.
+Similarly, if you make trivial mistakes when writing out binary data to
+a file, it can lead to the entire contents being unreadable.
+
+Trivial validations such as the following can be extremly helpful in preventing
+corruption and catching unexpected bugs:
+
+* Checking for the correct file signature that identifies the format
+* Verifying that the file size matches what was expected
+* Making sure that offsets provided in file metadata actually match
+the offsets you end up at when consuming the I/O stream.
+* Raising exceptions when various kinds of metadata contain unexpected
+values, or when a file format is using features your code does not
+implement.
+
+The key is to add enough validations to avoid undefined behavior. You
+can develop these incrementally based on the kinds of problems you
+run into while developing your code, but at least some sanity checks
+should be added as early as possible.
 
 **Q10: Name three advantages and three disadvantages of using binary file
 formats vs. using text-based file formats. Try to give specific examples
 where possible.**
 
-FIXME
+Good things about binary file formats:
+
+* Binary files are a very efficient data storage format, in both
+time and space. The example of reading a single pixel from a BMP
+file gives an example of the kind of efficiency binary files can 
+afford.
+
+* Binary files can be very simple and unambiguous to process,
+because they are based on well defined basic arithmetic rules.
+The MessagePack data format that is covered in the exercises
+for this course show a good example of how easy binary files
+can be to process.
+
+* Due to their simplicity, binary file formats can be easily processed 
+using very primitive language tools. Where a text-based format may need a
+complicated regular expression engine or a parser generator, a binary file
+can be processed using basic I/O operations and boolean math.
+
+Bad things about binary file formats:
+
+* It is very cumbersome to directly manipulate data stored
+in binary format, and unless you are very comfortable with
+working on binary files, they are difficult to visually
+inspect, too. A hex editor is not exactly a user friendly
+interface to data.
+
+* Tiny processing errors can make the data in a binary file
+completely unreadable. This is also true about text formats,
+but the opaque nature of binary file formats make it harder
+to debug these problems without building additional 
+debugging tools.
+
+* Thinking at a very low level is difficult for people who tend 
+to work on application programming in their day to day work.
+This can raise the learning curve for those who aren't used
+to doing bit math in their day-to-day work.
+
+It's worth mentioning that these pros and cons are all dependent on 
+context. Text files and binary files each have their use cases,
+and so there is no need to choose one style over the other, as
+long as you are aware of what the tradeoffs are between the
+two styles of data storage.
 
 [endianness]: http://en.wikipedia.org/wiki/Endianness
+[data-alignment]: http://en.wikipedia.org/wiki/Data_structure_alignment
