@@ -24,6 +24,7 @@ module Packer
     end
 
     def pack_hash(hash)
+      raise NotImplementedError, "Max 15 elements" if hash.size > 15
       @bytes << (0x80 | hash.size)
       hash.each_pair do |k,v|
         pack(k)
@@ -32,11 +33,17 @@ module Packer
     end
 
     def pack_string(s)
+      is_valid_utf8 = s.dup.force_encoding("UTF-8").valid_encoding?
+
+      raise NotImplementedError, "String must be UTF-8 encoded" unless is_valid_utf8
+      raise NotImplementedError, "Max 31 chars" if s.length > 31
+
       @bytes << (0xa0 | s.size)
       @bytes += s.bytes.to_a
     end
 
     def pack_fixnum(n)
+      raise NotImplementedError, "Only 0-127 supported" unless (0..127).include?(n)
       @bytes << n
     end
 
@@ -58,6 +65,8 @@ module Packer
     end
 
     def pack_symbol(sym)
+      raise NotImplementedError, "Max symbol size is 127 chars" if sym.to_s.size > 127
+
       # This magic number should be shared between packer and unpacker
       type = 0x01
 
