@@ -66,7 +66,11 @@ module Unpacker
 
     def unpack_fixstr
       length = @in.next & 0x1f
-      @in.read(length)
+      s = @in.read(length)
+      unless s.force_encoding("UTF-8").valid_encoding?
+        raise "Invalid encoding"
+      end
+      s
     end
 
     def unpack_fixmap
