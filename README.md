@@ -26,7 +26,7 @@ gradually to encourage better focus.
 
 **Not released yet (except reading assignments):**
 
-* Parsing text-based file formats ([Instructions][PART_3.md])
+* Parsing text-based formats ([Instructions][PART_3.md])
 * Socket programming and Network I/O ([Instructions][PART_4.md])
 
 ### News and Updates
