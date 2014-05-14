@@ -1,4 +1,4 @@
-## Part 3: Parsing text-based file formats
+## Part 3: Parsing text-based formats
 
 The article we'll work through in this part of the 
 course is [Parsing JSON the hard way](https://practicingruby.com/articles/parsing-json-the-hard-way).
