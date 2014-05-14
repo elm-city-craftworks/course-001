@@ -20,7 +20,8 @@ Coming soon!
 
 ## Exercises
 
-> NOTE: The supporting materials for these exercises are in `samples/part3`
+> NOTE: The supporting materials for these exercises are in
+> [samples/part3][part3-samples]
 
 In this set of exercises, you will add functionality to the canonical basic
 calculator example that ships with Racc. By doing so, you'll exercise
@@ -72,3 +73,4 @@ an irb-style magic variable that refers to the last computed result (e.g. `_ *
 text-based calculator.
 
 [tokenizer]: https://github.com/tenderlove/rjson/blob/master/lib/rjson/tokenizer.rb
+[part3-samples]: https://github.com/elm-city-craftworks/course-001/tree/master/samples/part3
