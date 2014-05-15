@@ -39,9 +39,9 @@ document handler that implements a few methods -- `start_object`,
 realistic use case that illustrates why this feature can be useful.
 
 **Q6:** What benefits are there in creating an intermediate representation
-of parsed data rather than directly converting to a desired format/structure?**
+of parsed data rather than directly converting to a desired format/structure?
 
-**Q7:** What is the main difference between wrapping text in a `StringIO` object 
+**Q7:** What is an important difference between wrapping text in a `StringIO` object 
 vs. using an `IO` object directly when performing I/O operations?
 
 **Q8:** RJSON provides both a [StringScanner-based
