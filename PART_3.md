@@ -25,8 +25,8 @@ file into a Ruby file.
 **Q3:** To let a Racc parser know that there are no tokens left to 
 be processed, what should the `next_token` method return?
 
-**Q4:** The RJSON parser shown in the "Parsing JSON the hard way" article would
-fail to parse the following JSON strings: 
+**Q4:** The RJSON parser shown in the article would fail to parse 
+the following JSON strings: 
 
 * `{"a" : 1, "b" : 2, "c" : 3}`
 * `[1, 2, 3]`
