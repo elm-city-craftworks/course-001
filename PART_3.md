@@ -1,4 +1,4 @@
-## Part 3: Parsing text-based file formats
+## Part 3: Parsing text-based formats
 
 The article we'll work through in this part of the 
 course is [Parsing JSON the hard way](https://practicingruby.com/articles/parsing-json-the-hard-way).
@@ -46,8 +46,9 @@ getting started, see the [RJSON::Tokenizer source code][tokenizer] for ideas.
 numbers in equations, i.e. `1 + 3.14159`.
 
 **STEP 4:** Modify the parser to convert fractional numbers into `Rational`
-objects. You can use any syntax you like for this, i.e. something like 
-`1\3 + 1\6`, but avoid overloading the `/` operator.
+objects. To avoid overloading the `/` operator, consider using backslashes
+instead of forward slashes, i.e. `1\3 + 1\6`. You could also choose a different
+syntax entirely, as long as you provide an easy way to write fractions.
 
 **STEP 5:** Modify the parser to support bound variables. This should work by
 passing parameters to the `Calcp` constructor, which would then be 
