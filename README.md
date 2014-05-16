@@ -36,24 +36,8 @@ For day-to-day updates to the course materials, including revisions, see the
 
 ### Schedule
 
-Currently the goal is to ship some new course materials every two
-weeks, roughly adhering to the following schedule:
+Currently the goal is to ship some new course materials every 2-3 weeks.
 
-**2014-04-03:** Topic #1 questions/exercises,
-                All reading assignments
-
-**2014-04-17:** Topic #2 questions/exercises, 
-                Topic #1 solutions
-
-**2014-05-01:** Topic #3 questions/exercises,
-                Topic #2 solutions
-
-**2014-05-15:** Topic #4 questions/exercises,
-                Topic #3 solutions
-
-**2014-05-29:** Topic #4 solutions
-
-This schedule is approximate, so the dates listed above may change.
 Watch the course repository on github for updates, and stay tuned for emails
 whenever new content is released.
 
