@@ -22,11 +22,10 @@ gradually to encourage better focus.
 
 **Questions/Exercises already released:**
 
-...
+* Parsing text-based formats ([Instructions][PART_3.md])
 
 **Not released yet (except reading assignments):**
 
-* Parsing text-based formats ([Instructions][PART_3.md])
 * Socket programming and Network I/O ([Instructions][PART_4.md])
 
 ### News and Updates
