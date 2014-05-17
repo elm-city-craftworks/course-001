@@ -9,53 +9,48 @@ class Calcp
   preclow
 rule
   target: exp
-        | /* none */ { result = 0 }
 
   exp: exp '+' exp { result += val[2] }
      | exp '-' exp { result -= val[2] }
      | exp '*' exp { result *= val[2] }
      | exp '/' exp { result /= val[2] }
      | '(' exp ')' { result = val[1] }
-     | '-' NUMBER  =UMINUS { result = -val[1] }
-     | NUMBER
+     | '-' exp =UMINUS { result = -val[1] }
+     | TERM
 end
 
 ---- header
 # $Id$
+require 'strscan'
 ---- inner
-  
+  attr_reader :ss, :env
+  def initialize(env = {})
+    @env = env
+  end
+
   def parse(str)
-    @q = []
-    until str.empty?
-      case str
-      when /\A\s+/
-      when /\A\d+/
-        @q.push [:NUMBER, $&.to_i]
-      when /\A.|\n/o
-        s = $&
-        @q.push [s, s]
-      end
-      str = $'
-    end
-    @q.push [false, '$end']
+    @ss = StringScanner.new str
     do_parse
   end
 
   def next_token
-    @q.shift
+    return if ss.eos?
+    ss.skip(/\s+/)
+
+    if n = ss.scan(/\d+(?:\.\d+)?/)
+      [:TERM, Rational(n)]
+    elsif var = ss.scan(/\w+/)
+      n = env[var.to_sym] or raise ParseError, "unknown var #{var}"
+      [:TERM, Rational(n)]
+    elsif s = ss.getch
+      [s, s]
+    end
   end
 
 ---- footer
 
-parser = Calcp.new
-puts
-puts 'type "Q" to quit.'
-puts
-while true
-  puts
-  print '? '
-  str = gets.chop!
-  break if /q/i =~ str
+parser = Calcp.new(:x => 10, :y => 15, :z => 3)
+while str = (print "\n? "; gets)
   begin
     puts "= #{parser.parse(str)}"
   rescue ParseError
