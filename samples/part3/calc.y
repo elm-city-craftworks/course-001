@@ -52,7 +52,8 @@ require 'strscan'
 parser = Calcp.new(:x => 10, :y => 15, :z => 3)
 while str = (print "\n? "; gets)
   begin
-    puts "= #{parser.parse(str)}"
+    result = parser.parse(str)
+    puts "= #{"%.10g" % result} (#{result})"
   rescue ParseError
     puts $!
   end
