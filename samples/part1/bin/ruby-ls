@@ -1,4 +1,7 @@
 #!/usr/bin/env ruby
 
-## FIXME: Replace this code with a pure Ruby clone of the ls utility
-system("ls", *ARGV)
+require 'optparse'
+require 'etc'
+require_relative '../lib/ruby-ls'
+
+RubyLS::Application.new(ARGV).run
