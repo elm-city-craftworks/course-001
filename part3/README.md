@@ -15,13 +15,14 @@ A LALR parser is a parser that:
 looking ahead in the input stream before deciding how to 
 parse a single token. (*LA = Look-ahead*)
 
-* Parses text starting from the left-most side of the input stream. (*L*)
+* Parses text starting from the left-most side of the input stream.
+ (*L=Left-to-right input processing*)
 
 * Builds a parse-tree from the bottom up by repeatedly attempting to match 
 the right side of grammar rules, until the full input stream is used up.
 For example, parsing the string `X + Y * Z` would match
 the variable names first, then the multiplication expression, then
-finally the addition expression. (*R*)
+finally the addition expression. (*R=Right-most derivation*)
 
 To implement a LALR parser, it is necessary to build a very low-level
 finite state machine, which is quite difficult to do by hand. Parser
