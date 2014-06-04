@@ -9,6 +9,43 @@
 **Q1: Racc is a LALR parser generator. Briefly summarize what a LALR
 parser is, using as little jargon as possible.**
 
+A LALR parser is a parser that:
+
+* Parses text in a single direction. Backtracking is avoided by
+looking ahead in the input stream before deciding how to 
+parse a single token. (*LA = Look-ahead*)
+
+* Parses text starting from the left-most side of the input stream. (*L*)
+
+* Builds a parse-tree from the bottom up by repeatedly attempting to match 
+the right side of grammar rules, until the full input stream is used up.
+For example, parsing the string `X + Y * Z` would match
+the variable names first, then the multiplication expression, then
+finally the addition expression. (*R*)
+
+To implement a LALR parser, it is necessary to build a very low-level
+finite state machine, which is quite difficult to do by hand. Parser
+generators like Yacc/Racc allow you to specify the grammar you need
+to parse at a very high level and then generate the state transition
+tables for you.
+
+LALR parsers are powerful enough to parse the grammars for 
+many programming languages, but because of an optimization
+they use to condense their lookup tables, can generate
+conflicts in certain edge cases that arise in complex grammars.
+
+Because of their complexity, LALR parsers can be hard to understand
+and hard to debug. The use of parser generators like Yacc/Racc
+mitigate this somewhat, but not entirely.
+
+Further reading:
+
+* [LR Parser Wikipedia page](http://en.wikipedia.org/wiki/LR_parser)
+* [LALR Parser Wikipedia page](http://en.wikipedia.org/wiki/LALR_parser)
+* [Derivations, Parse Trees, and Ambiguity](http://www.cs.utsa.edu/~wagner/CS3723/grammar/grammars2.html)
+* [A Tutorial Explaining LALR(1) Parsing](http://web.cs.dal.ca/~sjackson/lalr1.html)
+* [What are the main advantages and disadvantages of LL and LR parsing?](http://programmers.stackexchange.com/a/19637)
+
 **Q2: Briefly describe what gets generated when Racc converts a grammar
 file into a Ruby file.**
 
