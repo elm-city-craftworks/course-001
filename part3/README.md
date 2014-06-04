@@ -21,7 +21,7 @@ the following JSON strings:**
 * `{"a" : 1, "b" : 2, "c" : 3}`
 * `[1, 2, 3]`
 
-Find out why, and suggest a fix for the problem.
+**Find out why, and suggest a fix for the problem.**
 
 **Q5: The RJSON parser can be customized by providing it an alternative
 document handler that implements a few methods -- `start_object`,
