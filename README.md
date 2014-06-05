@@ -1,4 +1,4 @@
-## Course #1: Text processing and I/O programming fundamentals
+## Text processing and I/O programming fundamentals
 
 Please fork this repository to work on the course. It contains some code
 samples and source materials in the `samples` folder that are needed to 
