@@ -62,7 +62,7 @@ your grammar file.
 * Generate several arrays of data which represent the state transition 
 tables to be used by the parser. These tables tell the parser when to shift 
 new state onto the parse stack, when to perform a reduction (triggering the 
-code Ruby attached to a given rule), what state to transition to after 
+Ruby code attached to a given rule), what state to transition to after 
 each reduction, and when to stop parsing the input stream.
 
 * Generate methods for all Ruby code that will be run whenever a rule 
