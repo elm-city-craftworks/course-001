@@ -1,12 +1,12 @@
-## 2014.05.16
+### 2014.05.16
 
 * Course materials for Part 3 released!
 
-## 2014.05.07
+### 2014.05.07
 
 * Solutions for Part 2 are now available on the `solutions` branch.
 
-## 2014.05.01
+### 2014.05.01
 
 * Added a test case for Part 2 that covers multibyte Unicode characters
 in MessagePack data. Run the `unicode_messages.rb` file to test your
