@@ -82,6 +82,26 @@ the topic, see this
 **Q3: To let a Racc parser know that there are no tokens left to 
 be processed, what should the `next_token` method return?**
 
+Either returning `nil` or the token array `[false, "$end"]` will terminate
+parsing. Returning `nil` is an undocumented feature, but results in
+cleaner looking code, as shown below:
+
+```ruby
+# using explicit token array
+def next_token
+  return [false, "$end"] if some_condition
+
+  # ...
+end
+
+# using implicit nil return value
+def next_token
+  return if some_condition
+
+  # ... 
+end
+```
+
 **Q4: The RJSON parser shown in the article would fail to parse 
 the following JSON strings:**
 
