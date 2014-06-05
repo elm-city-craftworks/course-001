@@ -50,6 +50,35 @@ Further reading:
 **Q2: Briefly describe what gets generated when Racc converts a grammar
 file into a Ruby file.**
 
+Ruby code generated from a Racc grammar will have different contents
+depending on what features it uses, but you can generally expect
+a generated parser to do the following things:
+
+* Require `racc/parser` stdlib, in order to load the `Racc::Parser` class.
+
+* Generate a subclass of `Racc::Parser` based on the class name you specify in
+your grammar file.
+
+* Generate several arrays of data which represent the state transition 
+tables to be used by the parser. These tables tell the parser when to shift 
+new state onto the parse stack, when to perform a reduction (triggering the 
+code Ruby attached to a given rule), what state to transition to after 
+each reduction, and when to stop parsing the input stream.
+
+* Generate methods for all Ruby code that will be run whenever a rule 
+is matched, typically named something like `_reduce_1`, `_reduce_2`, etc.
+
+* Add all code specified in the `---- inner` section of the grammer file to the
+generated subclass.
+
+* Add all code specified in the `---- footer` section to the bottom of the file.
+
+Many of these code-generation behaviors are self-explanatory, but the 
+construction of the state transition tables is non-obvious unless you are 
+very familiar with LR parser implementation details. For a good overview of 
+the topic, see this 
+[Introduction to Shift-Reduce parsing](http://www.cs.binghamton.edu/~zdu/parsdemo/srintro.html).
+
 **Q3: To let a Racc parser know that there are no tokens left to 
 be processed, what should the `next_token` method return?**
 
