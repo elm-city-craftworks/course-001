@@ -110,9 +110,27 @@ the following JSON strings:**
 
 **Find out why, and suggest a fix for the problem.**
 
-The parser does not handle whitespace. To resolve this issue, the tokenizer
-can be modified to simply throw away whitespace in between valid tokens
-because it does not effect the outcome of the parse.
+Neither the parser nor the tokenizer shown in the "Parsing JSON the Hard Way"
+article were written to handle whitespace. Because whitespace does not have
+any special meaning in JSON, an easy fix to this problem is to silently
+discard any whitespace the tokenizer encounters between significant tokens:
+
+```ruby
+def next_token
+  @ss.skip(/\s+/)
+
+  # ...
+end
+```
+
+This approach can be used in any StringScanner-based tokenizer, as long as
+the input text format is not whitespace sensitive.
+
+Skipping over whitespace can also be done at the Racc grammar level, but it
+would complicate the parsing rules without much of a benefit. If we were
+attempting to parse an input format with significant whitespace (e.g.
+HAML markup or Python code), doing whitespace processing at the Racc
+grammar level would make a lot more sense.
 
 **Q5: The RJSON parser can be customized by providing it an alternative
 document handler that implements a few methods -- `start_object`,
