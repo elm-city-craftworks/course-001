@@ -137,8 +137,72 @@ document handler that implements a few methods -- `start_object`,
 `end_object`, `start_array`, `end_array`, and `scalar`. Give an example of a
 realistic use case that illustrates why this feature can be useful.**
 
-Imagine creating a JSON to MessagePack converter. This would allow for the
-processing efficiently, in a single pass.
+One possible application would be to build a converter from JSON to
+some other serialization format without first creating a full Ruby
+representation of the JSON data.
+
+So for example, the following handler is capable of converting JSON data 
+to MessagePack format without the need for an intermediate representation 
+of the data structure:
+
+```ruby
+class MessagePackHandler
+  def initialize
+    @buffer        = [""]
+    @packer        = MessagePack::Packer.new
+    @counter_stack = [0]
+  end
+
+  def scalar(s)
+    @counter_stack[-1] += 1
+    @buffer[-1] << s.to_msgpack
+  end
+
+  def start_collection
+    @counter_stack[-1] += 1
+    @counter_stack.push(0)
+
+    @buffer.push("")
+  end
+
+  alias_method :start_array, :start_collection
+  alias_method :start_object, :start_collection
+
+  def end_collection(name, size)
+    raise ArgumentError unless [:map, :array].include?(name)
+
+    object_body = @buffer.pop
+
+    @buffer[-1] << @packer.send("write_#{name}_header", size).to_str <<
+                   object_body
+
+     @packer.clear
+  end
+
+  def end_array
+    end_collection(:array, @counter_stack.pop)
+  end
+
+  def end_object
+    end_collection(:map, @counter_stack.pop / 2)
+  end
+
+  def result
+    @buffer.first
+  end
+end
+```
+
+The following code could be used to tell `RJSON` to use this 
+alternative handler:
+
+```ruby
+input = StringIO.new('{"a" : 1, "b" : [2,3,[4,5],6], "c" : "kittens"}')
+tok = RJSON::Tokenizer.new(input)
+parser = RJSON::Parser.new(tok, MessagePackHandler.new)
+
+p MessagePack.unpack(parser.parse.result)
+```
 
 **Q6: What benefits are there in creating an intermediate representation
 of parsed data rather than directly converting to a desired format/structure?**
