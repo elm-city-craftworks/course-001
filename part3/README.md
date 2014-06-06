@@ -207,16 +207,77 @@ p MessagePack.unpack(parser.parse.result)
 **Q6: What benefits are there in creating an intermediate representation
 of parsed data rather than directly converting to a desired format/structure?**
 
-(Show how the messagepack converter could have been done via the intermediate
-representation, too)
+Using an intermediate representation allows us to separate the problem of parsing
+information into a well-defined structure from interpreting
+what that structure ends up getting used for. In effect, this separates the
+"frontend" which processes the inputs from the "backend" that handles all
+behavior and outputs.
 
+Many potential benefits of using an intermediate representation in the context
+of parsing programming languages are discussed in this article,
+which also gives a good overview of the technique in general:
 http://cs.lmu.edu/~ray/notes/ir/
+
+For a more concrete example, consider that because RJSON's default handler
+builds up an intermediate tree structure, we can repurpose it to handle
+different kinds of output. In fact, the following code shows that it is
+much easier to implement the `MessagePackHandler`example from Q6 if we
+start from the intermediate representation provided by `RJSON::Handler`
+rather than handling the low-level parse events directly:
+
+```ruby
+class MessagePackHandler < RJSON::Handler
+  def packer
+    @packer ||= MessagePack::Packer.new
+  end
+
+  def process(type, rest)
+    case type
+    when :array
+      packer.write_array_header(rest.size)
+      rest.each { |x| process(x.first, x.drop(1)) }
+    when :hash
+      packer.write_map_header(rest.size / 2)
+
+      rest.each { |x| process(x.first, x.drop(1)) }
+    when :scalar
+      packer.write(rest.first)
+    end
+
+    packer.to_str
+  end
+end
+```
+
+This implementation is functionally equivalent to the class definition shown 
+in Q6, but is much more concise. The cost is that it requires a second pass
+through the data, and it builds up the complete nested document 
+structure in memory.
 
 **Q7: What is an important difference between wrapping text in a `StringIO` object 
 vs. using an `IO` object directly when performing I/O operations?**
 
-StringIO necessitates putting all the data in a string before processing it. I/O
-can read from an external source.
+For the most part, a `StringIO` object behaves very similar to a regular `IO`
+object. The main difference is that in order to use a `StringIO` object, you
+do need to load all the data you're processing into memory at once, whereas a 
+real `IO` object can efficiently move around a bytestream without loading
+its entire contents into memory.
+
+In many cases this efficiency difference does not matter, because `StringIO` is 
+used more often for testing or experimentation than it is for actual data 
+processing work. In cases where you need to work with larger datasets that
+you'd rather not load into memory all at once, you can consider using
+the Tempfile standard library: 
+
+http://www.ruby-doc.org/stdlib-2.1.1/libdoc/tempfile/rdoc/Tempfile.html
+
+Another important point (although a bit more subtle) is that `StringIO`
+objects are constructed and managed entirely in Ruby. Traditional I/O objects
+cross boundaries into the operating system, file system, and sometimes
+even network boundaries, which makes it more likely that they'll require
+more careful robustness and error handling consideration. Depending
+on your context, this may not matter much at all, or it may be very important
+to keep in mind -- a `StringIO` test isn't going to catch these problems!
 
 **Q8: RJSON provides both a [StringScanner-based
 tokenizer](https://github.com/tenderlove/rjson/blob/master/lib/rjson/tokenizer.rb)
@@ -224,4 +285,18 @@ and a [streaming
 tokenizer](https://github.com/tenderlove/rjson/blob/master/lib/rjson/stream_tokenizer.rb).
 What are the tradeoffs involved in each of these approaches?**
 
-Basically same as Q7, but tradeoff is complexity.
+The tradeoffs here are related to the issues discussed in Q6 and Q7. Using
+`StringScanner` is certainly more convenient than trying to process data
+on the fly, but it has the cost of loading everything into memory at
+once, which can be a performance and efficiency concern.
+
+Writing a streaming tokenizer is quite tedious, because it is necessary to
+process the data in very small chunks, which limits the ability to
+make use of regular expressions for processing complex patterns.
+
+It's important to keep in mind that while streaming gives greater
+flexibility in how data can be processed downstream and also
+makes it possible to efficiently work on larger datasets,
+it comes at the cost of additional complexity that can
+have system-wide effects. One approach is not necessarily
+better than the other... it depends on the context.
