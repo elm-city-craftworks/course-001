@@ -110,16 +110,31 @@ the following JSON strings:**
 
 **Find out why, and suggest a fix for the problem.**
 
+The parser does not handle whitespace. To resolve this issue, the tokenizer
+can be modified to simply throw away whitespace in between valid tokens
+because it does not effect the outcome of the parse.
+
 **Q5: The RJSON parser can be customized by providing it an alternative
 document handler that implements a few methods -- `start_object`,
 `end_object`, `start_array`, `end_array`, and `scalar`. Give an example of a
 realistic use case that illustrates why this feature can be useful.**
 
+Imagine creating a JSON to MessagePack converter. This would allow for the
+processing efficiently, in a single pass.
+
 **Q6: What benefits are there in creating an intermediate representation
 of parsed data rather than directly converting to a desired format/structure?**
 
+(Show how the messagepack converter could have been done via the intermediate
+representation, too)
+
+http://cs.lmu.edu/~ray/notes/ir/
+
 **Q7: What is an important difference between wrapping text in a `StringIO` object 
 vs. using an `IO` object directly when performing I/O operations?**
+
+StringIO necessitates putting all the data in a string before processing it. I/O
+can read from an external source.
 
 **Q8: RJSON provides both a [StringScanner-based
 tokenizer](https://github.com/tenderlove/rjson/blob/master/lib/rjson/tokenizer.rb)
@@ -127,3 +142,4 @@ and a [streaming
 tokenizer](https://github.com/tenderlove/rjson/blob/master/lib/rjson/stream_tokenizer.rb).
 What are the tradeoffs involved in each of these approaches?**
 
+Basically same as Q7, but tradeoff is complexity.
