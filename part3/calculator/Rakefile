@@ -1,0 +1,15 @@
+rule '.rb' => '.y' do |t|
+  sh "racc -l -o #{t.name} #{t.source}"
+end
+
+task :compile => 'calc.rb'
+
+task :run => :compile do
+  ruby "calc.rb"
+end
+
+task :test => :compile do
+  ruby "calc_test.rb"
+end
+
+task :default => :test
