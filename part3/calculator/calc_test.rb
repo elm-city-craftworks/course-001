@@ -18,4 +18,12 @@ describe "Calculator" do
   it "can handle rational math" do
     parser.parse("1\\3 + 1\\6").must_equal(Rational(1,2)) 
   end
+
+  it "can handle bound variables" do
+    parser = Calcp.new(:x => 10, :y => 15, :z => 3)
+
+    parser.parse("x + 5").must_equal(15)
+    parser.parse("x * y * z").must_equal(450)
+    parser.parse("(x + y) * 2").must_equal(50)
+  end
 end

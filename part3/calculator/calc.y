@@ -16,11 +16,16 @@ rule
      | exp '*' exp { result *= val[2] }
      | exp '/' exp { result /= val[2] }
      | '(' exp ')' { result = val[1] }
-     | '-' NUMBER  =UMINUS { result = -val[1] }
-     | fraction 
-     | NUMBER
+     | '-' number  =UMINUS { result = -val[1] }
+     | number
 
-  fraction: NUMBER '\\' NUMBER { result = Rational(val[0], val[2]) }
+   number: fraction 
+         | variable
+         | NUMBER
+
+  variable: VARIABLE { result = fetch(val[0]) }
+
+  fraction: NUMBER '\\' NUMBER { result = Rational(val[0], val[2]) } 
 end
 
 ---- header
@@ -28,6 +33,14 @@ end
 require "strscan"
 
 ---- inner
+
+  def initialize(params={})
+    @params = params
+  end
+
+  def fetch(key)
+    @params.fetch(key)
+  end
   
   def parse(str)
     @ss = StringScanner.new(str)
@@ -40,6 +53,8 @@ require "strscan"
     return if @ss.eos?
 
     case
+    when @ss.scan(/[a-zA-Z_]+/)
+      [:VARIABLE, @ss.matched.to_sym]
     when @ss.scan(/\A\d+\.\d+/)
       [:NUMBER, @ss.matched.to_f]
     when @ss.scan(/\A\d+/)
