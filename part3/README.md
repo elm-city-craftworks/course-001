@@ -1,6 +1,7 @@
 -----
 
-**TODO:** Add calculator solution
+**NOTE:** For an implementation of the calculator parser exercise, see the
+`calculator` folder and its `README.md` file.
 
 ----
 
