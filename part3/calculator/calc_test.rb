@@ -10,4 +10,12 @@ describe "Calculator" do
     parser.parse("-5 * 3").must_equal(-15)
     parser.parse("(9 - 3) / 2").must_equal(3)
   end
+
+  it "can handle floating point math" do
+    parser.parse("1.5 + 3").must_equal(4.5)
+  end
+
+  it "can handle rational math" do
+    parser.parse("1\\3 + 1\\6").must_equal(Rational(1,2)) 
+  end
 end

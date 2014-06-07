@@ -17,7 +17,10 @@ rule
      | exp '/' exp { result /= val[2] }
      | '(' exp ')' { result = val[1] }
      | '-' NUMBER  =UMINUS { result = -val[1] }
+     | fraction 
      | NUMBER
+
+  fraction: NUMBER '\\' NUMBER { result = Rational(val[0], val[2]) }
 end
 
 ---- header
@@ -36,7 +39,10 @@ require "strscan"
     @ss.skip(/\s+/)
     return if @ss.eos?
 
-    if @ss.scan(/\A\d+/)
+    case
+    when @ss.scan(/\A\d+\.\d+/)
+      [:NUMBER, @ss.matched.to_f]
+    when @ss.scan(/\A\d+/)
       [:NUMBER, @ss.matched.to_i]
     else
       char = @ss.getch
