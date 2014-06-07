@@ -21,28 +21,28 @@ rule
 end
 
 ---- header
-# $Id$
+
+require "strscan"
+
 ---- inner
   
   def parse(str)
-    @q = []
-    until str.empty?
-      case str
-      when /\A\s+/
-      when /\A\d+/
-        @q.push [:NUMBER, $&.to_i]
-      when /\A.|\n/o
-        s = $&
-        @q.push [s, s]
-      end
-      str = $'
-    end
-    @q.push [false, '$end']
+    @ss = StringScanner.new(str)
+
     do_parse
   end
 
   def next_token
-    @q.shift
+    @ss.skip(/\s+/)
+    return if @ss.eos?
+
+    if @ss.scan(/\A\d+/)
+      [:NUMBER, @ss.matched.to_i]
+    else
+      char = @ss.getch
+
+      [char, char]
+    end
   end
 
 ---- footer
