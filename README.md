@@ -20,9 +20,11 @@ gradually to encourage better focus.
 
 * Encoding and decoding binary files ([Instructions][PART_2.md], [Solutions][PART_2_SOLUTIONS])
 
+* Parsing text-based formats ([Instructions][PART_3.md], [Solutions][PART_3_SOLUTIONS])
+
 **Questions/Exercises already released:**
 
-* Parsing text-based formats ([Instructions][PART_3.md])
+More to come soon!
 
 **Not released yet (except reading assignments):**
 
@@ -65,10 +67,11 @@ To access it, log into practicingruby.com and click "chat" in the navbar.
 
 
 [PART_1.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_1.md
-[PART_1_SOLUTIONS]: https://github.com/elm-city-craftworks/course-001/tree/solutions/part1
-[PART_2_SOLUTIONS]:  https://github.com/elm-city-craftworks/course-001/tree/solutions/part2
 [PART_2.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_2.md
 [PART_3.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_3.md
 [PART_4.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_4.md
+[PART_1_SOLUTIONS]: https://github.com/elm-city-craftworks/course-001/tree/solutions/part1
+[PART_2_SOLUTIONS]:  https://github.com/elm-city-craftworks/course-001/tree/solutions/part2
+[PART_3_SOLUTIONS]:  https://github.com/elm-city-craftworks/course-001/tree/solutions/part3
 [CHANGELOG.md]: https://github.com/elm-city-craftworks/course-001/blob/master/CHANGELOG.md
 
