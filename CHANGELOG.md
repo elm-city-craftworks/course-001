@@ -1,3 +1,7 @@
+### 2014.06.07
+
+* Solutions for Part 3 are now available on the `solutions` branch. 
+
 ### 2014.05.16
 
 * Course materials for Part 3 released!
