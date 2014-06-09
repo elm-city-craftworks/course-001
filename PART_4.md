@@ -22,6 +22,8 @@ implementation to process the three requests?
 *Implementation #1:*
 
 ```ruby
+require "socket"
+
 server = TCPServer.new 2000
 
 loop do
@@ -39,6 +41,8 @@ end
 *Implementation #2:*
 
 ```ruby
+require "socket"
+
 server = TCPServer.new 2000
 
 loop do
