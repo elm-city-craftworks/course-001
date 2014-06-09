@@ -5,8 +5,72 @@ course is [Implementing a minimal HTTP server in Ruby](https://practicingruby.co
 Reading it carefully should prepare you to work through the questions
 and exercises for this topic.
 
-We still have not released the practice materials for this part of the course
-yet, but you are welcome to get a head start on the reading, or work on
-the parts of the course that have already been released (see the README
-in the project root for details)
+## Questions
 
+> NOTE: Several of these questions can directly be answered by reading 
+> the article, but some might require you to search the web for
+> answers. External research is not only OK, it's encouraged!
+
+**Q1:** Below are two minimal `TCPServer` examples, both of which
+accept incoming connections, and then respond with a "Hello World"
+message after a short delay.
+
+Suppose that three client requests arrive at roughly the same 
+time. How long would you expect it to take for each server 
+implementation to process the three requests? 
+
+*Implementation #1:*
+
+```ruby
+server = TCPServer.new 2000
+
+loop do
+  client = server.accept 
+
+  sleep 10
+
+  client.puts "Hello World!"
+  client.puts "Time is #{Time.now}"
+
+  client.close
+end
+```
+
+*Implementation #2:*
+
+```ruby
+server = TCPServer.new 2000
+
+loop do
+  Thread.start(server.accept) do |client|
+    sleep 10
+
+    client.puts "Hello World!"
+    client.puts "Time is #{Time.now}"
+
+    client.close
+  end
+end
+```
+
+Consider experimentally verifying your answer using a command line
+tool like `telnet`. You should only need to establish a connection
+to test out the server behavior, as in the following example:
+
+```
+$ telnet localhost 2000
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+Hello World!
+Time is 2014-06-09 12:20:31 -0400
+Connection closed by foreign host.
+```
+
+
+## Exercises
+
+> NOTE: The supporting materials for these exercises are in `samples/part4`
+
+
+[part4-samples]: https://github.com/elm-city-craftworks/course-001/tree/master/samples/part4
