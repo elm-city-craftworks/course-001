@@ -11,7 +11,16 @@ and exercises for this topic.
 > the article, but some might require you to search the web for
 > answers. External research is not only OK, it's encouraged!
 
-**Q1:** Below are two minimal `TCPServer` examples, both of which
+**Q1:** Briefly describe what a TCP socket is, using as little
+jargon as possible.
+
+**Q2:** Why is it important to explicitly close sockets when you
+are done using them?
+
+**Q3:** Describe the similarities and differences between
+client-side and server-side sockets.
+
+**Q4:** Below are two minimal `TCPServer` examples, both of which
 accept incoming connections, and then respond with a "Hello World"
 message after a short delay.
 
@@ -71,10 +80,8 @@ Time is 2014-06-09 12:20:31 -0400
 Connection closed by foreign host.
 ```
 
-
 ## Exercises
 
 > NOTE: The supporting materials for these exercises are in `samples/part4`
-
 
 [part4-samples]: https://github.com/elm-city-craftworks/course-001/tree/master/samples/part4
