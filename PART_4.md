@@ -7,20 +7,37 @@ and exercises for this topic.
 
 ## Questions
 
-> NOTE: Several of these questions can directly be answered by reading 
-> the article, but some might require you to search the web for
+> NOTE: Some of these questions can directly be answered by reading 
+> the article, but most require you to search the web for
 > answers. External research is not only OK, it's encouraged!
 
 **Q1:** Briefly describe what a TCP socket is, using as little
 jargon as possible.
 
-**Q2:** Why is it important to explicitly close sockets when you
-are done using them?
+**Q2:** The `Socket`, `TCPSocket`, and `TCPServer` classes provide
+functionality that handles network interactions. What base class
+provides most of the generic stream processing behavior they 
+all have in common?
 
 **Q3:** Describe the similarities and differences between
 client-side and server-side sockets.
 
-**Q4:** Below are two minimal `TCPServer` examples, both of which
+**Q4:** Why is it important to explicitly close sockets when you
+are done using them?
+
+**Q5:** What might lead to a socket not being properly closed?
+What constructs does Ruby provide that can be used to avoid
+these problems?
+
+**Q6:** After a client-server interaction is completed, who is
+responsible for closing sockets: the client, the server, or
+both the client and the server? Explain your answer.
+
+**Q7:** What strategies could you use for testing code that makes use
+of sockets?. Consider both unit testing and end-to-end system testing
+in your response.**
+
+**Q8:** Below are two minimal `TCPServer` examples, both of which
 accept incoming connections, and then respond with a "Hello World"
 message after a short delay.
 
@@ -66,7 +83,7 @@ loop do
 end
 ```
 
-Consider experimentally verifying your answer using a command line
+You can experimentally verify your answer using a command line
 tool like `telnet`. You should only need to establish a connection
 to test out the server behavior, as in the following example:
 
