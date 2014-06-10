@@ -99,6 +99,58 @@ Connection closed by foreign host.
 
 ## Exercises
 
-> NOTE: The supporting materials for these exercises are in `samples/part4`
+In this set of exercises, you will build a minimal Internet Relay Chat (IRC)
+client, using nothing but basic socket programming.
 
-[part4-samples]: https://github.com/elm-city-craftworks/course-001/tree/master/samples/part4
+**STEP1:** Read through [IRC Over Telnet](http://oreilly.com/pub/h/1963), and
+follow along using `telnet` on your own machine. 
+
+You can join any channel you'd like for experimentation, but are welcome to try using
+`#practicing-ruby-testing` if you want to encounter other Practicing Rubyists
+testing their bots.
+
+You may want to also connect using a regular IRC client to see what the effects of
+your telnet-based experiments are. If you're not familiar with IRC, you can
+use the following link to access a web client which will randomly generate a 
+nickname for you and connect you to the `#practicing-ruby-testing` channel:
+
+http://webchat.freenode.net/?randomnick=1&channels=%23practicing-ruby-testing&uio=d4
+
+**STEP2:** Using the `TCPSocket` class, establish a socket connection to
+`irc.freenode.net` on port `6667`. Once you're connected, set your `NICK`
+and `USER` information using the commands shown in the *IRC Over Telnet* 
+article, then join a channel and post a "Hello World" message using the
+`PRIVMSG` command. Finally, issue a `QUIT` message and close the socket
+connection.
+
+**STEP3:** Create a loop to process incoming messages from the server.
+Whenever a `PING` command is received, respond with an appropriate
+`PONG` command to keep your connection from being terminated. Whenever
+a `PRIVMSG` command is received, print the message contents to STDOUT.
+
+**STEP4:** Choose a special word for your bot to monitor the chat logs
+for. Whenever this word is mentioned, send a message in response. For
+example, you might have your bot respond "MINASWAN!" every time someone
+mentions the word "Matz".
+
+**STEP5:** Make your client more robust by handling common error conditions
+(e.g. when a given nickname is already in use), and make the nickname
+used by your bot configurable at runtime. Try to cleanly close your socket
+connections when possible, and make your error messages human readable and clear.
+
+The [IRC Over Telnet](http://oreilly.com/pub/h/1963) article combined
+with the [TCPSocket]() API documention should give you enough information
+to complete this set of exercises, but if you want much more detailed
+information on the IRC protocol, you can check out RFC 1459. In
+particular, look at the following sections:
+
+* [4.1.2 Nick message](http://tools.ietf.org/html/rfc1459.html#section-4.1.2)
+* [4.1.3 User message](http://tools.ietf.org/html/rfc1459.html#section-4.1.3)
+* [4.1.6 Quit message](http://tools.ietf.org/html/rfc1459.html#section-4.1.6)
+* [4.2.1 Join message](http://tools.ietf.org/html/rfc1459.html#section-4.2.1)
+* [4.4.1 Private messages](http://tools.ietf.org/html/rfc1459.html#section-4.4.1)
+* [4.6.2 Ping message](http://tools.ietf.org/html/rfc1459.html#section-4.6.2)
+* [4.6.3 Pong message](http://tools.ietf.org/html/rfc1459.html#section-4.6.3)
+
+If you get stuck and have any questions, don't hesitate to file an issue
+in this repository or ask for help in the Practicing Ruby campfire chat.
