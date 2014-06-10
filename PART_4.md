@@ -139,9 +139,9 @@ used by your bot configurable at runtime. Try to cleanly close your socket
 connections when possible, and make your error messages human readable and clear.
 
 The [IRC Over Telnet](http://oreilly.com/pub/h/1963) article combined
-with the [TCPSocket]() API documention should give you enough information
-to complete this set of exercises, but if you want much more detailed
-information on the IRC protocol, you can check out RFC 1459. In
+with the [TCPSocket](http://ruby-doc.org/stdlib-2.1.1/libdoc/socket/rdoc/TCPSocket.html) 
+API documention should give you enough information to complete this set of exercises, 
+but if you want much more detailed information on the IRC protocol, you can check out RFC 1459. In
 particular, look at the following sections:
 
 * [4.1.2 Nick message](http://tools.ietf.org/html/rfc1459.html#section-4.1.2)
