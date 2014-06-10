@@ -5,11 +5,9 @@ eval(DATA.read) # load the test helper script
 
 check("No arguments", "")
 
-# TODO: Uncomment each test below and get it to pass.
+check("Dir listing", "foo")
 
-# check("Dir listing", "foo")
-
-# check("File glob", "foo/*.txt")
+check("File glob", "foo/*.txt")
 
 # check("Detailed output", "-l")
 
@@ -38,6 +36,7 @@ Dir.chdir("#{dir}/data")
 require "open3"
 
 def check(test_name, args)
+  
   ls_stdout, ls_stderr, ls_status = Open3.capture3("ls #{args}")
   rb_stdout, rb_stderr, rb_status = Open3.capture3("ruby-ls #{args}")
 

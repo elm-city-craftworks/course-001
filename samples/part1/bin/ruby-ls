@@ -1,4 +1,7 @@
 #!/usr/bin/env ruby
-
-## FIXME: Replace this code with a pure Ruby clone of the ls utility
-system("ls", *ARGV)
+require_relative "../lib/ruby_ls"
+begin
+  RubyLs::Application.new(ARGV).run
+rescue Errno::ENOENT => err
+  abort "ruby-ls: #{err.message}"
+end

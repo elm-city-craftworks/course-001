@@ -1,0 +1,30 @@
+foo		hello.sh	hello.txt
+
+apple.md	banana.md	bar.txt		baz.txt		quux.txt
+
+foo/bar.txt	foo/baz.txt	foo/quux.txt
+
+total 16
+drwxr-xr-x  7 Kavinder  staff  238 May 24 19:40 foo
+-rwxr-xr-x  1 Kavinder  staff   39 May 24 19:40 hello.sh
+-rw-r--r--  1 Kavinder  staff   13 May 24 19:40 hello.txt
+
+.		.secret		hello.sh
+..		foo		hello.txt
+
+total 24
+drwxr-xr-x  6 Kavinder  staff  204 May 24 19:40 .
+drwxr-xr-x  6 Kavinder  staff  204 Jun  9 11:00 ..
+-rw-r--r--  1 Kavinder  staff    9 May 24 19:40 .secret
+drwxr-xr-x  7 Kavinder  staff  238 May 24 19:40 foo
+-rwxr-xr-x  1 Kavinder  staff   39 May 24 19:40 hello.sh
+-rw-r--r--  1 Kavinder  staff   13 May 24 19:40 hello.txt
+
+-rw-r--r--  1 Kavinder  staff   8 May 24 19:40 foo/bar.txt
+-rw-r--r--  1 Kavinder  staff   8 May 24 19:40 foo/baz.txt
+-rw-r--r--  1 Kavinder  staff  10 May 24 19:40 foo/quux.txt
+
+ls: missingdir: No such file or directory
+
+ls: illegal option -- Z
+usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]
