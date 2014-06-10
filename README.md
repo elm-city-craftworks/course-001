@@ -24,10 +24,6 @@ gradually to encourage better focus.
 
 **Questions/Exercises already released:**
 
-More to come soon!
-
-**Not released yet (except reading assignments):**
-
 * Socket programming and Network I/O ([Instructions][PART_4.md])
 
 ### News and Updates
