@@ -35,7 +35,7 @@ both the client and the server? Explain your answer.
 
 **Q7:** What strategies could you use for testing code that makes use
 of sockets?. Consider both unit testing and end-to-end system testing
-in your response.**
+in your response.
 
 **Q8:** Below are two minimal `TCPServer` examples, both of which
 accept incoming connections, and then respond with a "Hello World"
