@@ -102,7 +102,7 @@ Connection closed by foreign host.
 In this set of exercises, you will build a minimal Internet Relay Chat (IRC)
 client, using nothing but basic socket programming.
 
-**STEP1:** Read through [IRC Over Telnet](http://oreilly.com/pub/h/1963), and
+**STEP 1:** Read through [IRC Over Telnet](http://oreilly.com/pub/h/1963), and
 follow along using `telnet` on your own machine. 
 
 You can join any channel you'd like for experimentation, but are welcome to try using
@@ -116,24 +116,24 @@ nickname for you and connect you to the `#practicing-ruby-testing` channel:
 
 http://webchat.freenode.net/?randomnick=1&channels=%23practicing-ruby-testing&uio=d4
 
-**STEP2:** Using the `TCPSocket` class, establish a socket connection to
+**STEP 2:** Using the `TCPSocket` class, establish a socket connection to
 `irc.freenode.net` on port `6667`. Once you're connected, set your `NICK`
 and `USER` information using the commands shown in the *IRC Over Telnet* 
 article, then join a channel and post a "Hello World" message using the
 `PRIVMSG` command. Finally, issue a `QUIT` message and close the socket
 connection.
 
-**STEP3:** Create a loop to process incoming messages from the server.
+**STEP 3:** Create a loop to process incoming messages from the server.
 Whenever a `PING` command is received, respond with an appropriate
 `PONG` command to keep your connection from being terminated. Whenever
 a `PRIVMSG` command is received, print the message contents to STDOUT.
 
-**STEP4:** Choose a special word for your bot to monitor the chat logs
+**STEP 4:** Choose a special word for your bot to monitor the chat logs
 for. Whenever this word is mentioned, send a message in response. For
 example, you might have your bot respond "MINASWAN!" every time someone
 mentions the word "Matz".
 
-**STEP5:** Make your client more robust by handling common error conditions
+**STEP 5:** Make your client more robust by handling common error conditions
 (e.g. when a given nickname is already in use), and make the nickname
 used by your bot configurable at runtime. Try to cleanly close your socket
 connections when possible, and make your error messages human readable and clear.
