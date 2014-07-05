@@ -7,11 +7,11 @@ module RubyLs
       @hidden = params[:hidden]
   	end
 
-  	def render(data)
+  	def render(data, directory=false)
   	  if @details
   	  	details = get_details(data)
         output, total_blocks = build_details_output(details)
-        print_total_blocks
+        print_total_blocks if directory
         print_output
   	  else
   	  	puts data

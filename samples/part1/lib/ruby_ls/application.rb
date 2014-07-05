@@ -9,12 +9,12 @@ module RubyLs
 
   	def run
   	  if @dir =~ /\./
-        @display.render(@args)        
+        @display.render(@args, directory?)        
   	  elsif @dir
   	  	Dir.chdir("#{@dir}")
-  	  	@display.render(files)
+  	  	@display.render(files, directory?)
   	  else
-  	  	@display.render(files)
+  	  	@display.render(files, directory?)
   	  end
   	end
 
@@ -31,6 +31,10 @@ module RubyLs
 
       def files
         @params[:hidden] ? Dir.entries(".") : Dir.glob("*")
+      end
+
+      def directory?
+        @args.empty? || (@args.count == 1 && File.directory?(@args.first))
       end
 
   end
