@@ -9,12 +9,12 @@ module RubyLs
 
   	def run
   	  if @dir =~ /\./
-        @display.render(@args)
+        @display.render(@args)        
   	  elsif @dir
   	  	Dir.chdir("#{@dir}")
-  	  	@display.render(Dir.glob("*"))
+  	  	@display.render(files)
   	  else
-  	  	@display.render(Dir.glob("*"))
+  	  	@display.render(files)
   	  end
   	end
 
@@ -24,8 +24,13 @@ module RubyLs
         params = {}
         parser = OptionParser.new
         parser.on("-l") {params[:detail] = true}
+        parser.on("-a") {params[:hidden] = true}
         dir = parser.parse(argv)
         [params, dir]
+      end
+
+      def files
+        @params[:hidden] ? Dir.entries(".") : Dir.glob("*")
       end
 
   end

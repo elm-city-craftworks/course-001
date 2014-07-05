@@ -4,6 +4,7 @@ module RubyLs
 
     def initialize(params)
   	  @details = params[:detail]
+      @hidden = params[:hidden]
   	end
 
   	def render(data)
