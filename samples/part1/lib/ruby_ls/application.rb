@@ -2,20 +2,31 @@ module RubyLs
   class Application
 
   	def initialize(argv)
-  	  @dir = argv.first
-  	  @stuff = argv
+      @params, @args = parse_options(argv)
+      @dir = @args.first
+      @display = RubyLs::Display.new(@params)
   	end
 
   	def run
   	  if @dir =~ /\./
-  	  	puts Dir.glob("#{@dir}")
+        @display.render(@args)
   	  elsif @dir
   	  	Dir.chdir("#{@dir}")
-  	  	puts Dir.glob("*")
+  	  	@display.render(Dir.glob("*"))
   	  else
-  	  	puts Dir.glob("*")
+  	  	@display.render(Dir.glob("*"))
   	  end
   	end
+
+    private
+
+      def parse_options(argv)
+        params = {}
+        parser = OptionParser.new
+        parser.on("-l") {params[:detail] = true}
+        dir = parser.parse(argv)
+        [params, dir]
+      end
 
   end
 end

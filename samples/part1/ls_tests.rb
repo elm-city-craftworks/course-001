@@ -9,7 +9,7 @@ check("Dir listing", "foo")
 
 check("File glob", "foo/*.txt")
 
-# check("Detailed output", "-l")
+check("Detailed output", "-l")
 
 # check("Hidden files", "-a")
 
