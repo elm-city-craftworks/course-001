@@ -8,14 +8,18 @@ module RubyLs
   	end
 
   	def run
-  	  if @dir =~ /\./
-        @display.render(@args, directory?)        
-  	  elsif @dir
-  	  	Dir.chdir("#{@dir}")
-  	  	@display.render(files, directory?)
-  	  else
-  	  	@display.render(files, directory?)
-  	  end
+      begin
+  	    if @dir =~ /\./
+          @display.render(@args, directory?)        
+  	    elsif @dir
+  	    	Dir.chdir("#{@dir}")
+  	    	@display.render(files, directory?)
+  	    else
+  	    	@display.render(files, directory?)
+  	    end
+      rescue SystemCallError => e
+        abort("ls: #{@dir}: No such file or directory")
+      end
   	end
 
     private
