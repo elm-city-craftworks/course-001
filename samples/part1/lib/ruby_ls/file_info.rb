@@ -1,6 +1,7 @@
 module RubyLs
   class FileInfo
   	
+    attr_reader :data
     MODES = { "0" => "---", "1" => "--x", "2" => "-w-", "3" => "-wx",
               "4" => "r--", "5" => "r-x", "6" => "rw-", "7" => "rwx" }
 
@@ -14,11 +15,15 @@ module RubyLs
   	  file_info
   	end
 
+    def keys
+      @data.keys
+    end
+
   	private
 
     def file_info
       stats = File::Stat.new(file)
-      {
+      @data = {
         permissions: permission_string(stats.mode),
         link_count: stats.nlink,
         owner: Etc.getpwuid(stats.uid).name,

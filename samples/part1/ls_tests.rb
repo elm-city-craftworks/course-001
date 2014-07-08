@@ -15,6 +15,7 @@ check("Hidden files", "-a")
 
 check("Hidden files with detailed output", "-a -l")
 
+
 check("File glob with detailed output", "-l foo/*.txt")
 
 # check("Invalid directory", "missingdir")
