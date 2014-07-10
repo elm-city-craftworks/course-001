@@ -29,7 +29,13 @@ module RubyLs
         parser = OptionParser.new
         parser.on("-l") {params[:detail] = true}
         parser.on("-a") {params[:hidden] = true}
-        dir = parser.parse(argv)
+        begin
+          dir = parser.parse(argv)
+        rescue OptionParser::InvalidOption => e 
+          invalid_flag = e.message[/invalid option: -(.*)/, 1]
+          abort "ls: illegal option -- #{invalid_flag}\n"+
+          "usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]"
+        end
         [params, dir]
       end
 
