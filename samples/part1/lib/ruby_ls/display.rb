@@ -5,8 +5,8 @@ module RubyLs
     def initialize(params)
   	  @details = params[:detail]
       @hidden = params[:hidden]
-       @column_widths = Hash.new(0)
-       @total_blocks = 0
+      @column_widths = Hash.new(0)
+      @total_blocks = 0
   	end
 
   	def render(data, directory=false)
@@ -20,7 +20,7 @@ module RubyLs
   	  end
   	end
 
-  	private
+  private
 
   	def get_details(data)
   	  data.inject([]) do |info, file|
@@ -35,7 +35,14 @@ module RubyLs
 
     def print_output(details)
       details.each do |d|
-        puts "#{d[:permissions]} #{d[:link_count].to_s.rjust(@column_widths[:link_count] + 1, " ")} #{d[:owner]}  #{d[:group]} #{d[:size].to_s.rjust(@column_widths[:size] + 1, " ")} #{d[:time]} #{d[:name]}"
+        output = [d[:permissions],
+                  d[:link_count].to_s.rjust(@column_widths[:link_count] + 1, " "),
+                  d[:owner] + " ",
+                  d[:group],
+                  d[:size].to_s.rjust(@column_widths[:size] + 1, " "),
+                  d[:time], 
+                  d[:name]]
+        puts output.join(" ")
       end
     end
 
@@ -44,7 +51,6 @@ module RubyLs
         d.keys.each do |k|
           @column_widths[k] = [@column_widths[k], d[k].to_s.size].max
         end
-        #output << "#{d[:permissions]} #{d[:link_count].to_s.rjust(@column_widths[:link_count] + 1, " ")} #{d[:owner]}  #{d[:group]} #{d[:size].to_s.rjust(@column_widths[:size] + 1, " ")} #{d[:time]} #{d[:name]}"
         total_blocks += d[:blocks]
       end
       @total_blocks = total_blocks

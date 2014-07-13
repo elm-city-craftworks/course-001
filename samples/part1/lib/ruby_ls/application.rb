@@ -2,21 +2,14 @@ module RubyLs
   class Application
 
   	def initialize(argv)
-      @params, @args = parse_options(argv)
+      @options, @args = parse_options(argv)
       @dir = @args.first
-      @display = RubyLs::Display.new(@params)
+      @display = RubyLs::Display.new(@options)
   	end
 
   	def run
       begin
-  	    if @dir =~ /\./
-          @display.render(@args, directory?)        
-  	    elsif @dir
-  	    	Dir.chdir("#{@dir}")
-  	    	@display.render(files, directory?)
-  	    else
-  	    	@display.render(files, directory?)
-  	    end
+        @display.render(files, directory?)
       rescue SystemCallError => e
         abort("ls: #{@dir}: No such file or directory")
       end
@@ -25,22 +18,27 @@ module RubyLs
     private
 
       def parse_options(argv)
-        params = {}
+        options = {}
         parser = OptionParser.new
-        parser.on("-l") {params[:detail] = true}
-        parser.on("-a") {params[:hidden] = true}
+        parser.on("-l") {options[:detail] = true}
+        parser.on("-a") {options[:hidden] = true}
         begin
-          dir = parser.parse(argv)
+          args = parser.parse(argv)
+          [options, args]
         rescue OptionParser::InvalidOption => e 
           invalid_flag = e.message[/invalid option: -(.*)/, 1]
           abort "ls: illegal option -- #{invalid_flag}\n"+
           "usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]"
         end
-        [params, dir]
       end
 
       def files
-        @params[:hidden] ? Dir.entries(".") : Dir.glob("*")
+        if @dir =~/\./
+          @args
+        else
+          Dir.chdir("#{@dir}") if @dir
+          @options[:hidden] ? Dir.entries(".") : Dir.glob("*")
+        end
       end
 
       def directory?
