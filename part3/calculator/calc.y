@@ -1,4 +1,4 @@
-# A somewhat modified version of the calculator exampe from the Racc project.
+# A somewhat modified version of the calculator example from the Racc project.
 # ORIGINAL SOURCE: https://raw.githubusercontent.com/tenderlove/racc/master/sample/calc.y
 
 class Calcp
