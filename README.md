@@ -10,34 +10,19 @@ Each topic in this study guide consists of a Practicing Ruby article to read,
 some questions to test your understanding, and some project-based exercises
 to put the concepts into practice.
 
-All of the reading assignments have been made available from the first day of
-the course, but the questions, exercises, and solutions will be released
-gradually to encourage better focus.
-
-**Solutions already released:**
-
 * Standard I/O streams and the filesystem ([Instructions][PART_1.md], [Solutions][PART_1_SOLUTIONS])
 
 * Encoding and decoding binary files ([Instructions][PART_2.md], [Solutions][PART_2_SOLUTIONS])
 
 * Parsing text-based formats ([Instructions][PART_3.md], [Solutions][PART_3_SOLUTIONS])
 
-**Questions/Exercises already released:**
-
-* Socket programming and Network I/O ([Instructions][PART_4.md])
+* Socket programming and Network I/O ([Instructions][PART_4.md], [Solutions][PART_4_SOLUTIONS])
 
 ### News and Updates
 
 Practicing Ruby subscribers will be emailed whenever new content is released.
 For day-to-day updates to the course materials, including revisions, see the
 [CHANGELOG.md][] file.
-
-### Schedule
-
-Currently the goal is to ship some new course materials every 2-3 weeks.
-
-Watch the course repository on github for updates, and stay tuned for emails
-whenever new content is released.
 
 ### Getting Help
 
@@ -55,19 +40,16 @@ comment on a ticket that is already open. See closed tickets marked
 * Pull requests are assumed to include spoilers, issues should 
 avoid spoilers unless they are clearly marked.
 
-* Once released, reference solutions will be made available on the 
-[solutions](https://github.com/elm-city-craftworks/course-001/tree/solutions) branch of this repository.
-
 * You can also use the Practicing Ruby chatroom to discuss this course.
 To access it, log into practicingruby.com and click "chat" in the navbar.
-
 
 [PART_1.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_1.md
 [PART_2.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_2.md
 [PART_3.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_3.md
 [PART_4.md]: https://github.com/elm-city-craftworks/course-001/blob/master/PART_4.md
 [PART_1_SOLUTIONS]: https://github.com/elm-city-craftworks/course-001/tree/solutions/part1
-[PART_2_SOLUTIONS]:  https://github.com/elm-city-craftworks/course-001/tree/solutions/part2
-[PART_3_SOLUTIONS]:  https://github.com/elm-city-craftworks/course-001/tree/solutions/part3
+[PART_2_SOLUTIONS]: https://github.com/elm-city-craftworks/course-001/tree/solutions/part2
+[PART_3_SOLUTIONS]: https://github.com/elm-city-craftworks/course-001/tree/solutions/part3
+[PART_4_SOLUTIONS]: https://github.com/elm-city-craftworks/course-001/tree/solutions/part4
 [CHANGELOG.md]: https://github.com/elm-city-craftworks/course-001/blob/master/CHANGELOG.md
 
