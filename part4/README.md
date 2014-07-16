@@ -34,7 +34,6 @@ writing, and stream processing operations.
 
 This notion of treating everything like a file is pervasive in
 Unix-like systems. For more details, see the following article:
-
 http://ph7spot.com/musings/in-unix-everything-is-a-file
 
 **Q3: Describe the similarities and differences between
