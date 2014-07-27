@@ -15,36 +15,65 @@ and exercises.
 **Q1:** What steps are involved in making a Ruby scripts runnable as a 
 command line utility? (i.e. directly runnable like `rake` or `gem`
 rather than having to type `ruby my_script.rb`)
+A shebang line needs to be placed above the ruby code in a script that points to the location of the ruby environment,
+in order to execute the script. #! /usr/bin/env ruby
 
 **Q2:** What is `ARGF` stream used for in Ruby?
+Is used in a Ruby script to process files that are passes in as command line arguments. It works in conjunction with ARGV so when a file is read from ARGF it is removed from the ARGV array,
 
 **Q3:** What is `$?` used for in Bash/Ruby?
+It is a global variable in Ruby that returns information about a Process's status. It is an instance of the Process::Status class.
+
 
 **Q4:** What does an exit status of zero indicate when a command line script 
 terminates? How about a non-zero exit status?
+Zero indicates that there were no errors in the execution, while a non zero exit status indicates the error and I would think a well designed command line script would have some meaning to various non-zero values. 
 
 **Q5:** What is the difference between the `STDOUT` and `STDERR` output streams?
+STDOUT is a stream to print non-error related messages to, for instance puts prints to standard out.  STDERR is the
+output stream for errors, so raise "Some message" would print to STDERR.
 
 **Q6:** When executing shell commands from within a Ruby script, how can you capture
 what gets written to `STDOUT`? How do you go about capturing both `STDOUT` and
 `STDERR` streams?
+The ruby standard libraru Open3 provides a simple way to access stdout and stderr without having to do any parsing of one's own.
 
 **Q7:** How can you efficiently write the contents of an input file 
 to `STDOUT` with empty lines omitted? Being efficient in this context
 means avoiding storing the full contents of the input file in memory 
 and processing the stream in a single pass.
 
+File.open("samplefile.txt").readline do |line|
+  puts line unless line.chomp.empty?
+end
+
 **Q8:** How would you go about parsing command line arguments that contain a mixture
 of flags and file arguments? (i.e. something like `ls -a -l foo/*.txt`)
+I would use a library like OptionParser to first extract the flags that I'm looking for. 
+
+Ex.
+
+params = {}
+parser = OptionParser.new 
+
+parser.on("-a") { params[:all_files] ||= true         }
+parser.on("-l") { params[:show_permission]   = true }
+
+files = parser.parse(ARGV)
+
+parser.parse extracts the -a and -l from ARGV and sets the rest equal to files.
 
 **Q9:** What features are provided by Ruby's `String` class to help with fixed width
 text layouts? (i.e. right aligning a column of numbers, or left aligning a
 column of text with some whitespace after it to keep the total 
 column width uniform)
+String provides methods such as rjust and ljust that take an integer in order to right or left justify the string.
 
 **Q10:** Suppose your script encounters an error and has to terminate itself. What is
 the idiomatic Unix-style way of reporting that the command did not run
 successfully?
+
+It would be to first have the application be aware of differing types of erros from incorrect input to failure during processing and then to show to the end user the command they called, an error message and when applicable a helpful tip. One immediate example that comes to mind is git where if I type a command like git commt it will be smart enough to suggest to me 'do you mean commit'.
 
 ## Exercises
 
