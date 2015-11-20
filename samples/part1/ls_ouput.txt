@@ -1,0 +1,29 @@
+foo       hello.sh  hello.txt
+
+apple.md  banana.md bar.txt   baz.txt   quux.txt
+
+foo/bar.txt  foo/baz.txt  foo/quux.txt
+
+total 16
+drwxr-xr-x  7 gustavocaso  staff  238 Nov 17 00:01 foo
+-rwxr-xr-x  1 gustavocaso  staff   39 Nov 17 00:01 hello.sh
+-rw-r--r--  1 gustavocaso  staff   13 Nov 17 00:01 hello.txt
+
+.         ..        .secret   foo       hello.sh  hello.txt
+
+total 24
+drwxr-xr-x  6 gustavocaso  staff  204 Nov 17 00:01 .
+drwxr-xr-x  6 gustavocaso  staff  204 Nov 17 01:03 ..
+-rw-r--r--  1 gustavocaso  staff    9 Nov 17 00:01 .secret
+drwxr-xr-x  7 gustavocaso  staff  238 Nov 17 00:01 foo
+-rwxr-xr-x  1 gustavocaso  staff   39 Nov 17 00:01 hello.sh
+-rw-r--r--  1 gustavocaso  staff   13 Nov 17 00:01 hello.txt
+
+-rw-r--r--  1 gustavocaso  staff   8 Nov 17 00:01 foo/bar.txt
+-rw-r--r--  1 gustavocaso  staff   8 Nov 17 00:01 foo/baz.txt
+-rw-r--r--  1 gustavocaso  staff  10 Nov 17 00:01 foo/quux.txt
+
+s: missingdir: No such file or directory
+
+s: illegal option -- Z
+usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]
