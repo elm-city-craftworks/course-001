@@ -1,0 +1,99 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+
+module RCat
+  class Application
+    def initialize(argv)
+      @params, @files = parse_options(argv)
+      @display = Display.new(@params)
+    end
+
+    def run
+      if @files.empty?
+        @display.render(STDIN)
+      else
+        @files.each do |filename|
+          File.open(filename) { |f| @display.render(f) }
+        end
+      end
+    end
+
+    def parse_options(argv)
+      params = {}
+      parser = OptionParser.new
+
+      parser.on("-n") { params[:line_numbering_style] ||= :all_lines }
+      parser.on("-b") { params[:line_numbering_style]   = :significant_lines }
+      parser.on("-s") { params[:squeeze_extra_newlines] = true }
+
+      files = parser.parse(argv)
+
+      [params, files]
+    end
+  end
+
+  class Display
+
+    def initialize(params)
+      @line_numbering_style   = params[:line_numbering_style]
+      @squeeze_extra_newlines = params[:squeeze_extra_newlines]
+    end
+
+    def render(data)
+      @line_number = 1
+
+      lines = data.each_line
+      loop { render_line(lines) }
+    end
+
+    private
+
+    attr_reader :line_numbering_style, :squeeze_extra_newlines, :line_number
+
+    def render_line(lines)
+      current_line = lines.next
+      current_line_is_blank = current_line.chomp.empty?
+
+      case line_numbering_style
+      when :all_lines
+        print_labeled_line(current_line)
+        increment_line_number
+      when :significant_lines
+        if current_line_is_blank
+          print_unlabeled_line(current_line)
+        else
+          print_labeled_line(current_line)
+          increment_line_number
+        end
+      else
+        print_unlabeled_line(current_line)
+        increment_line_number
+      end
+
+      if squeeze_extra_newlines && current_line_is_blank
+        lines.next while lines.peek.chomp.empty?
+      end
+    end
+
+    def print_labeled_line(line)
+      print "#{line_number.to_s.rjust(6)}\t#{line}"
+    end
+
+    def print_unlabeled_line(line)
+          print line
+        end
+
+    def increment_line_number
+      @line_number += 1
+    end
+  end
+end
+
+begin
+  RCat::Application.new(ARGV).run
+rescue Errno::ENOENT => err
+  abort "rcat: #{err.message}"
+rescue OptionParser::InvalidOption => err
+  abort "rcat: #{err.message}\nusage: rcat [-bns] [file ...]"
+end

@@ -1,6 +1,6 @@
 ## Part 1: Standard I/O streams and the file system
 
-The article we'll work through in this part of the 
+The article we'll work through in this part of the
 course is [Building Unix-style command line
 applications](https://practicingruby.com/articles/building-unix-style-command-line-applications).
 Reading it carefully should prepare you to work through the following questions
@@ -8,43 +8,70 @@ and exercises.
 
 ## Questions
 
-> NOTE: Most of these questions can directly be answered by reading 
+> NOTE: Most of these questions can directly be answered by reading
 > the article, but a few might require you to search the web for
 > answers. External research is not only OK, it's encouraged!
 
-**Q1:** What steps are involved in making a Ruby scripts runnable as a 
+**Q1:** What steps are involved in making a Ruby scripts runnable as a
 command line utility? (i.e. directly runnable like `rake` or `gem`
 rather than having to type `ruby my_script.rb`)
+**A1:**
+First create a file with the comment `#!usr/bin/env ruby` and the top, to tell
+the compiler to use ruby for parsing that file.
+Second change permission to the file `chmod +x {file}`
+Thrid append the location of the file to the `$PATH`
 
 **Q2:** What is `ARGF` stream used for in Ruby?
+**A2:**
+Special variable that store all the arguments passed in Array data structure
 
 **Q3:** What is `$?` used for in Bash/Ruby?
+**A3:**
+To store the `Process::Status` after running a shell command. Which contain the
+exit status of the program
 
-**Q4:** What does an exit status of zero indicate when a command line script 
+**Q4:** What does an exit status of zero indicate when a command line script
 terminates? How about a non-zero exit status?
+**A4:**
+0 -> Means Successfull
+!= 0 -> Means Failed
 
 **Q5:** What is the difference between the `STDOUT` and `STDERR` output streams?
+**A5:**
+`STDOUT` is use to print to the terminal.
+`STDERR` is use for debugging porpuse.
 
 **Q6:** When executing shell commands from within a Ruby script, how can you capture
 what gets written to `STDOUT`? How do you go about capturing both `STDOUT` and
 `STDERR` streams?
+**A6:**
+Capturing both `STDOUT` and `STDERR` we can use the `Open3.capture3
 
-**Q7:** How can you efficiently write the contents of an input file 
+**Q7:** How can you efficiently write the contents of an input file
 to `STDOUT` with empty lines omitted? Being efficient in this context
-means avoiding storing the full contents of the input file in memory 
+means avoiding storing the full contents of the input file in memory
 and processing the stream in a single pass.
+**A7:**
+Using an `enumerator` and `Kernel.loop`, iteration every nex_line, and
+checking for empty lines.
 
 **Q8:** How would you go about parsing command line arguments that contain a mixture
 of flags and file arguments? (i.e. something like `ls -a -l foo/*.txt`)
+**A8:**
+Using the library `OptionParser`
 
 **Q9:** What features are provided by Ruby's `String` class to help with fixed width
 text layouts? (i.e. right aligning a column of numbers, or left aligning a
-column of text with some whitespace after it to keep the total 
+column of text with some whitespace after it to keep the total
 column width uniform)
+**A9:**
+`rjust`, `ljust`, `center`
 
 **Q10:** Suppose your script encounters an error and has to terminate itself. What is
 the idiomatic Unix-style way of reporting that the command did not run
 successfully?
+**A10:**
+Write to `STDERR` and exit the progam with nonzero code
 
 ## Exercises
 
@@ -56,7 +83,7 @@ exercises, you'll repeat a similar process to build a minimal clone of
 the `ls` command. By doing so, you'll explore many of Ruby's capabilities
 for working with files.
 
-**STEP 1:** Run the following bash commands in the `data` folder and copy the 
+**STEP 1:** Run the following bash commands in the `data` folder and copy the
 output into a text file for future reference.
 
 ```bash
@@ -82,7 +109,7 @@ Test 1: OK
 Next step: add a test for ruby-ls foo/*.txt
 ```
 
-**STEP 3:** Now replace the `ruby-ls` script with a Ruby-based implementation 
+**STEP 3:** Now replace the `ruby-ls` script with a Ruby-based implementation
 that passes the first test.
 
 To complete this step, you will probably need to take a closer look at how `ls` behaves
@@ -92,7 +119,7 @@ the latter case, with each entry being listed on its own line.
 
 To see how this works, run each of commands listed in STEP 1, but pipe the output
 to the cat utility, i.e. instead of typing `ls`, type `ls | cat`. It's
-this behavior you will need to clone to get your `ruby-ls` program 
+this behavior you will need to clone to get your `ruby-ls` program
 working correctly -- the screen output for human consumption is optional.
 
 **STEP 4:** Work your way through implementing some or all of the other use cases

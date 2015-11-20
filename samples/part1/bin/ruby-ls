@@ -1,4 +1,158 @@
 #!/usr/bin/env ruby
 
 ## FIXME: Replace this code with a pure Ruby clone of the ls utility
-system("ls", *ARGV)
+require "optparse"
+
+module Rls
+  class Application
+    attr_reader :files, :params, :display
+    def initialize(argv)
+      @params, @files = parse_options(argv)
+      @display = Display.new(@params, directory_and_files_parsed)
+    end
+
+    def run
+      display.render
+    end
+
+    def parse_options(argv)
+      params = {}
+
+      parser = OptionParser.new
+
+      parser.on("-l") { params[:detailed_output] = true }
+      parser.on("-a") { params[:hidden_files]    = true }
+
+      files = parser.parse(argv)
+      [params, files]
+    end
+
+    def directory_and_files_parsed
+      result = {directory: [], files: [] }
+      files.each do |file|
+        result[:directory] << file if File.directory?(file)
+        result[:files] << file if File.file?(file)
+      end
+      result
+    end
+  end
+
+  class Display
+    attr_reader :params, :directory, :files
+
+    def initialize(params, directory_and_files)
+      @params    = params
+      @directory = directory_and_files[:directory]
+      @files     = directory_and_files[:files]
+    end
+
+    def render
+      if directory.any?
+        go_directory_and_print_all(directory.first)
+      elsif files.any?
+        files.each { |file| print_file(file)}
+      else
+        print_all
+      end
+    end
+
+    def go_directory_and_print_all(directory)
+      Dir.chdir("#{Dir.pwd}/#{directory}")
+      print_all
+    end
+
+    def print_all(pattern='*')
+      Dir.glob(pattern).each do |file|
+        print_file(file)
+      end
+    end
+
+    def print_file(file)
+      if params[:detailed_output]
+        print DetailFileDisplay.new(file).render
+      else
+        print "#{file}\n"
+      end
+    end
+  end
+
+  class DetailFileDisplay
+    attr_reader :file
+
+    def initialize(file)
+      @file = file
+    end
+
+    def render
+      "#{get_file_type}#{get_file_permissions} #{nlink} #{owner} #{group} #{size} #{mtime} #{file}\n"
+    end
+
+    def get_file_type
+      File.directory?(file) ? 'd' : '-'
+    end
+
+    def get_file_permissions
+      binary_represenation = sprintf('%o', file_stat.mode).slice(2,5)
+      FilePermissionRepresentation.new(binary_represenation).render
+    end
+
+    def nlink
+      proper_align(file_stat.nlink)
+    end
+
+    def owner
+      Etc.getpwuid(file_stat.uid).name
+    end
+
+    def group
+      proper_align(Etc.getgrgid(file_stat.gid).name)
+    end
+
+    def size
+      "%4s" % "#{file_stat.size}"
+    end
+
+    def mtime
+      file_stat.mtime.strftime('%b %d %H:%M')
+    end
+
+    def blksize
+      file_stat.blksize / 256
+    end
+
+    private
+
+    def file_stat
+      @file_stat ||= File.stat(file)
+    end
+
+    def proper_align(text)
+      "%#{text.to_s.size.next}s" % "#{text}"
+    end
+  end
+
+  class FilePermissionRepresentation
+    MAPER = {
+      "7" => 'rwx',
+      "6" => 'rw-',
+      "5" => 'r-x',
+      "4" => 'r--',
+      "3" => '-wx',
+      "2" => '-w-',
+      "1" => '--x'
+
+    }
+    attr_reader :binary
+    def initialize(binary)
+      @binary = binary
+    end
+
+    def render
+      binary.split('').map do |number|
+        MAPER[number]
+      end.join
+    end
+  end
+end
+
+Rls::Application.new(ARGV).run

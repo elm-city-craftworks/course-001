@@ -1,17 +1,17 @@
 eval(DATA.read) # load the test helper script
 
-# Task: Implement the ruby-ls utility and get these tests to pass on a system 
+# Task: Implement the ruby-ls utility and get these tests to pass on a system
 # which has the UNIX ls command present.
 
 check("No arguments", "")
 
 # TODO: Uncomment each test below and get it to pass.
 
-# check("Dir listing", "foo")
+check("Dir listing", "foo")
 
-# check("File glob", "foo/*.txt")
+check("File glob", "foo/*.txt")
 
-# check("Detailed output", "-l")
+check("Detailed output", "-l")
 
 # check("Hidden files", "-a")
 
@@ -23,7 +23,7 @@ check("No arguments", "")
 
 # check("Invalid flag", "-Z")
 
-puts "You passed the tests, yay!"
+# puts "You passed the tests, yay!"
 
 __END__
 # This test runner is from Jacob Tjoernholm
