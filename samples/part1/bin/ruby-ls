@@ -1,9 +1,29 @@
 #!/usr/bin/env ruby
 
-## FIXME: Replace this code with a pure Ruby clone of the ls utility
 require "optparse"
+require "etc"
+
+module Kernel
+  def suppress_warnings
+    original_verbosity = $VERBOSE
+    $VERBOSE = nil
+    result = yield
+    $VERBOSE = original_verbosity
+    return result
+  end
+end
+
+class OptionParser::InvalidOption
+  suppress_warnings { Reason = 'illegal option' }
+
+  def message
+    "#{Reason} -- #{args.map{|x| x.delete('-')}.join(' ')}"
+  end
+end
 
 module Rls
+  class FileErrorArgument < StandardError; end
+
   class Application
     attr_reader :files, :params, :display
     def initialize(argv)
@@ -24,6 +44,7 @@ module Rls
       parser.on("-a") { params[:hidden_files]    = true }
 
       files = parser.parse(argv)
+
       [params, files]
     end
 
@@ -33,26 +54,26 @@ module Rls
         result[:directory] << file if File.directory?(file)
         result[:files] << file if File.file?(file)
       end
+      raise FileErrorArgument.new(ARGV.first) if (result[:directory].empty? && result[:files].empty?) && files.any?
       result
     end
   end
 
   class Display
-    attr_reader :params, :directory, :files
+    attr_reader :params, :directory, :files, :flags
 
     def initialize(params, directory_and_files)
       @params    = params
       @directory = directory_and_files[:directory]
       @files     = directory_and_files[:files]
+      @flags     = params[:hidden_files] ? 4 : 0
     end
 
     def render
       if directory.any?
         go_directory_and_print_all(directory.first)
-      elsif files.any?
-        files.each { |file| print_file(file)}
       else
-        print_all
+        print_all(files)
       end
     end
 
@@ -62,68 +83,78 @@ module Rls
     end
 
     def print_all(pattern='*')
-      Dir.glob(pattern).each do |file|
-        print_file(file)
+      pattern = pattern.empty? ? '*' : pattern
+      if params[:detailed_output]
+        DetailFileDisplay.new(Dir.glob(pattern, flags)).render.each do |file|
+          print file
+        end
+      else
+        Dir.glob(pattern, flags).each do |file|
+          print_file(file)
+        end
       end
     end
 
     def print_file(file)
-      if params[:detailed_output]
-        print DetailFileDisplay.new(file).render
-      else
-        print "#{file}\n"
-      end
+      print "#{file}\n"
     end
   end
 
   class DetailFileDisplay
-    attr_reader :file
-
-    def initialize(file)
-      @file = file
+    attr_reader :files
+    attr_accessor :result
+    def initialize(files)
+      @files = files
+      @result = []
+      @total_blocks = 0
     end
 
     def render
-      "#{get_file_type}#{get_file_permissions} #{nlink} #{owner} #{group} #{size} #{mtime} #{file}\n"
+      files.each do |file|
+        @total_blocks += block(file)
+        result << "#{get_file_type(file)}#{get_file_permissions(file)} #{nlink(file)} #{owner(file)} #{group(file)} #{size(file)} #{mtime(file)} #{file}\n"
+      end
+      result.unshift("total #{@total_blocks}\n")
+      result
     end
 
-    def get_file_type
+    def get_file_type(file)
       File.directory?(file) ? 'd' : '-'
     end
 
-    def get_file_permissions
-      binary_represenation = sprintf('%o', file_stat.mode).slice(2,5)
+    def get_file_permissions(file)
+      binary_represenation = sprintf('%o', file_stat(file).mode).slice(2,5)
       FilePermissionRepresentation.new(binary_represenation).render
     end
 
-    def nlink
-      proper_align(file_stat.nlink)
+    def nlink(file)
+      proper_align(file_stat(file).nlink)
     end
 
-    def owner
-      Etc.getpwuid(file_stat.uid).name
+    def owner(file)
+      Etc.getpwuid(file_stat(file).uid).name
     end
 
-    def group
-      proper_align(Etc.getgrgid(file_stat.gid).name)
+    def group(file)
+      proper_align(Etc.getgrgid(file_stat(file).gid).name)
     end
 
-    def size
-      "%4s" % "#{file_stat.size}"
+    def size(file)
+      proper_align(file_stat(file).size)
     end
 
-    def mtime
-      file_stat.mtime.strftime('%b %d %H:%M')
+    def mtime(file)
+      file_stat(file).mtime.strftime('%b %d %H:%M')
     end
 
-    def blksize
-      file_stat.blksize / 256
+    def block(file)
+      file_stat(file).blocks
     end
 
     private
 
-    def file_stat
-      @file_stat ||= File.stat(file)
+    def file_stat(file)
+      File.stat(file)
     end
 
     def proper_align(text)
@@ -155,4 +186,10 @@ module Rls
   end
 end
 
-Rls::Application.new(ARGV).run
+begin
+  Rls::Application.new(ARGV).run
+rescue Rls::FileErrorArgument => e
+  abort "ls: #{e.message}: No such file or directory"
+rescue OptionParser::InvalidOption => err
+  abort "ls: #{err.message}\nusage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]"
+end
