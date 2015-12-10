@@ -1,4 +1,195 @@
 #!/usr/bin/env ruby
 
-## FIXME: Replace this code with a pure Ruby clone of the ls utility
-system("ls", *ARGV)
+require "optparse"
+require "etc"
+
+module Kernel
+  def suppress_warnings
+    original_verbosity = $VERBOSE
+    $VERBOSE = nil
+    result = yield
+    $VERBOSE = original_verbosity
+    return result
+  end
+end
+
+class OptionParser::InvalidOption
+  suppress_warnings { Reason = 'illegal option' }
+
+  def message
+    "#{Reason} -- #{args.map{|x| x.delete('-')}.join(' ')}"
+  end
+end
+
+module Rls
+  class FileErrorArgument < StandardError; end
+
+  class Application
+    attr_reader :files, :params, :display
+    def initialize(argv)
+      @params, @files = parse_options(argv)
+      @display = Display.new(@params, directory_and_files_parsed)
+    end
+
+    def run
+      display.render
+    end
+
+    def parse_options(argv)
+      params = {}
+
+      parser = OptionParser.new
+
+      parser.on("-l") { params[:detailed_output] = true }
+      parser.on("-a") { params[:hidden_files]    = true }
+
+      files = parser.parse(argv)
+
+      [params, files]
+    end
+
+    def directory_and_files_parsed
+      result = {directory: [], files: [] }
+      files.each do |file|
+        result[:directory] << file if File.directory?(file)
+        result[:files] << file if File.file?(file)
+      end
+      raise FileErrorArgument.new(ARGV.first) if (result[:directory].empty? && result[:files].empty?) && files.any?
+      result
+    end
+  end
+
+  class Display
+    attr_reader :params, :directory, :files, :flags
+
+    def initialize(params, directory_and_files)
+      @params    = params
+      @directory = directory_and_files[:directory]
+      @files     = directory_and_files[:files]
+      @flags     = params[:hidden_files] ? 4 : 0
+    end
+
+    def render
+      if directory.any?
+        go_directory_and_print_all(directory.first)
+      else
+        print_all(files)
+      end
+    end
+
+    def go_directory_and_print_all(directory)
+      Dir.chdir("#{Dir.pwd}/#{directory}")
+      print_all
+    end
+
+    def print_all(pattern='*')
+      pattern = pattern.empty? ? '*' : pattern
+      if params[:detailed_output]
+        DetailFileDisplay.new(Dir.glob(pattern, flags)).render.each do |file|
+          print file
+        end
+      else
+        Dir.glob(pattern, flags).each do |file|
+          print_file(file)
+        end
+      end
+    end
+
+    def print_file(file)
+      print "#{file}\n"
+    end
+  end
+
+  class DetailFileDisplay
+    attr_reader :files
+    attr_accessor :result
+    def initialize(files)
+      @files = files
+      @result = []
+      @total_blocks = 0
+    end
+
+    def render
+      files.each do |file|
+        @total_blocks += block(file)
+        result << "#{get_file_type(file)}#{get_file_permissions(file)} #{nlink(file)} #{owner(file)} #{group(file)} #{size(file)} #{mtime(file)} #{file}\n"
+      end
+      result.unshift("total #{@total_blocks}\n")
+      result
+    end
+
+    def get_file_type(file)
+      File.directory?(file) ? 'd' : '-'
+    end
+
+    def get_file_permissions(file)
+      binary_represenation = sprintf('%o', file_stat(file).mode).slice(2,5)
+      FilePermissionRepresentation.new(binary_represenation).render
+    end
+
+    def nlink(file)
+      proper_align(file_stat(file).nlink)
+    end
+
+    def owner(file)
+      Etc.getpwuid(file_stat(file).uid).name
+    end
+
+    def group(file)
+      proper_align(Etc.getgrgid(file_stat(file).gid).name)
+    end
+
+    def size(file)
+      proper_align(file_stat(file).size)
+    end
+
+    def mtime(file)
+      file_stat(file).mtime.strftime('%b %d %H:%M')
+    end
+
+    def block(file)
+      file_stat(file).blocks
+    end
+
+    private
+
+    def file_stat(file)
+      File.stat(file)
+    end
+
+    def proper_align(text)
+      "%#{text.to_s.size.next}s" % "#{text}"
+    end
+  end
+
+  class FilePermissionRepresentation
+    MAPER = {
+      "7" => 'rwx',
+      "6" => 'rw-',
+      "5" => 'r-x',
+      "4" => 'r--',
+      "3" => '-wx',
+      "2" => '-w-',
+      "1" => '--x'
+
+    }
+    attr_reader :binary
+    def initialize(binary)
+      @binary = binary
+    end
+
+    def render
+      binary.split('').map do |number|
+        MAPER[number]
+      end.join
+    end
+  end
+end
+
+begin
+  Rls::Application.new(ARGV).run
+rescue Rls::FileErrorArgument => e
+  abort "ls: #{e.message}: No such file or directory"
+rescue OptionParser::InvalidOption => err
+  abort "ls: #{err.message}\nusage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]"
+end
