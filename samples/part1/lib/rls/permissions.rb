@@ -1,31 +1,49 @@
 module RLs
   class Permissions
+    COMPONENTS = [:owner, :group, :world]
+    OPERATIONS = [:r, :w, :x]
+    DASH = '-'.freeze
+
     def initialize(file_stat)
       @fmode = file_stat.mode
     end
 
     def to_s
-      fm = @fmode
-
-      world = fm % 8
-      fm /= 8
-      group = fm % 8
-      fm /= 8
-      owner = fm % 8
-
-      [owner, group, world].map { |bits| read_write_execute(bits) }.join
+      rwx = component_fields.map do |field|
+        permitted_operations(field)
+      end
+      rwx.join
     end
 
     private
 
-    def read_write_execute(bits)
-      x = (bits % 2) > 0 ? 'x' : '-'
-      bits /= 2
-      w = (bits % 2) > 0 ? 'w' : '-'
-      bits /= 2
-      r = (bits % 2) > 0 ? 'r' : '-'
+    def component_fields
+      max_component_index = COMPONENTS.count - 1
+      bits_per_component = OPERATIONS.count
+      operation_combos = 2 ** bits_per_component
 
-      "#{r}#{w}#{x}"
+      COMPONENTS.each_with_index.map do |component, i|
+        lesser_components = max_component_index - i
+        bit_offset = lesser_components * bits_per_component
+
+        (@fmode >> bit_offset) % operation_combos
+      end
+    end
+
+    def permitted_operations(field)
+      max_operation_index = OPERATIONS.count - 1
+      bits_per_operation = 1
+      cardinality = 2 ** bits_per_operation
+
+      bits = OPERATIONS.each_with_index.map do |symbol, index|
+        lesser_operations = max_operation_index - index
+        bit_offset = lesser_operations * bits_per_operation
+
+        bit = (field >> bit_offset) % cardinality
+        bit > 0 ? symbol : DASH
+      end
+
+      bits.join
     end
   end
 end
