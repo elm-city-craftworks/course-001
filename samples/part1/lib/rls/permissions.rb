@@ -1,49 +1,49 @@
 module RLs
   class Permissions
-    COMPONENTS = [:owner, :group, :world]
+    FIELDS = [:owner, :group, :world]
     OPERATIONS = [:r, :w, :x]
-    DASH = '-'.freeze
+    MINUS = '-'.freeze
 
     def initialize(file_stat)
       @fmode = file_stat.mode
     end
 
     def to_s
-      rwx = component_fields.map do |field|
-        permitted_operations(field)
+      rwx = field_components.map do |bit_field|
+        permitted_operations(bit_field) do |bit, operation|
+          enabled?(bit) ? operation : MINUS
+        end
       end
+
       rwx.join
     end
 
     private
 
-    def component_fields
-      max_component_index = COMPONENTS.count - 1
-      bits_per_component = OPERATIONS.count
-      operation_combos = 2 ** bits_per_component
+    def field_components
+      mode_components(@fmode, FIELDS, bits_per_component: OPERATIONS.count)
+    end
 
-      COMPONENTS.each_with_index.map do |component, i|
-        lesser_components = max_component_index - i
+    def permitted_operations(bit_field, &block)
+      mode_components(bit_field, OPERATIONS, bits_per_component: 1, &block)
+    end
+
+    def mode_components(mode, components, bits_per_component:)
+      max_index = components.count - 1
+      cardinality = 2 ** bits_per_component
+
+      components.each_with_index.map do |component, index|
+        lesser_components = max_index - index
         bit_offset = lesser_components * bits_per_component
 
-        (@fmode >> bit_offset) % operation_combos
+        val = (mode >> bit_offset) % cardinality
+        val = yield(val, component) if block_given?
+        val
       end
     end
 
-    def permitted_operations(field)
-      max_operation_index = OPERATIONS.count - 1
-      bits_per_operation = 1
-      cardinality = 2 ** bits_per_operation
-
-      bits = OPERATIONS.each_with_index.map do |symbol, index|
-        lesser_operations = max_operation_index - index
-        bit_offset = lesser_operations * bits_per_operation
-
-        bit = (field >> bit_offset) % cardinality
-        bit > 0 ? symbol : DASH
-      end
-
-      bits.join
+    def enabled?(bit)
+      bit > 0
     end
   end
 end
