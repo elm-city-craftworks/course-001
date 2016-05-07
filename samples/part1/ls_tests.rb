@@ -13,9 +13,9 @@ check("File glob", "foo/*.txt")
 
 check("Detailed output", "-l")
 
-# check("Hidden files", "-a")
+check("Hidden files", "-a")
 
-# check("Hidden files with detailed output", "-a -l")
+check("Hidden files with detailed output", "-a -l")
 
 # check("File glob with detailed output", "-l foo/*.txt")
 

@@ -2,6 +2,7 @@ module RLs
   class Display
     def initialize(options)
       @long_format = options[:long_format]
+      @include_hidden = options[:include_hidden]
     end
 
     def render(path)
@@ -14,7 +15,7 @@ module RLs
 
     private
 
-    attr_reader :long_format
+    attr_reader :long_format, :include_hidden
 
     def render_directory(dirname)
       list_total_blocks(dirname) if long_format
@@ -26,12 +27,14 @@ module RLs
     end
 
     def total_blocks(dirname)
-      entries = Dir.entries(dirname).reject { |e| hidden?(e) }
-
-      entries.reduce(0) do |sum, e|
+      entries(dirname).reduce(0) do |sum, e|
         path = File.join(dirname, e)
         sum + blocks_allocated(path)
       end
+    end
+
+    def entries(dirname)
+      Dir.entries(dirname).select { |e| show?(e) }
     end
 
     def blocks_allocated(path)
@@ -39,7 +42,11 @@ module RLs
     end
 
     def list_if_visible(filename)
-      list(filename) if ! hidden?(filename)
+      list(filename) if show?(filename)
+    end
+
+    def show?(filename)
+      include_hidden || !hidden?(filename)
     end
 
     def hidden?(filename)
