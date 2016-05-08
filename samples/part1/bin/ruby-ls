@@ -6,4 +6,8 @@ begin
   RLs::Application.new(ARGV).run
 rescue Errno::ENOENT => err
   abort "ls: #{err.message}"
+rescue OptionParser::InvalidOption => err
+  msg = err.message.sub('invalid', 'illegal').sub(': -', ' -- ')
+  usage = 'usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]'
+  abort "ls: #{msg}\n#{usage}"
 end

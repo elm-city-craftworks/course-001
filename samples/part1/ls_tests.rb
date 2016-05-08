@@ -21,7 +21,7 @@ check("File glob with detailed output", "-l foo/*.txt")
 
 check("Invalid directory", "missingdir")
 
-# check("Invalid flag", "-Z")
+check("Invalid flag", "-Z")
 
 puts "You passed the tests, yay!"
 
