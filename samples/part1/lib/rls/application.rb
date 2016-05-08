@@ -32,6 +32,8 @@ module RLs
 
     def byte_count(path)
       File.stat(path).size
+    rescue Errno::ENOENT => e
+      raise(e, "#{path}: No such file or directory")
     end
 
     def parse_options(argv)

@@ -2,4 +2,8 @@
 
 require_relative '../lib/rls'
 
-RLs::Application.new(ARGV).run
+begin
+  RLs::Application.new(ARGV).run
+rescue Errno::ENOENT => err
+  abort "ls: #{err.message}"
+end
