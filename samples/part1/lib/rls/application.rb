@@ -1,17 +1,38 @@
 module RLs
   class Application
     def initialize(argv)
-      @options, @paths = parse_options(argv)
-      @display = RLs::Display.new(@options)
+      options, @paths = parse_options(argv)
+      options.merge!(max_byte_count: byte_counts.max)
+      @display = RLs::Display.new(options)
     end
 
     def run
-      paths.any? ? list_paths : list_current_directory
+      @paths.each { |p| @display.render(p) }
     end
 
     private
 
-    attr_reader :paths, :display
+    def byte_counts
+      @paths.flat_map do |p|
+        Dir.exist?(p) ? directory_byte_counts(p) : byte_count(p)
+      end
+    end
+
+    def directory_byte_counts(path)
+      directory_subpaths(path).map { |p| byte_count(p) }
+    end
+
+    def directory_subpaths(path)
+      non_dot_char = /[^\.]/
+
+      Dir.foreach(path)
+         .select { |e| e =~ non_dot_char }
+         .map    { |e| File.join(path, e) }
+    end
+
+    def byte_count(path)
+      File.stat(path).size
+    end
 
     def parse_options(argv)
       options = {}
@@ -20,16 +41,9 @@ module RLs
         p.on('-a') { options[:include_hidden] = true }
       end
       paths = parser.parse(argv)
+      paths << Dir.pwd if paths.empty?
 
       [options, paths]
-    end
-
-    def list_current_directory
-      display.render(Dir.pwd)
-    end
-
-    def list_paths
-      paths.each { |path| display.render(path) }
     end
   end
 end

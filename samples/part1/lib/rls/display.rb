@@ -1,8 +1,9 @@
 module RLs
   class Display
     def initialize(options)
-      @long_format = options[:long_format]
+      @long_format    = options[:long_format]
       @include_hidden = options[:include_hidden]
+      @max_byte_count = options[:max_byte_count]
     end
 
     def render(path)
@@ -59,7 +60,7 @@ module RLs
 
     def formatted(filename)
       if long_format
-        File.open(filename) { |f| RLs::LongFormat.new(f) }
+        File.open(filename) { |f| RLs::LongFormat.new(f, @max_byte_count) }
       else
         filename
       end

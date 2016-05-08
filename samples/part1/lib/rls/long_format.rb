@@ -10,14 +10,15 @@ module RLs
       'file'             => '-'
     }
 
-    def initialize(file)
-      @file        = file
-      @stat        = File.stat(@file)
+    def initialize(file, max_byte_count)
+      @file = file
+      @stat = File.stat(@file)
       @permissions = RLs::Permissions.new(@stat)
+      @max_byte_count = max_byte_count
     end
 
     def to_s
-      "#{mode} #{links} #{owner}  #{group} #{bytes} #{last_modified} #{path}"
+      "#{mode} #{links} #{owner}  #{group}#{bytes} #{last_modified} #{path}"
     end
 
     private
@@ -44,7 +45,8 @@ module RLs
 
     def bytes
       size = stat.size
-      size.to_s.rjust(4)
+      col_width = @max_byte_count.to_s.length + 2
+      size.to_s.rjust(col_width)
     end
 
     def last_modified
