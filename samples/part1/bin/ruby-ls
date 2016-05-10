@@ -1,4 +1,26 @@
 #!/usr/bin/env ruby
 
-## FIXME: Replace this code with a pure Ruby clone of the ls utility
-system("ls", *ARGV)
+require 'optparse'
+
+require_relative '../lib/ruby_ls'
+
+options = {}
+parser = OptionParser.new do |p|
+  p.on('-l') { options[:long_format]    = true }
+  p.on('-a') { options[:include_hidden] = true }
+end
+
+begin
+  paths = parser.parse(ARGV)
+rescue OptionParser::InvalidOption => err
+  msg = err.message.sub('invalid', 'illegal').sub(': -', ' -- ')
+  usage = 'usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]'
+  abort "ls: #{msg}\n#{usage}"
+end
+paths << Dir.pwd if paths.empty?
+
+begin
+  RubyLS::Application.new(options, paths).run
+rescue Errno::ENOENT => err
+  abort "ls: #{err.message}"
+end
