@@ -1,9 +1,9 @@
 module RLs
   class Application
-    def initialize(argv)
-      options, @paths = parse_options(argv)
-      options.merge!(max_byte_count: byte_counts.max)
-      @display = RLs::Display.new(options)
+    def initialize(options, paths)
+      @options = options
+      @paths   = paths
+      @display = RLs::Display.new(display_options)
     end
 
     def run
@@ -11,6 +11,10 @@ module RLs
     end
 
     private
+
+    def display_options
+      @options.merge(max_byte_count: byte_counts.max)
+    end
 
     def byte_counts
       @paths.flat_map do |p|
@@ -34,18 +38,6 @@ module RLs
       File.stat(path).size
     rescue Errno::ENOENT => e
       raise(e, "#{path}: No such file or directory")
-    end
-
-    def parse_options(argv)
-      options = {}
-      parser = OptionParser.new do |p|
-        p.on('-l') { options[:long_format]    = true }
-        p.on('-a') { options[:include_hidden] = true }
-      end
-      paths = parser.parse(argv)
-      paths << Dir.pwd if paths.empty?
-
-      [options, paths]
     end
   end
 end
