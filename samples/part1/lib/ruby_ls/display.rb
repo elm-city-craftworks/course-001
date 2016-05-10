@@ -10,7 +10,7 @@ module RubyLS
       if Dir.exist?(path)
         render_directory(path)
       else
-        list_if_visible(path)
+        render_file(path)
       end
     end
 
@@ -18,7 +18,7 @@ module RubyLS
 
     def render_directory(dirname)
       list_total_blocks(dirname) if @long_format
-      Dir.foreach(dirname) { |e| list_if_visible(e) }
+      Dir.foreach(dirname) { |e| render_file(e) }
     end
 
     def list_total_blocks(dirname)
@@ -40,8 +40,10 @@ module RubyLS
       File.stat(path).blocks
     end
 
-    def list_if_visible(filename)
-      list(filename) if show?(filename)
+    def render_file(filename)
+      if show?(filename)
+        puts formatted(filename)
+      end
     end
 
     def show?(filename)
@@ -50,10 +52,6 @@ module RubyLS
 
     def hidden?(filename)
       filename[0] == '.'
-    end
-
-    def list(filename)
-      puts formatted(filename)
     end
 
     def formatted(filename)
