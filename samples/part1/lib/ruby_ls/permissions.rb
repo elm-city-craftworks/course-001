@@ -1,4 +1,4 @@
-module RLs
+module RubyLS
   class Permissions
     ACTORS = [:owner, :group, :other]
     OPERATIONS = [:r, :w, :x]

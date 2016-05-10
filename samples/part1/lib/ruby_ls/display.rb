@@ -1,4 +1,4 @@
-module RLs
+module RubyLS
   class Display
     def initialize(options)
       @long_format    = options[:long_format]
@@ -60,7 +60,7 @@ module RLs
 
     def formatted(filename)
       if long_format
-        File.open(filename) { |f| RLs::LongFormat.new(f, @max_byte_count) }
+        File.open(filename) { |f| RubyLS::LongFormat.new(f, @max_byte_count) }
       else
         filename
       end

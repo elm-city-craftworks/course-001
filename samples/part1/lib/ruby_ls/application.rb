@@ -1,9 +1,9 @@
-module RLs
+module RubyLS
   class Application
     def initialize(options, paths)
       @options = options
       @paths   = paths
-      @display = RLs::Display.new(display_options)
+      @display = RubyLS::Display.new(display_options)
     end
 
     def run

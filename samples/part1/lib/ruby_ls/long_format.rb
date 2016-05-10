@@ -1,4 +1,4 @@
-module RLs
+module RubyLS
   class LongFormat
     FTYPES = {
       'blockSpecial'     => 'b',
@@ -13,7 +13,7 @@ module RLs
     def initialize(file, max_byte_count)
       @file = file
       @stat = File.stat(@file)
-      @permissions = RLs::Permissions.new(@stat)
+      @permissions = RubyLS::Permissions.new(@stat)
       @max_byte_count = max_byte_count
     end
 

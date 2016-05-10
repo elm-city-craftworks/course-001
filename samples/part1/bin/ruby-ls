@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative '../lib/rls'
+require_relative '../lib/ruby_ls'
 
 options = {}
 parser = OptionParser.new do |p|
@@ -18,7 +18,7 @@ end
 paths << Dir.pwd if paths.empty?
 
 begin
-  RLs::Application.new(options, paths).run
+  RubyLS::Application.new(options, paths).run
 rescue Errno::ENOENT => err
   abort "ls: #{err.message}"
 end
