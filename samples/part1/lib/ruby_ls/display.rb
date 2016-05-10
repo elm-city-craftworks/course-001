@@ -16,10 +16,8 @@ module RubyLS
 
     private
 
-    attr_reader :long_format, :include_hidden
-
     def render_directory(dirname)
-      list_total_blocks(dirname) if long_format
+      list_total_blocks(dirname) if @long_format
       Dir.foreach(dirname) { |e| list_if_visible(e) }
     end
 
@@ -47,7 +45,7 @@ module RubyLS
     end
 
     def show?(filename)
-      include_hidden || !hidden?(filename)
+      @include_hidden || !hidden?(filename)
     end
 
     def hidden?(filename)
@@ -59,8 +57,8 @@ module RubyLS
     end
 
     def formatted(filename)
-      if long_format
-        File.open(filename) { |f| RubyLS::LongFormat.new(f, @max_byte_count) }
+      if @long_format
+        File.open(filename) { |f| RubyLS::FileDetails.new(f, @max_byte_count) }
       else
         filename
       end

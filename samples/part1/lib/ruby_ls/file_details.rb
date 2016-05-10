@@ -1,5 +1,7 @@
+require 'etc'
+
 module RubyLS
-  class LongFormat
+  class FileDetails
     FTYPES = {
       'blockSpecial'     => 'b',
       'characterSpecial' => 'c',
@@ -10,7 +12,7 @@ module RubyLS
       'file'             => '-'
     }
 
-    def initialize(file, max_byte_count)
+    def initialize(file, max_byte_count = nil)
       @file = file
       @stat = File.stat(@file)
       @permissions = RubyLS::Permissions.new(@stat)
@@ -34,16 +36,16 @@ module RubyLS
     end
 
     def owner
-      `id -un #{@stat.uid}`.chomp
+      Etc.getpwuid(@stat.uid).name
     end
 
     def group
-      `id -gn #{@stat.uid}`.chomp
+      Etc.getgrgid(@stat.gid).name
     end
 
     def bytes
       size = @stat.size
-      col_width = @max_byte_count.to_s.length + 1
+      col_width = (@max_byte_count || size).to_s.length + 1
       size.to_s.rjust(col_width)
     end
 
