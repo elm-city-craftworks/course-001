@@ -28,7 +28,7 @@ implementation.
 
 * Add Jacob's test runner and all necessary acceptance tests to `ls_tests.rb`,
 so that people do not need to write their own tests from scratch. This should
-simplify the exercise a little bit.
+simplify the exercise a little bit. 
 
 ### 2014.04.20
 
