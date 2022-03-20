@@ -21,7 +21,7 @@ to put the concepts into practice.
 ### News and Updates
 
 Practicing Ruby subscribers will be emailed whenever new content is released.
-For day-to-day updates to the course materials, including revisions, see the
+For day-to-day updates to the course materials, including revisions, see the 
 [CHANGELOG.md][] file.
 
 ### Getting Help
